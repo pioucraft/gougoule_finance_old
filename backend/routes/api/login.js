@@ -1,11 +1,9 @@
-import { DBClient } from "../../modules/db"
+import { loginFunction } from "../../modules/login"
 
 export async function login(req) {
     let body = await req.json()
 
-    let userFromDB = (await DBClient.query("SELECT * FROM users WHERE email = $1", [body.email])).rows[0]
-
-    if(await Bun.password.verify(body.password, userFromDB.password)) {
+    if(await loginFunction(body)) {
         return new Response("200 Success")
     }
     else {

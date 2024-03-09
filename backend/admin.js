@@ -42,5 +42,5 @@ async function createUserWithPrompt() {
 
     await DBClient.query("INSERT INTO users (name, email, password, storage) VALUES ($1, $2, $3, $4)", [userData.name, userData.email, userData.password, userData.storage])
 
-    console.log("New user successfully created, you can now safely Ctrl+C this script.")
+    console.log("New user successfully created, you can now safely Ctrl+C this script. DON'T FORGET TO RUN 'bun migrations.js'")
 }
