@@ -14,14 +14,16 @@ export async function defaultCurrency(req) {
 }
 
 async function changeDefaultCurrency(body) {
+    let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
     await DBClient.query(`UPDATE defaultcurrency
     SET defaultcurrency = $1
-    where email = $2`, [body.defaultCurrency, body.email])
+    where userid = $2`, [body.defaultCurrency, userId])
     await calculateBalance()
     return new Response("200 Success")
 }
 
 async function getDefaultCurrency(body) {
-    let currencyJsonObject = (await DBClient.query(`SELECT * FROM defaultcurrency WHERE email = $1`, [body.email])).rows[0]
+    let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
+    let currencyJsonObject = (await DBClient.query(`SELECT * FROM defaultcurrency WHERE userid = $1`, [userId])).rows[0]
     return new Response(JSON.stringify(currencyJsonObject), {headers:{"Content-type": "application/json"}})
 }

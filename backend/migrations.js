@@ -11,17 +11,16 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS users (
 )`)
 
 await DBClient.query(`CREATE TABLE IF NOT EXISTS defaultcurrency (
-    email VARCHAR(32),
+    userid SERIAL,
     defaultcurrency VARCHAR(4)
 )`)
-
 let users = (await DBClient.query("SELECT * FROM users;")).rows
 for(let i=0;i<users.length;i++) {
-    let email = users[i]["email"]
-    if(!(await DBClient.query("SELECT * FROM defaultcurrency WHERE email = $1", [email])).rows.length) {
+    let userid = users[i]["id"]
+    if(!(await DBClient.query("SELECT * FROM defaultcurrency WHERE userid = $1", [userid])).rows.length) {
         await DBClient.query(`INSERT INTO defaultcurrency
-        (email, defaultcurrency)
-        VALUES ($1, 'USD')`, [email])
+        (userid, defaultcurrency)
+        VALUES ($1, 'USD')`, [userid])
     }
     
 }
@@ -33,7 +32,7 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS accounts (
     balance float8
 )`)
 
-console.log(await DBClient.query("select * from accounts;"))
+console.log(await DBClient.query("select * from defaultcurrency;"))
 
 console.log("done !")
 
