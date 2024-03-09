@@ -26,7 +26,7 @@ async function modifyAccount(body) {
 }
 
 async function deleteAccount(body) {
-    let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email, userId])).rows[0]["id"]
-    await DBClient.query("DELETE accounts WHERE id = $1 AND userid = $2", [body.id, userId])
+    let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
+    await DBClient.query("DELETE FROM accounts WHERE id = $1 AND userid = $2", [body.id, userId])
     return new Response("200 Success")
 }
