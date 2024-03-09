@@ -27,9 +27,13 @@ for(let i=0;i<users.length;i++) {
 }
 
 await DBClient.query(`CREATE TABLE IF NOT EXISTS accounts (
+    id SERIAL PRIMARY KEY,
+    userid SERIAL,
     name VARCHAR(32),
     balance float8
 )`)
+
+console.log(await DBClient.query("select * from accounts;"))
 
 console.log("done !")
 
