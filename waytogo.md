@@ -2,11 +2,12 @@
 
 - [x] Default Currency
 - [x] Account
-- [] Get account (with balance)
+- [x] Get accounts
+- [] Transaction
+- [] Get account
 
 
 # Frontend :
-
 
 
 # other things :
