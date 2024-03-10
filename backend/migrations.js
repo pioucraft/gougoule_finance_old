@@ -31,9 +31,7 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS accounts (
     name VARCHAR(32),
     balance float8
 )`)
-/*
-await DBClient.query("DROP TABLE converter;")
-*/
+
 await DBClient.query(`CREATE TABLE IF NOT EXISTS converter (
     type VARCHAR(1),
     name VARCHAR(256),
@@ -41,23 +39,38 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS converter (
     price float8,
     currency VARCHAR(4)
 )`)
-/*
-let stocks = await (await fetch(`https://financialmodelingprep.com/api/v3/stock/list?apikey=${process.env.FINANCIAL_MODELING_PREP_API}`)).json()
 
-for(let i=0;i<stocks.length;i++) {
-    let stock = stocks[i]
-    try {
-        
-        await DBClient.query(`INSERT INTO converter (type, name, symbol, price)
-        VALUES ('s', $1, $2, $3)`, [stock.name, stock.symbol, stock.price])
-        if(i%1000 == 0) {
-            console.log(i/stocks.length*100 + "%")
+if((await DBClient.query("SELECT * FROM converter")).rows.length < 70000) {
+    console.log("DO NOT INTERRUPT THIS SCRIPT !!!")
+    await DBClient.query("DELETE FROM converter;")
+    let stocks = await (await fetch(`https://financialmodelingprep.com/api/v3/stock/list?apikey=${process.env.FINANCIAL_MODELING_PREP_API}`)).json()
+
+    for(let i=0;i<stocks.length;i++) {
+        let stock = stocks[i]
+        try {
+            
+            await DBClient.query(`INSERT INTO converter (type, name, symbol, price)
+            VALUES ('s', $1, $2, $3)`, [stock.name, stock.symbol, stock.price])
+            if(i%1000 == 0) {
+                console.log(i/stocks.length*100 + "%")
+            }
+        }
+        catch(err) {
+            console.log(stock)
         }
     }
-    catch(err) {
-        console.log(stock)
+
+    let cryptos = await (await fetch("https://api.binance.com/api/v3/ticker/price")).json()
+    for(let i=0;i<cryptos.length;i++) {
+        let crypto = cryptos[i]
+        if(crypto.symbol.endsWith("USDT")) {
+            let symbol = crypto.symbol.split("USDT")[0]
+            await DBClient.query(`INSERT INTO converter (type, name, symbol, price, currency)
+            VALUES ('c', $1, $2, $3, 'USD')`, [symbol, symbol, crypto.price])
+        }
     }
-}*/
+}
+
 
 console.log("done !")
 

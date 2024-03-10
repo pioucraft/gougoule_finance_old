@@ -20,6 +20,16 @@ async function fetchQuotes() {
     }
 
     //update crypto prices
+    let cryptos = await (await fetch("https://api.binance.com/api/v3/ticker/price")).json()
+    for(let i=0;i<cryptos.length;i++) {
+        let crypto = cryptos[i]
+        if(crypto.symbol.endsWith("USDT")) {
+            let symbol = crypto.symbol.split("USDT")[0]
+            console.log((await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = 'c';", [symbol])).rows[0])
+            await DBClient.query("UPDATE converter SET price = $1 WHERE symbol = $2 AND type = 'c';", [crypto.price, symbol])
+            console.log((await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = 'c';", [symbol])).rows[0])
+        }
+    }
 
     //update forex prices
 
