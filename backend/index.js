@@ -1,4 +1,5 @@
 import { api } from "./routes/api"
+import { calculateBalance } from "./modules/calculateBalance";
 
 Bun.serve({
     port: 3000,

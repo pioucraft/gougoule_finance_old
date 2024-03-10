@@ -1,6 +1,6 @@
 # Backend :
 
-- [x] Default Currency
+- [x] Default currency
 - [x] Account
 - [x] Get accounts
 - [] Transaction
@@ -9,5 +9,8 @@
 
 # Frontend :
 
+- [] Default currency
 
 # other things :
+
+- Default currency frontend add warning that it will reset balance history

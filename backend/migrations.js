@@ -31,8 +31,33 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS accounts (
     name VARCHAR(32),
     balance float8
 )`)
+/*
+await DBClient.query("DROP TABLE converter;")
+*/
+await DBClient.query(`CREATE TABLE IF NOT EXISTS converter (
+    type VARCHAR(1),
+    name VARCHAR(256),
+    symbol VARCHAR(32),
+    price float8,
+    currency VARCHAR(4)
+)`)
+/*
+let stocks = await (await fetch(`https://financialmodelingprep.com/api/v3/stock/list?apikey=${process.env.FINANCIAL_MODELING_PREP_API}`)).json()
 
-console.log(await DBClient.query("select * from accounts;"))
+for(let i=0;i<stocks.length;i++) {
+    let stock = stocks[i]
+    try {
+        
+        await DBClient.query(`INSERT INTO converter (type, name, symbol, price)
+        VALUES ('s', $1, $2, $3)`, [stock.name, stock.symbol, stock.price])
+        if(i%1000 == 0) {
+            console.log(i/stocks.length*100 + "%")
+        }
+    }
+    catch(err) {
+        console.log(stock)
+    }
+}*/
 
 console.log("done !")
 
