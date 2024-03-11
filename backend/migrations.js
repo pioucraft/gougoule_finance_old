@@ -69,8 +69,15 @@ if((await DBClient.query("SELECT * FROM converter")).rows.length < 70000) {
             VALUES ('c', $1, $2, $3, 'USD')`, [symbol, symbol, crypto.price])
         }
     }
-}
 
+    let forexes = Object.entries((await (await fetch("https://api.exchangerate-api.com/v4/latest/USD")).json())["rates"])
+    console.log(forexes)
+    for(let i=0;i<forexes.length;i++) {
+        let forex = forexes[i]
+        await DBClient.query(`INSERT INTO converter (type, name, symbol, price, currency) 
+        VALUES ('f', $1, $2, $3, 'USD')`, [forex[0], forex[0], forex[1]])
+    }
+}
 
 console.log("done !")
 
