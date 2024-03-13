@@ -2,32 +2,39 @@ import { DBClient } from "./db"
 
 export async function calculateBalance() {
     // try for each
-    let generalBalance = 0;
     let accountsBalance = {}
     let transactions = (await DBClient.query("SELECT * FROM transactions")).rows;
     for(let transaction of transactions) {
         let converter = (await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = $2", [transaction.symbol, transaction.type])).rows[0]
         let amountInUsd = (transaction.amount * converter.price);
-        generalBalance += amountInUsd;
+
+
         if(accountsBalance[transaction.accountid]) accountsBalance[transaction.accountid] += amountInUsd;
         else accountsBalance[transaction.accountid] = amountInUsd;
     }
-    console.log("GENERAL BALANCE: ", generalBalance)
-    console.log("ACCOUNTS BALANCE: ", accountsBalance)
 
     await DBClient.query(`DELETE FROM balancehistory
     WHERE DATE(date) = CURRENT_DATE;`)
 
-    await DBClient.query(`INSERT INTO balancehistory 
-    (balance, isnotaccount)
-    VALUES ($1, true)`, [generalBalance])
-
+    let generalBalance = {};
     for(let account of Object.entries(accountsBalance)) {
         await DBClient.query(`INSERT INTO balancehistory 
         (balance, accountid, isnotaccount)
         VALUES ($1, $2, false)`, [account[1], Number(account[0])])
 
+        let userId = (await DBClient.query(`SELECT * FROM accounts WHERE id = $1`, [Number(account[0])])).rows[0].userid;
+        if(generalBalance[userId]) generalBalance[userId] += account[1];
+        else generalBalance[userId] = account[1];
+
         await DBClient.query(`UPDATE accounts SET balance = $1 WHERE id = $2`, [account[1], Number(account[0])])
+    }
+    console.log(generalBalance)
+
+
+    for(let user of Object.entries(generalBalance)) {
+        await DBClient.query(`INSERT INTO balancehistory 
+        (balance, isnotaccount, userid)
+        VALUES ($1, true, $2)`, [user[1], Number(user[0])])
     }
 }
 

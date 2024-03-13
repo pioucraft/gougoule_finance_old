@@ -94,11 +94,12 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS balanceHistory (
     balance float8,
     isnotaccount BOOLEAN,
     accountid INTEGER,
-    date date DEFAULT CURRENT_DATE
+    date date DEFAULT CURRENT_DATE,
+    userid INTEGER
 )`)
 
 
-let query = "SELECT * FROM transactions;"
+let query = "SELECT * FROM balancehistory;"
 console.log((await DBClient.query(query)).rows)
 
 console.log("done !")

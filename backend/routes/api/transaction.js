@@ -43,15 +43,31 @@ async function createTransaction(body) {
 }
 
 async function modifyTransaction(body) {
+    let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
+    let accounts = (await DBClient.query("SELECT * FROM accounts WHERE userid = $1", [userId])).rows.map(x => x["id"])
 
+    let transaction = (await DBClient.query("SELECT * FROM transactions WHERE id = $1", [body.id])).rows[0]
+
+
+    if(!accounts.includes(transaction["accountid"])) return new Response("401 Unauthorized", {status: 401})
+
+    if(body.amount) {
+        await DBClient.query(`UPDATE transactions SET amount = $1 WHERE id = $2`, [body.amount, body.id])
+    }
+
+    if(body.name) {
+        await DBClient.query(`UPDATE transactions SET name = $1 WHERE id = $2`, [body.name, body.id])
+    }
+
+    await calculateBalance()
+
+    return new Response("200 Success")
 }
 
 async function deleteTransaction(body) {
     let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
     let accounts = (await DBClient.query("SELECT * FROM accounts WHERE userid = $1", [userId])).rows.map(x => x["id"])
-    console.log(accounts)
     let transaction = (await DBClient.query("SELECT * FROM transactions WHERE id = $1", [body.id])).rows[0]
-    console.log(transaction)
 
     if(!accounts.includes(transaction["accountid"])) return new Response("401 Unauthorized", {status: 401})
     await DBClient.query(`DELETE FROM transactions WHERE id = $1`, [body.id])
