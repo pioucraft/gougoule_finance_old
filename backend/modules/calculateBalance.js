@@ -1,11 +1,11 @@
 import { DBClient } from "./db"
 
 export async function calculateBalance() {
-    
+    // try for each
 }
 
 async function calculateBalanceHistory() {
-
+    // try for each
 }
 
 async function fetchQuotes() {
@@ -33,7 +33,6 @@ async function fetchQuotes() {
     //update forex prices
 
     let forexes = Object.entries((await (await fetch("https://api.exchangerate-api.com/v4/latest/USD")).json())["rates"])
-    console.log(forexes)
     for(let i=0;i<forexes.length;i++) {
         let forex = forexes[i]
         await DBClient.query("UPDATE converter SET price = $1 WHERE symbol = $2 AND type = 'f'", [forex[1], forex[0]])
@@ -44,7 +43,7 @@ async function fetchQuotes() {
     console.log("FINISHED UPDATING STOCKS PRICES")
 }
 
-await fetchQuotes()
+//await fetchQuotes()
 
 setInterval(() => {
     fetchQuotes()

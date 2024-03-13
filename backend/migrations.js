@@ -83,7 +83,7 @@ if((await DBClient.query("SELECT * FROM converter")).rows.length < 70000) {
 await DBClient.query(`CREATE TABLE IF NOT EXISTS transactions (
     id SERIAL PRIMARY KEY,
     amount float8,
-    date VARCHAR(32),
+    date date DEFAULT CURRENT_DATE,
     type VARCHAR(1),
     symbol VARCHAR(32),
     name VARCHAR(256),
@@ -97,6 +97,9 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS balanceHistory (
     date VARCHAR(32),
     symbol VARCHAR(8)
 )`)
+
+let query = "SELECT * FROM transactions;"
+console.log((await DBClient.query(query)).rows)
 
 console.log("done !")
 

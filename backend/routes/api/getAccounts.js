@@ -7,8 +7,9 @@ export async function getAccounts(req) {
     if(!(await loginFunction(body))) {
         return new Response("401 Unauthorized", {status: 401})
     }
-
+    
     let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
     let accounts = (await DBClient.query("SELECT * FROM accounts WHERE userid = $1", [userId])).rows
+    
     return new Response(JSON.stringify(accounts), {headers: {"Content-Type": "application/json"}})
 }

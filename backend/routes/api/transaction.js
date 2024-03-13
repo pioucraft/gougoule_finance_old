@@ -1,7 +1,8 @@
 import { loginFunction } from "../../modules/login"
 import { DBClient } from "../../modules/db"
+import { calculateBalance } from "../../modules/calculateBalance"
 
-export async function login(req) {
+export async function transaction(req) {
     let body = await req.json()
 
     if(!(await loginFunction(body))) {
@@ -13,14 +14,38 @@ export async function login(req) {
     else if(req.method == "DELETE") return await deleteTransaction(body)
 }
 
-export async function createTransaction(body) {
+async function createTransaction(body) {
+
+    let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
+    let accounts = (await DBClient.query("SELECT * FROM accounts WHERE userid = $1 AND id = $2", [userId, body.accountId])).rows
+
+    if(accounts.length == 0) return new Response("401 Unauthorized", {status: 401})
+
+    // add transaction to the table
+    await DBClient.query(`INSERT INTO transactions (
+        amount,
+        type,
+        symbol,
+        name,
+        accountid
+    )
+    VALUES (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5
+    )`, [body.amount, body.type, body.symbol, body.name, body.accountId])
+    // recalculate the balance of the account and of all the accounts (without fetching the prices)
+    await calculateBalance()
+
+    return new Response("200 Success")
+}
+
+async function modifyTransaction(body) {
 
 }
 
-export async function modifyTransaction(body) {
-
-}
-
-export async function deleteTransaction(body) {
+async function deleteTransaction(body) {
     
 }
