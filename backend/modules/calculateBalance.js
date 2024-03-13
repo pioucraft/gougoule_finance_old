@@ -7,7 +7,7 @@ export async function calculateBalance() {
     let transactions = (await DBClient.query("SELECT * FROM transactions")).rows;
     for(let transaction of transactions) {
         let converter = (await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = $2", [transaction.symbol, transaction.type])).rows[0]
-        let amountInUsd = ((transaction.amount*1_000_000_000) * converter.price)/1_000_000_000;
+        let amountInUsd = (transaction.amount * converter.price);
         generalBalance += amountInUsd;
         if(accountsBalance[transaction.accountid]) accountsBalance[transaction.accountid] += amountInUsd;
         else accountsBalance[transaction.accountid] = amountInUsd;
@@ -23,7 +23,6 @@ export async function calculateBalance() {
     VALUES ($1, true)`, [generalBalance])
 
     for(let account of Object.entries(accountsBalance)) {
-        console.log(account)
         await DBClient.query(`INSERT INTO balancehistory 
         (balance, accountid, isnotaccount)
         VALUES ($1, $2, false)`, [account[1], Number(account[0])])

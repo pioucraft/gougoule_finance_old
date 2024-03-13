@@ -98,7 +98,7 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS balanceHistory (
 )`)
 
 
-let query = "SELECT * FROM balancehistory;"
+let query = "SELECT * FROM transactions;"
 console.log((await DBClient.query(query)).rows)
 
 console.log("done !")
