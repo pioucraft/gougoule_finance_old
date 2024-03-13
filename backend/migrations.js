@@ -14,6 +14,7 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS defaultcurrency (
     userid SERIAL,
     defaultcurrency VARCHAR(4)
 )`)
+
 let users = (await DBClient.query("SELECT * FROM users;")).rows
 for(let i=0;i<users.length;i++) {
     let userid = users[i]["id"]
@@ -78,6 +79,24 @@ if((await DBClient.query("SELECT * FROM converter")).rows.length < 70000) {
         VALUES ('f', $1, $2, $3, 'USD')`, [forex[0], forex[0], forex[1]])
     }
 }
+
+await DBClient.query(`CREATE TABLE IF NOT EXISTS transactions (
+    id SERIAL PRIMARY KEY,
+    amount float8,
+    date VARCHAR(32),
+    type VARCHAR(1),
+    symbol VARCHAR(32),
+    name VARCHAR(256),
+    accountid INTEGER
+)`)
+
+await DBClient.query(`CREATE TABLE IF NOT EXISTS balanceHistory (
+    balance float8,
+    isaccount BOOLEAN,
+    accountid INTEGER,
+    date VARCHAR(32),
+    symbol VARCHAR(8)
+)`)
 
 console.log("done !")
 

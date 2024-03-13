@@ -8,7 +8,7 @@ export async function account(req) {
         return new Response("401 Unauthorized", {status: 401})
     }
 
-    else if(req.method == "POST") return await createAccount(body)
+    if(req.method == "POST") return await createAccount(body)
     else if(req.method == "PATCH") return await modifyAccount(body)
     else if(req.method == "DELETE") return await deleteAccount(body)
 }

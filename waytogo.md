@@ -3,8 +3,10 @@
 - [x] Default currency
 - [x] Account
 - [x] Get accounts
-- [] Transaction
-- [] Get account
+- [] Transactions
+- [] Get transactions history
+- [] Get balance history
+- [] Accounts categories
 
 
 # Frontend :
