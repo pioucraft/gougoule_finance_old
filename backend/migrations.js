@@ -95,7 +95,8 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS balanceHistory (
     isnotaccount BOOLEAN,
     accountid INTEGER,
     date date DEFAULT CURRENT_DATE,
-    userid INTEGER
+    userid INTEGER,
+    portfolio TEXT
 )`)
 
 
