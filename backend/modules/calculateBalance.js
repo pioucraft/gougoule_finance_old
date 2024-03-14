@@ -22,7 +22,6 @@ export async function calculateBalance() {
 
         
     }
-    console.log(accountsPortfolios)
 
     await DBClient.query(`DELETE FROM balancehistory
     WHERE DATE(date) = CURRENT_DATE;`)
@@ -50,7 +49,6 @@ export async function calculateBalance() {
 
         await DBClient.query(`UPDATE accounts SET balance = $1 WHERE id = $2`, [account[1], Number(account[0])])
     }
-    console.log(generalPortfolio)
 
 
     for(let user of Object.entries(generalBalance)) {
