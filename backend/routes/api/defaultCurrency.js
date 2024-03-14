@@ -25,5 +25,8 @@ async function changeDefaultCurrency(body) {
 async function getDefaultCurrency(body) {
     let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
     let currencyJsonObject = (await DBClient.query(`SELECT * FROM defaultcurrency WHERE userid = $1`, [userId])).rows[0]
+    let price = (await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = 'f'", [currencyJsonObject.defaultcurrency])).rows[0]
+    console.log(currencyJsonObject)
+    currencyJsonObject["price"] = price.price
     return new Response(JSON.stringify(currencyJsonObject), {headers:{"Content-type": "application/json"}})
 }
