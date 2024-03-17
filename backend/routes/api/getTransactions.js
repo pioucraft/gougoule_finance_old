@@ -19,9 +19,7 @@ export async function getTransactions(req) {
     }
     else {
         let accounts = (await DBClient.query("SELECT id FROM accounts WHERE userid = $1", [userId])).rows.map(x => x["id"])
-        console.log(accounts)
         let placeholders = accounts.map((_, index) => `$${index+1}`).join(", ")
-        console.log(placeholders)
         let response = (await DBClient.query(`SELECT * FROM transactions WHERE accountid IN (${placeholders})`, accounts)).rows
         return new Response(JSON.stringify(response), {headers: {"Content-Type": "application/json"}})
     }
