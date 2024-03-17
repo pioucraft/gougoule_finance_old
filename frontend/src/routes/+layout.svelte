@@ -51,11 +51,13 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        color: red;
     }
 
     .leftBarButton {
         width: 7.5em;
         font-size: large;
+        text-align: start;
     }
 </style>
 
