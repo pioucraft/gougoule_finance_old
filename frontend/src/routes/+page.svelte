@@ -39,14 +39,17 @@
     border-radius: 1.5rem;
     box-shadow: 0 0 20px rgb(174, 174, 174);
     font-size: 1.4em;
-    padding-left: 2%;
+    padding-left: 2%
   }
   .money-and-profit {
-    margin-bottom: 0.5rem;
-    margin-top: 1.2rem;
+    height: 30px;
+    margin-top: calc(calc(5em - 60px) / 3);
+    margin-bottom: calc(calc(5em - 60px) / 3);
   }
   .money-with-prefered-currency {
-    margin: 0.5rem 0;
+    height: 30px;
+    margin-top: calc(calc(5em - 60px) / 3);
+    margin-bottom: calc(calc(5em - 60px) / 3);
     color: #6c6c6c;
   }
   .assets {
