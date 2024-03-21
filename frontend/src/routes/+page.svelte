@@ -4,10 +4,8 @@
 
 <div class="home">
   <div class="money">
-    <div class="inside-money">
-      <p class="money-and-profit">1378$ <span class="profit" style="color: {profitColor};">(-10$; -0.87%)</span></p> 
-      <p class="money-with-prefered-currency">1267 CHF</p>
-    </div>
+    <p class="money-and-profit">1378$ <span class="profit" style="color: {profitColor};">(-10$; -0.87%)</span></p> 
+    <p class="money-with-prefered-currency">1267 CHF</p>
   </div>
   <div class="assets">
     <p>Assets :</p>
@@ -23,21 +21,20 @@
 <style>
   .home {
     display: grid;
-    grid-template-rows: 7em 5em auto;
-    grid-template-columns: calc(100% / 2) auto;
+    grid-template-rows: 7em 7em auto;
+    grid-template-columns: auto 30em;
     width: calc(100vw - 10em);
-    gap: 3%;
-    padding: 1%;
+    gap: 4%;
+    padding: 2%;
+    padding-left: 4%;
   }
   .money {
     grid-row: 1 / 2;
     grid-column: 1 / 2;
     border-radius: 1.5rem;
     box-shadow: 0 0 20px rgb(174, 174, 174);
-  }
-  .inside-money {
-    font-size: 1.5rem;
-    margin: 0 1rem;
+    font-size: 1.4em;
+    padding-left: 2%;
   }
   .money-and-profit {
     margin-bottom: 0.5rem;
@@ -52,6 +49,8 @@
     grid-column: 1 / 2;
     border-radius: 1.5rem;
     box-shadow: 0 0 20px rgb(174, 174, 174);
+    font-size: 1.4em;
+    padding-left: 2%;
   }
   .line-chart {
     grid-row: 3 / 4;
