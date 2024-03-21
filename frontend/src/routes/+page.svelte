@@ -23,13 +23,15 @@
 <style>
   .home {
     display: grid;
-    grid-template-rows: calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30) calc(100% / 30);
-    grid-template-columns: calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25) calc(100% / 25);
+    grid-template-rows: 7em 5em auto;
+    grid-template-columns: calc(100% / 2) auto;
     width: calc(100vw - 10em);
+    gap: 3%;
+    padding: 1%;
   }
   .money {
-    grid-row: 2 / 5;
-    grid-column: 3 / 14;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
     border-radius: 1.5rem;
     box-shadow: 0 0 20px rgb(174, 174, 174);
   }
@@ -46,20 +48,20 @@
     color: #6c6c6c;
   }
   .assets {
-    grid-row: 7 / 10;
-    grid-column: 3 / 14;
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
     border-radius: 1.5rem;
     box-shadow: 0 0 20px rgb(174, 174, 174);
   }
   .line-chart {
-    grid-row: 12 / 29;
-    grid-column: 3 / 14;
+    grid-row: 3 / 4;
+    grid-column: 1 / 2;
     border-radius: 1.5rem;
     box-shadow: 0 0 20px rgb(174, 174, 174);
   }
   .history {
-    grid-row: 2 / 29;
-    grid-column: 16 / 25;
+    grid-row: 1 / 4;
+    grid-column: 2 / 3;
     border-radius: 1.5rem;
     box-shadow: 0 0 20px rgb(174, 174, 174);
   }
