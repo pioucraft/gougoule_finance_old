@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="assets">
-
+    <p>Assets :</p>
   </div>
   <div class="line-chart">
 
