@@ -41,6 +41,7 @@
         display: flex;
         flex-direction: column;
         gap: 1em;
+        margin-top: 1rem;
     }
 
     #leftBar-userButton-svg {
