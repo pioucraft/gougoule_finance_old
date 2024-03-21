@@ -1,11 +1,11 @@
 <script>
-  let beneficeColor = "red"
+  let profitColor = "red"
 </script>
 
 <div class="home">
   <div class="money">
     <div class="inside-money">
-      <p class="money-and-benefice">1378$ <span class="benefice" style="color: {beneficeColor};">(-10$; -0.87%)</span></p> 
+      <p class="money-and-profit">1378$ <span class="profit" style="color: {profitColor};">(-10$; -0.87%)</span></p> 
       <p class="money-with-prefered-currency">1267 CHF</p>
     </div>
   </div>
@@ -37,7 +37,7 @@
     font-size: 1.5rem;
     margin: 0 1rem;
   }
-  .money-and-benefice {
+  .money-and-profit {
     margin-bottom: 0.5rem;
     margin-top: 1.2rem;
   }
