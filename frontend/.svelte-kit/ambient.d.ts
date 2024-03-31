@@ -67,6 +67,7 @@ declare module '$env/static/private' {
 	export const MANAGERPID: string;
 	export const CHROME_DESKTOP: string;
 	export const GJS_DEBUG_OUTPUT: string;
+	export const MOZ_GMP_PATH: string;
 	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 	export const XDG_SESSION_CLASS: string;
 	export const TERM: string;
@@ -169,6 +170,7 @@ declare module '$env/dynamic/private' {
 		MANAGERPID: string;
 		CHROME_DESKTOP: string;
 		GJS_DEBUG_OUTPUT: string;
+		MOZ_GMP_PATH: string;
 		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 		XDG_SESSION_CLASS: string;
 		TERM: string;

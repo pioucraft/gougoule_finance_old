@@ -2,7 +2,7 @@
     <div id="leftBar-top">
         <a href="/" class="transparentButton leftBarButton" on:click={() => changePressedButton("home")} id="leftBar-homeButton">Home</a>
         <a href="/accounts" class="transparentButton leftBarButton" on:click={() => changePressedButton("accounts")} id="leftBar-accountsButton">Accounts</a>
-        <a href="/transactions" class="transparentButton leftBarButton" on:click={() => changePressedButton("transactions")} id="leftBar-transactionsButton">Transactions</a>
+        <a href="/settings" class="transparentButton leftBarButton" on:click={() => changePressedButton("settings")} id="leftBar-settingsButton">Settings</a>
     </div>
     
 
@@ -14,7 +14,7 @@
     function changePressedButton(id) {
         document.getElementById("leftBar-homeButton").style = "background-color: auto";
         document.getElementById("leftBar-accountsButton").style = "background-color: auto";
-        document.getElementById("leftBar-transactionsButton").style = "background-color: auto";
+        document.getElementById("leftBar-settingsButton").style = "background-color: auto";
         document.getElementById("leftBar-userButton").style = "background-color: auto";
         
         document.getElementById(`leftBar-${id}Button`).style = "background-color: rgb(235, 235, 235)";
