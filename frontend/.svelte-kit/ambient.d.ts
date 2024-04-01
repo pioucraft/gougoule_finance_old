@@ -30,6 +30,7 @@ declare module '$env/static/private' {
 	export const SHELL: string;
 	export const SESSION_MANAGER: string;
 	export const COLORTERM: string;
+	export const PYENV_SHELL: string;
 	export const HISTCONTROL: string;
 	export const XDG_MENU_PREFIX: string;
 	export const TERM_PROGRAM_VERSION: string;
@@ -51,6 +52,7 @@ declare module '$env/static/private' {
 	export const SYSTEMD_EXEC_PID: string;
 	export const _: string;
 	export const XAUTHORITY: string;
+	export const SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS: string;
 	export const VSCODE_GIT_ASKPASS_NODE: string;
 	export const GJS_DEBUG_TOPICS: string;
 	export const WINDOWPATH: string;
@@ -66,6 +68,7 @@ declare module '$env/static/private' {
 	export const INVOCATION_ID: string;
 	export const MANAGERPID: string;
 	export const CHROME_DESKTOP: string;
+	export const STEAM_FRAME_FORCE_CLOSE: string;
 	export const GJS_DEBUG_OUTPUT: string;
 	export const MOZ_GMP_PATH: string;
 	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
@@ -82,6 +85,7 @@ declare module '$env/static/private' {
 	export const npm_config_user_agent: string;
 	export const npm_execpath: string;
 	export const XDG_RUNTIME_DIR: string;
+	export const PYENV_ROOT: string;
 	export const DEBUGINFOD_URLS: string;
 	export const npm_package_json: string;
 	export const BUN_INSTALL: string;
@@ -133,6 +137,7 @@ declare module '$env/dynamic/private' {
 		SHELL: string;
 		SESSION_MANAGER: string;
 		COLORTERM: string;
+		PYENV_SHELL: string;
 		HISTCONTROL: string;
 		XDG_MENU_PREFIX: string;
 		TERM_PROGRAM_VERSION: string;
@@ -154,6 +159,7 @@ declare module '$env/dynamic/private' {
 		SYSTEMD_EXEC_PID: string;
 		_: string;
 		XAUTHORITY: string;
+		SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS: string;
 		VSCODE_GIT_ASKPASS_NODE: string;
 		GJS_DEBUG_TOPICS: string;
 		WINDOWPATH: string;
@@ -169,6 +175,7 @@ declare module '$env/dynamic/private' {
 		INVOCATION_ID: string;
 		MANAGERPID: string;
 		CHROME_DESKTOP: string;
+		STEAM_FRAME_FORCE_CLOSE: string;
 		GJS_DEBUG_OUTPUT: string;
 		MOZ_GMP_PATH: string;
 		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
@@ -185,6 +192,7 @@ declare module '$env/dynamic/private' {
 		npm_config_user_agent: string;
 		npm_execpath: string;
 		XDG_RUNTIME_DIR: string;
+		PYENV_ROOT: string;
 		DEBUGINFOD_URLS: string;
 		npm_package_json: string;
 		BUN_INSTALL: string;
