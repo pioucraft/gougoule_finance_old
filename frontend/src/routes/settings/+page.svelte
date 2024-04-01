@@ -15,7 +15,7 @@
 
     #settings-defaultCurrency-input {
         width: 100%;
-        height: 5rem;
+        height: 4rem;
         display: grid;
         grid-template-columns: 4fr 1fr;
         gap: 2rem;
@@ -28,6 +28,8 @@
         outline: none;
         font-size: x-large;
         padding-left: 1em;
+        height: 100%;
+        align-items: center;
     }
 
     #settings-defaultCurrency-input-button {
@@ -36,6 +38,7 @@
         border: 2px solid;
         font-size: x-large;
         cursor: pointer;
+        height: 100%;
     }
 </style>
 
@@ -46,6 +49,5 @@
             <input type="text" id="settings-defaultCurrency-input-input">
             <button id="settings-defaultCurrency-input-button">Change</button>
         </div>
-        
     </div>
 </div>
