@@ -1,3 +1,7 @@
+<script>
+    import sha256 from "js-sha256"
+</script>
+
 <style>
     #login {
         left: 0;

@@ -1,6 +1,7 @@
 import { loginFunction } from "../../modules/login"
 
 export async function login(req) {
+    console.log(req.body)
     let body = await req.json()
 
     if(await loginFunction(body)) {

@@ -4,7 +4,9 @@ import { calculateBalance } from "./modules/calculateBalance";
 Bun.serve({
     port: 3000,
     async fetch(req) {
-        return await fetchHandler(req);
+        let res = await fetchHandler(req);
+        res.headers.set('Access-Control-Allow-Origin', '*');
+        return res
     },
 });
 

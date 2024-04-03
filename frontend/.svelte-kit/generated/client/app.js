@@ -19,9 +19,9 @@ export const dictionary = {
 		"/accounts": [3],
 		"/addAccount": [5],
 		"/addTransaction": [6],
-		"/login": [8],
-		"/settings": [4],
-		"/user": [7]
+		"/login": [7],
+		"/settings": [8],
+		"/user": [4]
 	};
 
 export const hooks = {

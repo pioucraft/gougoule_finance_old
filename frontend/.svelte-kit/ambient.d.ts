@@ -26,6 +26,7 @@
  * ```
  */
 declare module '$env/static/private' {
+	export const VITE_BACKEND_URL: string;
 	export const NODE_ENV: string;
 	export const SHELL: string;
 	export const SESSION_MANAGER: string;
@@ -100,7 +101,6 @@ declare module '$env/static/private' {
 	export const GIO_LAUNCHED_DESKTOP_FILE_PID: string;
 	export const npm_node_execpath: string;
 	export const GIO_LAUNCHED_DESKTOP_FILE: string;
-	export const OLDPWD: string;
 	export const TERM_PROGRAM: string;
 }
 
@@ -133,6 +133,7 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+		VITE_BACKEND_URL: string;
 		NODE_ENV: string;
 		SHELL: string;
 		SESSION_MANAGER: string;
@@ -207,7 +208,6 @@ declare module '$env/dynamic/private' {
 		GIO_LAUNCHED_DESKTOP_FILE_PID: string;
 		npm_node_execpath: string;
 		GIO_LAUNCHED_DESKTOP_FILE: string;
-		OLDPWD: string;
 		TERM_PROGRAM: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
