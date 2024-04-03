@@ -30,7 +30,6 @@ declare module '$env/static/private' {
 	export const SHELL: string;
 	export const SESSION_MANAGER: string;
 	export const COLORTERM: string;
-	export const PYENV_SHELL: string;
 	export const HISTCONTROL: string;
 	export const XDG_MENU_PREFIX: string;
 	export const TERM_PROGRAM_VERSION: string;
@@ -42,6 +41,7 @@ declare module '$env/static/private' {
 	export const npm_config_local_prefix: string;
 	export const XMODIFIERS: string;
 	export const DESKTOP_SESSION: string;
+	export const RBENV_SHELL: string;
 	export const SSH_AGENT_PID: string;
 	export const NO_AT_BRIDGE: string;
 	export const EDITOR: string;
@@ -85,7 +85,6 @@ declare module '$env/static/private' {
 	export const npm_config_user_agent: string;
 	export const npm_execpath: string;
 	export const XDG_RUNTIME_DIR: string;
-	export const PYENV_ROOT: string;
 	export const DEBUGINFOD_URLS: string;
 	export const npm_package_json: string;
 	export const BUN_INSTALL: string;
@@ -101,6 +100,7 @@ declare module '$env/static/private' {
 	export const GIO_LAUNCHED_DESKTOP_FILE_PID: string;
 	export const npm_node_execpath: string;
 	export const GIO_LAUNCHED_DESKTOP_FILE: string;
+	export const OLDPWD: string;
 	export const TERM_PROGRAM: string;
 }
 
@@ -137,7 +137,6 @@ declare module '$env/dynamic/private' {
 		SHELL: string;
 		SESSION_MANAGER: string;
 		COLORTERM: string;
-		PYENV_SHELL: string;
 		HISTCONTROL: string;
 		XDG_MENU_PREFIX: string;
 		TERM_PROGRAM_VERSION: string;
@@ -149,6 +148,7 @@ declare module '$env/dynamic/private' {
 		npm_config_local_prefix: string;
 		XMODIFIERS: string;
 		DESKTOP_SESSION: string;
+		RBENV_SHELL: string;
 		SSH_AGENT_PID: string;
 		NO_AT_BRIDGE: string;
 		EDITOR: string;
@@ -192,7 +192,6 @@ declare module '$env/dynamic/private' {
 		npm_config_user_agent: string;
 		npm_execpath: string;
 		XDG_RUNTIME_DIR: string;
-		PYENV_ROOT: string;
 		DEBUGINFOD_URLS: string;
 		npm_package_json: string;
 		BUN_INSTALL: string;
@@ -208,6 +207,7 @@ declare module '$env/dynamic/private' {
 		GIO_LAUNCHED_DESKTOP_FILE_PID: string;
 		npm_node_execpath: string;
 		GIO_LAUNCHED_DESKTOP_FILE: string;
+		OLDPWD: string;
 		TERM_PROGRAM: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;

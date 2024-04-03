@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+<body>
+    
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas> 
+    <script>
+        const xValues = ["Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", ""];
+        const yValues = [55, 49, 44, 24, 15, 55, 49, 44, 24, 15, 55, 49, 44, 24, 15, 55, 49, 44, 24, 15, 55, 49, 44, 24, 15, 55, 49, 44, 24, 15];
+
+        const myChart = new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: "#fc847b",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{ ticks: { min: 0, max: 60 } }],
+                },
+                tooltips: {
+                    enabled: true, // Enable tooltips
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            let country = xValues[tooltipItem.index];
+                            let value = yValues[tooltipItem.index];
+
+                            // Customize your label (adding more information if needed)
+                            return `You spent ${tooltipItem.index}$ that day.`; 
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
