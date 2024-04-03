@@ -100,7 +100,7 @@ await DBClient.query(`CREATE TABLE IF NOT EXISTS balanceHistory (
 )`)
 
 
-let query = "SELECT * FROM balancehistory;"
+let query = "SELECT * FROM converter WHERE currency IS NOT NULL AND type = 's';"
 console.log((await DBClient.query(query)).rows)
 
 console.log("done !")

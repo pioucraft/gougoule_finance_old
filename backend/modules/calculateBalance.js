@@ -19,8 +19,8 @@ export async function calculateBalance() {
 
         if(!accountsPortfolios[transaction.accountid]) accountsPortfolios[transaction.accountid] = {};
 
-        if(!accountsPortfolios[transaction.accountid][transaction.symbol]) accountsPortfolios[transaction.accountid][transaction.symbol] = amountInUsd;
-        else accountsPortfolios[transaction.accountid][transaction.symbol] += amountInUsd;
+        if(!accountsPortfolios[transaction.accountid][`${transaction.symbol}:${transaction.type}`]) accountsPortfolios[transaction.accountid][`${transaction.symbol}:${transaction.type}`] = amountInUsd;
+        else accountsPortfolios[transaction.accountid][`${transaction.symbol}:${transaction.type}`] += amountInUsd;
 
         
     }
