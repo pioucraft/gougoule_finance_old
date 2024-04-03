@@ -72,8 +72,8 @@
 <div id="login">
     <div id="login-box">
         <div id="login-box-input">
-            <input type="text" class="login-text" placeholder="Username">
-                <input type="password" class="login-text" placeholder="Password">
+            <input type="text" class="login-text" placeholder="Email">
+            <input type="password" class="login-text" placeholder="Password">
             
         </div>
         <button class="login-button">Login</button>

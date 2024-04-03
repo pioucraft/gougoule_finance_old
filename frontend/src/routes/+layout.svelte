@@ -29,24 +29,22 @@
     let url = import.meta.env.VITE_BACKEND_URL
     onMount(async () => {
         if(location.pathname != "/login") {
-            if(!getCookie("username")) {
+            if(!getCookie("email")) {
                 goto("/login")
             }
             else {
                 let password = getCookie("password")
-                let username = getCookie("username")
+                let email = getCookie("email")
                 
-                let fetchBody = {"username": username, "password": password}
-                /*let loginFetch = await fetch(`${url}/api/login`, {
-                    method: "POST",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json' 
-                    },
-                    body: JSON.stringify(fetchBody)
-                });*/
+                let fetchBody = {"email": email, "password": password}
 
-                let loginFetch = await axios.post(`${url}/api/login`, JSON.stringify(fetchBody))
+                try {
+                    var loginFetch = await axios.post(`${url}/api/login`, JSON.stringify(fetchBody))
+                }
+                catch(err) {
+                    goto("/login")
+                }
+                
 
                 console.log(loginFetch)
             }
