@@ -26,31 +26,33 @@
  * ```
  */
 declare module '$env/static/private' {
+	export const NODE_ENV: string;
 	export const SHELL: string;
 	export const SESSION_MANAGER: string;
 	export const COLORTERM: string;
 	export const HISTCONTROL: string;
 	export const XDG_MENU_PREFIX: string;
 	export const TERM_PROGRAM_VERSION: string;
-	export const HOSTNAME: string;
 	export const HISTSIZE: string;
+	export const HOSTNAME: string;
 	export const NODE: string;
 	export const SSH_AUTH_SOCK: string;
 	export const MEMORY_PRESSURE_WRITE: string;
 	export const npm_config_local_prefix: string;
 	export const XMODIFIERS: string;
 	export const DESKTOP_SESSION: string;
-	export const SSH_AGENT_PID: string;
 	export const RBENV_SHELL: string;
+	export const SSH_AGENT_PID: string;
 	export const NO_AT_BRIDGE: string;
 	export const EDITOR: string;
 	export const PWD: string;
-	export const XDG_SESSION_DESKTOP: string;
 	export const LOGNAME: string;
+	export const XDG_SESSION_DESKTOP: string;
 	export const XDG_SESSION_TYPE: string;
 	export const SYSTEMD_EXEC_PID: string;
 	export const _: string;
 	export const XAUTHORITY: string;
+	export const SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS: string;
 	export const VSCODE_GIT_ASKPASS_NODE: string;
 	export const GJS_DEBUG_TOPICS: string;
 	export const WINDOWPATH: string;
@@ -66,6 +68,7 @@ declare module '$env/static/private' {
 	export const INVOCATION_ID: string;
 	export const MANAGERPID: string;
 	export const CHROME_DESKTOP: string;
+	export const STEAM_FRAME_FORCE_CLOSE: string;
 	export const GJS_DEBUG_OUTPUT: string;
 	export const MOZ_GMP_PATH: string;
 	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
@@ -97,8 +100,8 @@ declare module '$env/static/private' {
 	export const GIO_LAUNCHED_DESKTOP_FILE_PID: string;
 	export const npm_node_execpath: string;
 	export const GIO_LAUNCHED_DESKTOP_FILE: string;
+	export const OLDPWD: string;
 	export const TERM_PROGRAM: string;
-	export const NODE_ENV: string;
 }
 
 /**
@@ -130,31 +133,33 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+		NODE_ENV: string;
 		SHELL: string;
 		SESSION_MANAGER: string;
 		COLORTERM: string;
 		HISTCONTROL: string;
 		XDG_MENU_PREFIX: string;
 		TERM_PROGRAM_VERSION: string;
-		HOSTNAME: string;
 		HISTSIZE: string;
+		HOSTNAME: string;
 		NODE: string;
 		SSH_AUTH_SOCK: string;
 		MEMORY_PRESSURE_WRITE: string;
 		npm_config_local_prefix: string;
 		XMODIFIERS: string;
 		DESKTOP_SESSION: string;
-		SSH_AGENT_PID: string;
 		RBENV_SHELL: string;
+		SSH_AGENT_PID: string;
 		NO_AT_BRIDGE: string;
 		EDITOR: string;
 		PWD: string;
-		XDG_SESSION_DESKTOP: string;
 		LOGNAME: string;
+		XDG_SESSION_DESKTOP: string;
 		XDG_SESSION_TYPE: string;
 		SYSTEMD_EXEC_PID: string;
 		_: string;
 		XAUTHORITY: string;
+		SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS: string;
 		VSCODE_GIT_ASKPASS_NODE: string;
 		GJS_DEBUG_TOPICS: string;
 		WINDOWPATH: string;
@@ -170,6 +175,7 @@ declare module '$env/dynamic/private' {
 		INVOCATION_ID: string;
 		MANAGERPID: string;
 		CHROME_DESKTOP: string;
+		STEAM_FRAME_FORCE_CLOSE: string;
 		GJS_DEBUG_OUTPUT: string;
 		MOZ_GMP_PATH: string;
 		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
@@ -201,8 +207,8 @@ declare module '$env/dynamic/private' {
 		GIO_LAUNCHED_DESKTOP_FILE_PID: string;
 		npm_node_execpath: string;
 		GIO_LAUNCHED_DESKTOP_FILE: string;
+		OLDPWD: string;
 		TERM_PROGRAM: string;
-		NODE_ENV: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}

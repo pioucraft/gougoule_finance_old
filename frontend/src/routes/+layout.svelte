@@ -2,7 +2,8 @@
     <div id="leftBar-top">
         <a href="/" class="transparentButton leftBarButton" on:click={() => changePressedButton("home")} id="leftBar-homeButton">Home</a>
         <a href="/accounts" class="transparentButton leftBarButton" on:click={() => changePressedButton("accounts")} id="leftBar-accountsButton">Accounts</a>
-        <a href="/transactions" class="transparentButton leftBarButton" on:click={() => changePressedButton("transactions")} id="leftBar-transactionsButton">Transactions</a>
+        <a href="/settings" class="transparentButton leftBarButton" on:click={() => changePressedButton("settings")} id="leftBar-settingsButton">Settings</a>
+        <a href="/addTransaction" class="transparentButton leftBarButton" on:click={() => changePressedButton("addTransaction")} id="leftBar-addTransaction">Add a transaction</a>
     </div>
     
 
@@ -14,8 +15,9 @@
     function changePressedButton(id) {
         document.getElementById("leftBar-homeButton").style = "background-color: auto";
         document.getElementById("leftBar-accountsButton").style = "background-color: auto";
-        document.getElementById("leftBar-transactionsButton").style = "background-color: auto";
+        document.getElementById("leftBar-settingsButton").style = "background-color: auto";
         document.getElementById("leftBar-userButton").style = "background-color: auto";
+        document.getElementById("leftBar-addTransaction").style = "background-color: auto";
         
         document.getElementById(`leftBar-${id}Button`).style = "background-color: rgb(235, 235, 235)";
     }
@@ -41,6 +43,7 @@
         display: flex;
         flex-direction: column;
         gap: 1em;
+        margin-top: 1rem;
     }
 
     #leftBar-userButton-svg {
@@ -55,7 +58,7 @@
     }
 
     .leftBarButton {
-        width: 7.5em;
+        width: 8.5em;
         font-size: large;
         text-align: start;
     }
