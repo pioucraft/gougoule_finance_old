@@ -11,6 +11,8 @@
   let profitColor = "red"
   let profit = ""
 
+  let assets = [["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10], ["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10]]
+
   let url = import.meta.env.VITE_BACKEND_URL
   onMount(async () => {
     let password = getCookie("password")
@@ -33,6 +35,19 @@
     }
 
     profit = `(${balanceDiference}$; ${profitPercentage}%)`
+
+    let portfolio = Object.entries(JSON.parse(balanceHistoryArray[0].portfolio))
+    assets = [["Other", 0]]
+    for(let asset of portfolio) {
+      if(asset[1]/balanceHistoryArray[0].balance*100 < 10) {
+        assets[0][1] += asset[1]/balanceHistoryArray[0].balance*100
+      }
+      else {
+        assets.push([asset[0].split(":")[0], asset[1]/balanceHistoryArray[0].balance*100])
+      }
+      
+    }
+    assets = assets.sort((a, b) => b[1] - a[1])
 
     let xValues = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland"];
     let yValues = [55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30];
@@ -85,11 +100,11 @@
   </div>
   <div class="assets">
     <p>Assets :</p>
-    <svg class="assets-svg" viewBox="0 0 100000 5000" height="5000">
-      <rect rx="2000" ry="2000" style="fill:#fc7fe8;fill-opacity:1" x="0" y="0" transform="matrix(1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000)" width="10000" height="5000"></rect>
-      <rect rx="2000" ry="2000" style="fill:#62cfff;fill-opacity:1" x="11000" y="0" transform="matrix(1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000)" width="50000" height="5000"></rect>
-      <rect rx="2000" ry="2000" style="fill:#ffaf6e;fill-opacity:1" x="62000" y="0" transform="matrix(1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000)" width="38000" height="5000"></rect>
-    </svg>
+    <div id="assets-graph">
+      {#each assets as asset}
+        <div style="width: {asset[1]}%;" class="assets-{assets.indexOf(asset)} asset"><p>{asset[0]}</p></div>
+      {/each}
+    </div>
   </div>
   <div class="line-chart">
     <div id="line-chart-top">
@@ -254,13 +269,8 @@
   }
 
   .assets p {
-    justify-content: center;
     margin-bottom: 0.3em;
-  }
-
-  .assets-svg {
-    max-width: 100%;
-    height: 1.8em;
+    margin-top: 1rem;
   }
 
   .line-chart {
@@ -384,4 +394,68 @@
     flex-direction: row;
     gap: 2rem;
   }
+
+  #assets-graph {
+    background-color: #ececec;
+    width: 100%;
+    height: 3rem;
+    border-radius: 0.7rem;
+    display: grid;
+    display: flex;
+    grid-template-rows: 1;
+    gap: 0.3rem;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    align-items: center;
+  }
+
+  .asset {
+    border-radius: 0.7rem;
+    height: 2.3rem;
+    font-size: large;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .asset p {
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .assets-0 {
+    background-color: aqua;
+  }
+  .assets-1 {
+    background-color: red;
+  }
+  .assets-2 {
+    background-color: pink;
+  }
+  .assets-3 {
+    background-color: greenyellow;
+  }
+  .assets-4 {
+    background-color: yellow;
+  }
+  .assets-5 {
+    background-color:azure;
+  }
+  .assets-6 {
+    background-color:chocolate;
+  }
+  .assets-7 {
+    background-color:steelblue;
+  }
+  .assets-8 {
+    background-color:orange;
+  }
+  .assets-9 {
+    background-color:darksalmon;
+  }
+
 </style>
