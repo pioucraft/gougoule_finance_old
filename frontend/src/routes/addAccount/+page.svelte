@@ -40,5 +40,29 @@
         <input type="text" id="addAccount-name-input">
     </div>
 
-    <button class="buttonWithShadow" id="addAccountbutton">Add an account !</button>
+    <button class="buttonWithShadow" on:click={addAccount} id="addAccountbutton">Add an account !</button>
 </div>
+
+<script>
+    import axios from 'axios';
+    import { getCookie } from 'svelte-cookie';
+    import { goto } from '$app/navigation';
+
+    var url = import.meta.env.VITE_BACKEND_URL
+
+    async function addAccount() {
+        let name = document.getElementById('addAccount-name-input').value;
+
+        let password = getCookie("password")
+        let email = getCookie("email")
+        let fetchBody = JSON.stringify({"email": email, "password": password, "name": name})
+
+        try {
+            await axios.post(`${url}/api/account`, fetchBody)
+            goto("/accounts")
+        }
+        catch(err) {
+            alert("Error")
+        }
+    }
+</script>

@@ -43,12 +43,12 @@
         align-items: center;
     }
 
-    #addTransaction-date {
+    #addTransaction-account {
         height: 4em;
         width: 100%;
     }
 
-    #addTransaction-date-input {
+    #addTransaction-account-input {
         background-color: transparent;
         border-radius: 1.5rem;
         border: 2px solid;
@@ -56,7 +56,7 @@
         font-size: x-large;
         padding-left: 1rem;
         align-items: center;
-        width: calc(100% - 1rem);
+        width: calc(100%);
         height: 100%;
     }
 
@@ -108,10 +108,61 @@
         </div>
     </div>
 
-    <div id="addTransaction-date">
-        <h2 id="addTransaction-date-text">Date (keep empty for today) : </h2>
-        <input type="date" id="addTransaction-date-input">
+    <div id="addTransaction-account">
+        <h2 id="addTransaction-account-text">Account : </h2>
+        <select name="" id="addTransaction-account-input">
+            {#each accounts as account}
+                <option value="{account.id}">{account.name}</option>
+            {/each}
+        </select>
     </div>
 
-    <button class="buttonWithShadow" id="addTransactionbutton">Add a transaction !</button>
+    <button class="buttonWithShadow" id="addTransactionbutton" on:click={addTransaction}>Add a transaction !</button>
 </div>
+
+
+<script>
+    import axios from 'axios';
+    import { getCookie } from 'svelte-cookie';
+    import { goto } from '$app/navigation';
+    import { onMount } from 'svelte';
+
+    var url = import.meta.env.VITE_BACKEND_URL
+
+    var accounts = [
+                        {
+                            "id": 1,
+                            "name": "Loading...",
+                            "balance": 0
+                        }
+                    ]
+
+    async function addTransaction() {
+        let name = document.getElementById('addTransaction-name-input').value;
+        let amount = document.getElementById('addTransaction-amount-amount').value;
+        let type = document.getElementById('addTransaction-amount-type').value;
+        let symbol = document.getElementById('addTransaction-amount-symbol').value.toUpperCase();
+        let accountId = document.getElementById('addTransaction-account-input').value;
+
+
+        let password = getCookie("password")
+        let email = getCookie("email")
+        let fetchBody = JSON.stringify({"email": email, "password": password, "name": name, "amount": amount, "type": type, "symbol": symbol, "accountId": accountId})
+        console.log(fetchBody)
+        try {
+            await axios.post(`${url}/api/transaction`, fetchBody)
+            goto("/")
+        }
+        catch(err) {
+            alert("Error")
+        }
+    }
+
+    onMount(async () => {
+        let password = getCookie("password")
+        let email = getCookie("email")
+        let fetchBody = JSON.stringify({"email": email, "password": password})
+
+        accounts = (await axios.post(`${url}/api/getAccounts`, fetchBody)).data
+    })
+</script>

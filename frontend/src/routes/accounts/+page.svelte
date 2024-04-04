@@ -1,5 +1,25 @@
 <script>
+    import { goto } from '$app/navigation';
+    import axios from 'axios';
+    import { onMount } from 'svelte';
+    import { getCookie } from 'svelte-cookie';
 
+    var accounts = [
+                        {
+                            "id": 1,
+                            "name": "Loading...",
+                            "balance": 0
+                        }
+                    ]
+
+    var url = import.meta.env.VITE_BACKEND_URL
+    onMount(async () => {
+        let password = getCookie("password")
+        let email = getCookie("email")
+        let fetchBody = JSON.stringify({"email": email, "password": password})
+
+        accounts = (await axios.post(`${url}/api/getAccounts`, fetchBody)).data
+    })
 </script>
 
 <style>
@@ -34,14 +54,10 @@
         margin-top: 1em;
     }
 
-    .accounts-accountCard-balancePreferedCurrency {
-        color: gray;
-        font-weight: 100;
-    }
-
     #accounts-addAccount {
         align-items: center;
         justify-content: center;
+        cursor: pointer;
     }
 
     @media (max-width: 60em) {
@@ -52,28 +68,17 @@
 </style>
 
 <div id="accounts">
-    <div class="accounts-accountCard">
-        <h2 class="accounts-accountCard-title">Account 1</h2>
-        <div class="accounts-accountCard-balances">
-            <h3 class="accounts-accountCard-balance">143.56$</h3>
-            <h4 class="accounts-accountCard-balancePreferedCurrency">125.36 CHF</h4>
+    {#each accounts as account}
+        <div class="accounts-accountCard">
+            <h2 class="accounts-accountCard-title">{account.name}</h2>
+            <div class="accounts-accountCard-balances">
+                <h3 class="accounts-accountCard-balance">${account.balance.toFixed(2)}</h3>
+            </div>
         </div>
-    </div>
-    <div class="accounts-accountCard">
-        <h2 class="accounts-accountCard-title">Account 1</h2>
-        <div class="accounts-accountCard-balances">
-            <h3 class="accounts-accountCard-balance">143.56$</h3>
-            <h4 class="accounts-accountCard-balancePreferedCurrency">125.36 CHF</h4>
-        </div>
-    </div>
-    <div class="accounts-accountCard">
-        <h2 class="accounts-accountCard-title">Account 1</h2>
-        <div class="accounts-accountCard-balances">
-            <h3 class="accounts-accountCard-balance">143.56$</h3>
-            <h4 class="accounts-accountCard-balancePreferedCurrency">125.36 CHF</h4>
-        </div>
-    </div>
-    <div class="accounts-accountCard" id="accounts-addAccount">
+    {/each}
+    
+    
+    <div on:click={() => goto("/addAccount")} class="accounts-accountCard" id="accounts-addAccount">
         <h2>Add an account</h2>
     </div>
 </div>

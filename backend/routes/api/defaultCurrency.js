@@ -8,7 +8,7 @@ export async function defaultCurrency(req) {
     if(!(await loginFunction(body))) {
         return new Response("401 Unauthorized", {status: 401})
     }
-
+    
     if (req.method == "POST") return await getDefaultCurrency(body)
     else if(req.method == "PATCH") return await changeDefaultCurrency(body)
 }

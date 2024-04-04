@@ -60,7 +60,6 @@
     onMount(async () => {
         if(location.pathname != "/login") {
             if(!getCookie("email")) {
-                alert(getCookie("email"))
                 goto("/login")
             }
             else {
@@ -73,7 +72,7 @@
                     var loginFetch = await axios.post(`${url}/api/login`, JSON.stringify(fetchBody))
                 }
                 catch(err) {
-                    //goto("/login")
+                    goto("/login")
                 }
                 username = loginFetch.data.username
             }
