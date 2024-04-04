@@ -16,7 +16,7 @@
     import { goto } from '$app/navigation';
     import axios from "axios"
 
-    let username = "Username"
+    let username = "Loading..."
 
     function changePressedButton(id) {
         document.getElementById("leftBar-homeButton").style = "background-color: auto";
