@@ -5,15 +5,18 @@
   import { onMount } from 'svelte';
   import { getCookie } from 'svelte-cookie';
 
-  let balance = "Loading..."
-  let balanceInLocalCurrency = ""
+  var balance = "Loading..."
+  var balanceInLocalCurrency = ""
   
-  let profitColor = "red"
-  let profit = ""
+  var profitColor = "red"
+  var profit = ""
 
-  let assets = [["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10], ["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10]]
+  var assets = [["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10], ["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10]]
 
-  let url = import.meta.env.VITE_BACKEND_URL
+  var selectedTimeStampForChart = "1W"
+  var selectedTypeForChart = "balance"
+
+  var url = import.meta.env.VITE_BACKEND_URL
   onMount(async () => {
     let password = getCookie("password")
     let email = getCookie("email")
@@ -53,7 +56,7 @@
     let yValues = [55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30];
     xValues = []
     yValues = []
-    for(let i = 0; i<150;i++) {
+    for(let i = 0; i<1000;i++) {
       xValues.push(i)
       yValues.push(Math.random()*i)
     }
@@ -88,7 +91,37 @@
     });
   })
   
+  function changeTimeStamp(timeStamp) {
+    selectedTimeStampForChart = timeStamp;
+    let originalElement = document.getElementsByClassName("line-chart-bottom-selectedButton")[0]
+    originalElement.classList.remove("line-chart-bottom-selectedButton")
+    originalElement.classList.add("line-chart-bottom-unselectedButton")
 
+    document.getElementById(`line-chart-bottom-selectedButton-${timeStamp}`).classList.add("line-chart-bottom-selectedButton")
+  }
+
+  function changeChartType(type) {
+    selectedTypeForChart = type
+    if(type == "balance") {
+      document.getElementById("line-chart-top-buttons-fiat").classList.remove("line-chart-top-button-selected")
+      document.getElementById(`line-chart-top-buttons-fiat`).classList.add("line-chart-top-button-unselected")
+
+      document.getElementById("line-chart-top-buttons-balance").classList.remove("line-chart-top-button-unselected")
+      document.getElementById(`line-chart-top-buttons-balance`).classList.add("line-chart-top-button-selected")
+    }
+    else {
+      document.getElementById("line-chart-top-buttons-balance").classList.remove("line-chart-top-button-selected")
+      document.getElementById(`line-chart-top-buttons-balance`).classList.add("line-chart-top-button-unselected")
+
+      document.getElementById("line-chart-top-buttons-fiat").classList.remove("line-chart-top-button-unselected")
+      document.getElementById(`line-chart-top-buttons-fiat`).classList.add("line-chart-top-button-selected")
+    }
+  }
+
+
+  function updateChart() {
+
+  }
 
   
 </script>
@@ -110,8 +143,8 @@
     <div id="line-chart-top">
       <h3>Graphs : </h3>
       <div id="line-chart-top-buttons">
-        <button class="line-chart-top-button" style="background-color: white;" id="line-chart-top-buttons-balance">Balance</button>
-        <button class="line-chart-top-button" id="line-chart-top-buttons-fiat">Fiat</button>
+        <button class="line-chart-top-button line-chart-top-button-selected" id="line-chart-top-buttons-balance" on:click={() => changeChartType("balance")}>Balance</button>
+        <button class="line-chart-top-button line-chart-top-button-unselected" id="line-chart-top-buttons-fiat" on:click={() => changeChartType("fiat")}>Fiat</button>
       </div>
     </div>
     <div id="line-chart-middle">
@@ -120,16 +153,16 @@
     
     <div id="line-chart-bottom">
       <div id="line-chart-bottom-buttons">
-        <button class="line-chart-bottom-selectedButton">1W</button>
-        <button class="line-chart-bottom-unSelectedButton">1M</button>
-        <button class="line-chart-bottom-unSelectedButton">3M</button>
-        <button class="line-chart-bottom-unSelectedButton">6M</button>
-        <button class="line-chart-bottom-unSelectedButton">1Y</button>
-        <button class="line-chart-bottom-unSelectedButton">3Y</button>
-        <button class="line-chart-bottom-unSelectedButton">5Y</button>
-        <button class="line-chart-bottom-unSelectedButton">10Y</button>
-        <button class="line-chart-bottom-unSelectedButton">20Y</button>
-        <button class="line-chart-bottom-unSelectedButton">All</button>
+        <button class="line-chart-bottom-selectedButton" id="line-chart-bottom-selectedButton-1W" on:click={() => changeTimeStamp("1W")}>1W</button>
+        <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-1M" on:click={() => changeTimeStamp("1M")}>1M</button>
+        <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-3M" on:click={() => changeTimeStamp("3M")}>3M</button>
+        <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-6M" on:click={() => changeTimeStamp("6M")}>6M</button>
+        <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-1Y" on:click={() => changeTimeStamp("1Y")}>1Y</button>
+        <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-3Y" on:click={() => changeTimeStamp("3Y")}>3Y</button>
+        <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-5Y" on:click={() => changeTimeStamp("5Y")}>5Y</button>
+        <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-10Y" on:click={() => changeTimeStamp("10Y")}>10Y</button>
+        <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-20Y" on:click={() => changeTimeStamp("20Y")}>20Y</button>
+        <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-All" on:click={() => changeTimeStamp("All")}>All</button>
       </div>
     </div>
   </div>
@@ -310,7 +343,15 @@
     font-size: larger;
   }
 
-  .line-chart-top-button:hover {
+  .line-chart-top-button-unselected {
+    background-color: transparent;
+  }
+
+  .line-chart-top-button-unselected:hover {
+    background-color: white;
+  }
+
+  .line-chart-top-button-selected {
     background-color: white;
   }
 
@@ -342,7 +383,7 @@
     border-radius: 0.7em;
   }
 
-  .line-chart-bottom-unSelectedButton {
+  .line-chart-bottom-unselectedButton {
     border-radius: 0.5rem;
     border: none;
     background-color: transparent;
@@ -350,7 +391,7 @@
     font-size: large;
   }
 
-  .line-chart-bottom-unSelectedButton:hover {
+  .line-chart-bottom-unselectedButton:hover {
     background-color: white;
   }
 
