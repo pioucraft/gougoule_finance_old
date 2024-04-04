@@ -1,5 +1,6 @@
 import inquirer from 'inquirer';
 import { DBClient } from './modules/db';
+import sha256 from "js-sha256"
 
 let answer = await inquirer.prompt({
     "name": "command", 
@@ -38,8 +39,7 @@ async function createUserWithPrompt() {
             "message": "Enter storage path : "
         }
     ])
-    userData.password = await Bun.password.hash(userData.password);
-
+    userData.password = await Bun.password.hash(sha256(userData.password));
     await DBClient.query("INSERT INTO users (name, email, password, storage) VALUES ($1, $2, $3, $4)", [userData.name, userData.email, userData.password, userData.storage])
 
     console.log("New user successfully created, you can now safely Ctrl+C this script. DON'T FORGET TO RUN 'bun migrations.js'")
