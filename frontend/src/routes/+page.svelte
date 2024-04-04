@@ -287,6 +287,8 @@
     font-size: 1.4em;
     padding-left: 2%;
     padding-right: 2%;
+    display: flex;
+    flex-direction: column;
   }
   .line-chart {
     grid-row: 3 / 4;
@@ -442,13 +444,14 @@
     width: 100%;
     height: 3rem;
     border-radius: 0.7rem;
-    display: grid;
     display: flex;
-    grid-template-rows: 1;
     gap: 0.3rem;
     padding-left: 0.3rem;
     padding-right: 0.3rem;
     align-items: center;
+    margin-bottom: 0.5rem;
+    width: 96%;
+    align-self: center;
   }
 
   .asset {
@@ -498,6 +501,35 @@
   }
   .assets-9 {
     background-color:darksalmon;
+  }
+
+  @media (max-width: 75rem) {
+    :global(body) {
+      padding: 0;
+    }
+
+    .home {
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      width: 100vw;
+      height: calc(100vh-4rem);
+    }
+
+    .history {
+      overflow: visible;
+      margin-bottom: 5rem;
+    }
+
+    .money {
+      flex-direction: column;
+      align-items: start;
+      padding: 0.6rem;
+    }
+
+    .money * {
+      margin: 0;
+    }
   }
 
 </style>

@@ -67,6 +67,26 @@
         margin-top: 5rem;
     }
 
+    @media (max-width: 75rem) {
+        :global(body) {
+            padding: 0;
+        }
+
+        #addTransaction {
+            margin: 0;
+        }
+
+        #addTransaction-amount-inputs {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            height: 20rem;
+        }
+
+        #addTransactionbutton {
+            margin-bottom: 5rem;
+        }
+    }
+
 </style>
 
 <div id="addTransaction">
@@ -78,13 +98,13 @@
     <div id="addTransaction-amount">
         <h2 id="addTransaction-amount-text">Amount and symbol : </h2>
         <div id="addTransaction-amount-inputs">
-            <input type="number" id="addTransaction-amount-amount">
+            <input placeholder="Amount" type="number" id="addTransaction-amount-amount">
             <select type="text" id="addTransaction-amount-type">
                 <option value="f">Fiat</option>
                 <option value="s">Stock</option>
                 <option value="c">Cryptocurrency</option>
             </select>
-            <input type="text" id="addTransaction-amount-symbol">
+            <input placeholder="Symbol" type="text" id="addTransaction-amount-symbol">
         </div>
     </div>
 

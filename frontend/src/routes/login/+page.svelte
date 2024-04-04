@@ -26,6 +26,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        z-index: 2;
     }
 
     #login-box {

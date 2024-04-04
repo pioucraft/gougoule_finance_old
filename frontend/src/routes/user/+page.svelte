@@ -1,6 +1,7 @@
 <style>
     #user {
         width: 100%;
+        padding: 1rem;
     }
 
     #user * {

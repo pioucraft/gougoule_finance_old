@@ -40,6 +40,14 @@
         cursor: pointer;
         height: 100%;
     }
+
+    @media (max-width: 75rem) {
+        #settings-defaultCurrency-input {
+            display: flex;
+            flex-direction: column;
+            height: 12rem;
+        }
+    }
 </style>
 
 <div id="settings">
