@@ -1,7 +1,6 @@
 <script>
     import sha256 from "js-sha256"
     import { getCookie, setCookie, deleteCookie } from 'svelte-cookie';
-    import { goto } from '$app/navigation';
 
     function login() {
         let email = document.getElementById("email").value
@@ -10,7 +9,7 @@
 
         setCookie("password", password, 100, true)
         setCookie("email", email, 100, true)
-        goto("/")
+        location.href = "/"
     }
 </script>
 
@@ -37,7 +36,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: center;
     }
 
     #login-box-input {
@@ -72,12 +71,25 @@
         cursor: pointer;
     }
 
+    #login-box-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 10rem;
+        justify-content: space-evenly;
+        width: 60%;
+    }
+
     #imageBy {
         position: absolute;
         bottom: 0.5rem;
         left: 0.5rem;
         color: white;
         font-size: small;
+    }
+
+    #login-box-text {
+        color: gray;
     }
 </style>
 
@@ -87,7 +99,11 @@
             <input type="text" class="login-text" id="email" placeholder="Email">
             <input type="password" class="login-text" id="password" placeholder="Password">
         </div>
-        <button on:click={login} class="login-button">Login</button>
+        <div id="login-box-buttons">
+            <p id="login-box-text">By logging in, you accept the use of cookies (only to store credentials).</p>
+            <button on:click={login} class="login-button">Log in</button>
+        </div>
+        
     </div>
 </div>
 

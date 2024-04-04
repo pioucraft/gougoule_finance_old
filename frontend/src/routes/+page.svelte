@@ -7,14 +7,25 @@
 
   var balance = "Loading..."
   var balanceInLocalCurrency = ""
+
+  var balanceHistoryChart
   
   var profitColor = "red"
   var profit = ""
 
   var assets = [["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10], ["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10]]
+  var balanceHistoryArray = []
+
+  var defaultCurrency = {
+                          "defaultcurrency": "USD",
+                          "price": 1
+                        }
 
   var selectedTimeStampForChart = "1W"
   var selectedTypeForChart = "balance"
+
+  var xValues = ["Loading..."];
+  var yValues = [0];
 
   var url = import.meta.env.VITE_BACKEND_URL
   onMount(async () => {
@@ -23,12 +34,12 @@
     let fetchBody = JSON.stringify({"email": email, "password": password})
 
     let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
-    let defaultCurrency = await axios.post(`${url}/api/defaultCurrency`, fetchBody)
+    defaultCurrency = (await axios.post(`${url}/api/defaultCurrency`, fetchBody)).data
     
-    let balanceHistoryArray = balanceHistory.data.reverse()
+    balanceHistoryArray = balanceHistory.data.reverse()
 
     balance = "$"+balanceHistoryArray[0].balance.toFixed(2)
-    balanceInLocalCurrency = `${(balanceHistoryArray[0].balance * defaultCurrency.data.price).toFixed(2)} ${defaultCurrency.data.defaultcurrency}`
+    balanceInLocalCurrency = `${(balanceHistoryArray[0].balance * defaultCurrency.price).toFixed(2)} ${defaultCurrency.defaultcurrency}`
     
     let balanceDiference = (balanceHistoryArray[0].balance - balanceHistoryArray[1].balance).toFixed(2)
     let profitPercentage = ((balanceDiference / balanceHistoryArray[0].balance) * 100).toFixed(2)
@@ -52,8 +63,7 @@
     }
     assets = assets.sort((a, b) => b[1] - a[1])
 
-    let xValues = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland"];
-    let yValues = [55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30];
+    
     xValues = []
     yValues = []
     for(let i = 0; i<1000;i++) {
@@ -61,8 +71,84 @@
       yValues.push(Math.random()*i)
     }
     
+    updateChart()
+  })
+  
+  function changeTimeStamp(timeStamp) {
+    selectedTimeStampForChart = timeStamp;
+    let originalElement = document.getElementsByClassName("line-chart-bottom-selectedButton")[0]
+    originalElement.classList.remove("line-chart-bottom-selectedButton")
+    originalElement.classList.add("line-chart-bottom-unselectedButton")
+
+    document.getElementById(`line-chart-bottom-selectedButton-${timeStamp}`).classList.add("line-chart-bottom-selectedButton")
+    balanceHistoryChart.destroy()
+    updateChart()
+  }
+
+  function changeChartType(type) {
+    selectedTypeForChart = type
+    if(type == "balance") {
+      document.getElementById("line-chart-top-buttons-fiat").classList.remove("line-chart-top-button-selected")
+      document.getElementById(`line-chart-top-buttons-fiat`).classList.add("line-chart-top-button-unselected")
+
+      document.getElementById("line-chart-top-buttons-balance").classList.remove("line-chart-top-button-unselected")
+      document.getElementById(`line-chart-top-buttons-balance`).classList.add("line-chart-top-button-selected")
+    }
+    else {
+      document.getElementById("line-chart-top-buttons-balance").classList.remove("line-chart-top-button-selected")
+      document.getElementById(`line-chart-top-buttons-balance`).classList.add("line-chart-top-button-unselected")
+
+      document.getElementById("line-chart-top-buttons-fiat").classList.remove("line-chart-top-button-unselected")
+      document.getElementById(`line-chart-top-buttons-fiat`).classList.add("line-chart-top-button-selected")
+    }
+    balanceHistoryChart.destroy()
+    
+    updateChart()
+  }
+
+  
+
+
+  function updateChart() {
+
+    let numberOfDaysToDisplayInChart = 0
+    if(selectedTimeStampForChart == "1W") numberOfDaysToDisplayInChart = 7
+    else if(selectedTimeStampForChart == "1M") numberOfDaysToDisplayInChart = 30
+    else if(selectedTimeStampForChart == "3M") numberOfDaysToDisplayInChart = 30*3
+    else if(selectedTimeStampForChart == "6M") numberOfDaysToDisplayInChart = 30*6
+    else if(selectedTimeStampForChart == "1Y") numberOfDaysToDisplayInChart = 365
+    else if(selectedTimeStampForChart == "3Y") numberOfDaysToDisplayInChart = 365*3
+    else if(selectedTimeStampForChart == "5Y") numberOfDaysToDisplayInChart = 365*5
+    else if(selectedTimeStampForChart == "10Y") numberOfDaysToDisplayInChart = 365*10
+    else if(selectedTimeStampForChart == "20Y") numberOfDaysToDisplayInChart = 365*20
+    else if(selectedTimeStampForChart == "All") numberOfDaysToDisplayInChart = Infinity
+    let historyOfTheMoneyYouHave = []
+
+    for(let i=0;i<numberOfDaysToDisplayInChart && i<balanceHistoryArray.length;i++) {
+      if(selectedTypeForChart == "balance") {
+        let date = new Date(balanceHistoryArray[i].date)
+        historyOfTheMoneyYouHave.push([date.toDateString(), balanceHistoryArray[i].balance])
+      }
+      else {
+        let date = new Date(balanceHistoryArray[i].date)
+        historyOfTheMoneyYouHave.push([date.toDateString(), 0])
+        let portfolio = Object.entries(JSON.parse(balanceHistoryArray[i].portfolio))
+        portfolio.forEach(element => {
+          if(element[0].split(":")[1] == "f") historyOfTheMoneyYouHave[historyOfTheMoneyYouHave.length-1][1] += element[1]
+        })
+      }
+    }
+    historyOfTheMoneyYouHave = historyOfTheMoneyYouHave.reverse()
+    console.log(historyOfTheMoneyYouHave)
+    xValues = historyOfTheMoneyYouHave.map(element => element[0])
+    yValues = historyOfTheMoneyYouHave.map(element => element[1])
+
     let borderColor = "#fc847b"
-    const myChart = new Chart("lineChart", {
+
+    if(historyOfTheMoneyYouHave[0][1] < historyOfTheMoneyYouHave[historyOfTheMoneyYouHave.length-1][1]) borderColor = "green"
+    
+    
+    balanceHistoryChart = new Chart("lineChart", {
         type: "line",
         data: {
           labels: xValues,
@@ -89,38 +175,6 @@
         }
         }
     });
-  })
-  
-  function changeTimeStamp(timeStamp) {
-    selectedTimeStampForChart = timeStamp;
-    let originalElement = document.getElementsByClassName("line-chart-bottom-selectedButton")[0]
-    originalElement.classList.remove("line-chart-bottom-selectedButton")
-    originalElement.classList.add("line-chart-bottom-unselectedButton")
-
-    document.getElementById(`line-chart-bottom-selectedButton-${timeStamp}`).classList.add("line-chart-bottom-selectedButton")
-  }
-
-  function changeChartType(type) {
-    selectedTypeForChart = type
-    if(type == "balance") {
-      document.getElementById("line-chart-top-buttons-fiat").classList.remove("line-chart-top-button-selected")
-      document.getElementById(`line-chart-top-buttons-fiat`).classList.add("line-chart-top-button-unselected")
-
-      document.getElementById("line-chart-top-buttons-balance").classList.remove("line-chart-top-button-unselected")
-      document.getElementById(`line-chart-top-buttons-balance`).classList.add("line-chart-top-button-selected")
-    }
-    else {
-      document.getElementById("line-chart-top-buttons-balance").classList.remove("line-chart-top-button-selected")
-      document.getElementById(`line-chart-top-buttons-balance`).classList.add("line-chart-top-button-unselected")
-
-      document.getElementById("line-chart-top-buttons-fiat").classList.remove("line-chart-top-button-unselected")
-      document.getElementById(`line-chart-top-buttons-fiat`).classList.add("line-chart-top-button-selected")
-    }
-  }
-
-
-  function updateChart() {
-
   }
 
   
