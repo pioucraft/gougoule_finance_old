@@ -6,7 +6,10 @@
   import { getCookie } from 'svelte-cookie';
 
   let balance = "Loading..."
-  let balanceInLocalCurrency = "Loading..."
+  let balanceInLocalCurrency = ""
+  
+  let profitColor = "red"
+  let profit = ""
 
   let url = import.meta.env.VITE_BACKEND_URL
   onMount(async () => {
@@ -16,12 +19,20 @@
 
     let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
     let defaultCurrency = await axios.post(`${url}/api/defaultCurrency`, fetchBody)
-
-    balance = "$"+balanceHistory.data[0].balance.toFixed(2)
-    balanceInLocalCurrency = `${balanceHistory.data[0].balance * defaultCurrency.data.price} ${defaultCurrency.data.defaultcurrency}`
     
-    console.log(balanceHistory)
-    console.log(defaultCurrency)
+    let balanceHistoryArray = balanceHistory.data.reverse()
+
+    balance = "$"+balanceHistoryArray[0].balance.toFixed(2)
+    balanceInLocalCurrency = `${(balanceHistoryArray[0].balance * defaultCurrency.data.price).toFixed(2)} ${defaultCurrency.data.defaultcurrency}`
+    
+    let balanceDiference = (balanceHistoryArray[0].balance - balanceHistoryArray[1].balance).toFixed(2)
+    let profitPercentage = ((balanceDiference / balanceHistoryArray[0].balance) * 100).toFixed(2)
+    
+    if(balanceDiference > 0){
+      profitColor = "green"
+    }
+
+    profit = `(${balanceDiference}$; ${profitPercentage}%)`
 
     const xValues = ["Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", ""];
     const yValues = [55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30];
@@ -57,12 +68,12 @@
   
 
 
-  let profitColor = "red"
+  
 </script>
 
 <div class="home">
   <div class="money">
-    <p class="money-and-profit">{balance} <span class="profit" style="color: {profitColor};">(-10$; -0.87%)</span></p> 
+    <p class="money-and-profit">{balance} <span class="profit" style="color: {profitColor};">{profit}</span></p> 
     <p class="money-with-prefered-currency">{balanceInLocalCurrency}</p>
   </div>
   <div class="assets">
