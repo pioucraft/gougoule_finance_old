@@ -34,8 +34,15 @@
 
     profit = `(${balanceDiference}$; ${profitPercentage}%)`
 
-    const xValues = ["Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", ""];
-    const yValues = [55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30];
+    let xValues = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland", "Italy", "France", "Spain", "USA", "Switzerland"];
+    let yValues = [55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30, 55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30];
+    xValues = []
+    yValues = []
+    for(let i = 0; i<150;i++) {
+      xValues.push(i)
+      yValues.push(Math.random()*i)
+    }
+    
     let borderColor = "#fc847b"
     const myChart = new Chart("lineChart", {
         type: "line",
