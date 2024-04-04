@@ -16,6 +16,20 @@
   var assets = [["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10], ["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10]]
   var balanceHistoryArray = []
 
+  var transactions = [
+    {
+      "id": 1,
+      "amount": 0,
+      "date": "2024-04-02T22:00:00.000Z",
+      "type": "f",
+      "symbol": "Loading...",
+      "name": "Loading...",
+      "accountid": 1
+    }
+  ]
+
+  var accounts = {1: "Loading..."}
+
   var defaultCurrency = {
                           "defaultcurrency": "USD",
                           "price": 1
@@ -35,6 +49,14 @@
 
     let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
     defaultCurrency = (await axios.post(`${url}/api/defaultCurrency`, fetchBody)).data
+    transactions = (await axios.post(`${url}/api/getTransactions`, fetchBody)).data
+    let fetchedAccounts = (await axios.post(`${url}/api/getAccounts`, fetchBody)).data
+    fetchedAccounts.forEach(fetchedAccount => {
+      accounts[fetchedAccount.id] = fetchedAccount.name
+    })
+
+    transactions = transactions.sort((a, b) => (b.id - a.id))
+    console.log(transactions)
     
     balanceHistoryArray = balanceHistory.data.reverse()
 
@@ -162,15 +184,7 @@
         plugins: { 
           legend: { display: false },// Specify the 'plugins' section
           tooltip: { 
-            enabled: true,
-            callbacks: {
-              label: function (context) { // Use 'context' instead of tooltipItem/data
-                let country = xValues[context.dataIndex];
-                let value = yValues[context.dataIndex];
-
-                return `You spent ${context.dataIndex}`;
-              }
-            }
+            enabled: false
           }
         }
         }
@@ -221,89 +235,22 @@
     </div>
   </div>
   <div class="history">
-    <div class="history-transaction">
-      <h3 style="color: red;">-13.5 CHF</h3>
-      <h4>Buy potatoes</h4>
-      
-      <div>
-        <h4>March 21st 2024</h4>
-        <h4 style="color: gray;">Account 1</h4>
+    {#each transactions as transaction}
+      <div class="history-transaction">
+        {#if (transaction.amount > 0)}
+          <h3 style="color: green;">{transaction.amount} {transaction.symbol}</h3>
+        {:else}
+          <h3 style="color: red;">{transaction.amount} {transaction.symbol}</h3>
+        {/if}
+        
+        <h4>{transaction.name}</h4>
+        
+        <div>
+          <h4>{new Date(transaction.date).toDateString()}</h4>
+          <h4 style="color: gray;">{accounts[transaction.accountid]}</h4>
+        </div>
       </div>
-    </div>
-
-    <div class="history-transaction">
-      
-
-      <h3 style="color: red;">-13.5 CHF</h3>
-      <h4>Buy potatoes</h4>
-      
-      <div>
-        <h4>March 21st 2024</h4>
-        <h4 style="color: gray;">Account 1</h4>
-      </div>
-    </div>
-
-    <div class="history-transaction">
-      <h3 style="color: red;">-13.5 CHF</h3>
-      <h4>Buy potatoes</h4>
-      
-      <div>
-        <h4>March 21st 2024</h4>
-        <h4 style="color: gray;">Account 1</h4>
-      </div>
-    </div>
-
-    <div class="history-transaction">
-      <h3 style="color: red;">-13.5 CHF</h3>
-      <h4>Buy potatoes</h4>
-      
-      <div>
-        <h4>March 21st 2024</h4>
-        <h4 style="color: gray;">Account 1</h4>
-      </div>
-    </div>
-
-    <div class="history-transaction">
-      
-
-      <h3 style="color: red;">-13.5 CHF</h3>
-      <h4>Buy potatoes</h4>
-      
-      <div>
-        <h4>March 21st 2024</h4>
-        <h4 style="color: gray;">Account 1</h4>
-      </div>
-    </div>
-
-    <div class="history-transaction">
-      <h3 style="color: red;">-13.5 CHF</h3>
-      <h4>Buy potatoes</h4>
-      
-      <div>
-        <h4>March 21st 2024</h4>
-        <h4 style="color: gray;">Account 1</h4>
-      </div>
-    </div>
-
-    <div class="history-transaction">
-      <h3 style="color: red;">-13.5 CHF</h3>
-      <h4>Buy potatoes</h4>
-      
-      <div>
-        <h4>March 21st 2024</h4>
-        <h4 style="color: gray;">Account 1</h4>
-      </div>
-    </div>
-
-    <div class="history-transaction">
-      <h3 style="color: red;">-13.5 CHF</h3>
-      <h4>Buy potatoes</h4>
-      
-      <div>
-        <h4>March 21st 2024</h4>
-        <h4 style="color: gray;">Account 1</h4>
-      </div>
-    </div>
+    {/each}
   </div>
 </div>
 
