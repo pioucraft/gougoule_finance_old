@@ -8,19 +8,22 @@ export async function calculateBalance() {
     let transactions = (await DBClient.query("SELECT * FROM transactions")).rows;
     
     for(let transaction of transactions) {
-        let converter = (await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = $2", [transaction.symbol, transaction.type])).rows[0]
-        let currencyToUsd = (await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = 'f'", [converter.currency])).rows[0].price;
-        let amountInUsd = (transaction.amount * converter.price/currencyToUsd);
-        if(transaction.type == "f") amountInUsd = transaction.amount / converter.price;
+        try {
+            let converter = (await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = $2", [transaction.symbol, transaction.type])).rows[0]
+            let currencyToUsd = (await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = 'f'", [converter.currency])).rows[0].price;
+            let amountInUsd = (transaction.amount * converter.price/currencyToUsd);
+            if(transaction.type == "f") amountInUsd = transaction.amount / converter.price;
 
 
-        if(accountsBalance[transaction.accountid]) accountsBalance[transaction.accountid] += amountInUsd;
-        else accountsBalance[transaction.accountid] = amountInUsd;
+            if(accountsBalance[transaction.accountid]) accountsBalance[transaction.accountid] += amountInUsd;
+            else accountsBalance[transaction.accountid] = amountInUsd;
 
-        if(!accountsPortfolios[transaction.accountid]) accountsPortfolios[transaction.accountid] = {};
+            if(!accountsPortfolios[transaction.accountid]) accountsPortfolios[transaction.accountid] = {};
 
-        if(!accountsPortfolios[transaction.accountid][`${transaction.symbol}:${transaction.type}`]) accountsPortfolios[transaction.accountid][`${transaction.symbol}:${transaction.type}`] = amountInUsd;
-        else accountsPortfolios[transaction.accountid][`${transaction.symbol}:${transaction.type}`] += amountInUsd;
+            if(!accountsPortfolios[transaction.accountid][`${transaction.symbol}:${transaction.type}`]) accountsPortfolios[transaction.accountid][`${transaction.symbol}:${transaction.type}`] = amountInUsd;
+            else accountsPortfolios[transaction.accountid][`${transaction.symbol}:${transaction.type}`] += amountInUsd;
+        }
+        catch(err) {}
 
         
     }

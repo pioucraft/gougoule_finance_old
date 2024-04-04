@@ -1,19 +1,37 @@
 <script>
+  import axios from 'axios';
   import Chart from 'chart.js/auto';
   
   import { onMount } from 'svelte';
+  import { getCookie } from 'svelte-cookie';
 
+  let balance = "Loading..."
+  let balanceInLocalCurrency = "Loading..."
 
-  const xValues = ["Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", ""];
-  const yValues = [55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30];
-  onMount(() => {
+  let url = import.meta.env.VITE_BACKEND_URL
+  onMount(async () => {
+    let password = getCookie("password")
+    let email = getCookie("email")
+    let fetchBody = JSON.stringify({"email": email, "password": password})
+
+    let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
+    let defaultCurrency = await axios.post(`${url}/api/defaultCurrency`, fetchBody)
+
+    balance = "$"+balanceHistory.data[0].balance.toFixed(2)
+    balanceInLocalCurrency = `${balanceHistory.data[0].balance * defaultCurrency.data.price} ${defaultCurrency.data.defaultcurrency}`
+    
+    console.log(balanceHistory)
+    console.log(defaultCurrency)
+
+    const xValues = ["Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", "", "Italy", "", "", "", ""];
+    const yValues = [55, 54, 53, 52, 51, 52, 50, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 30, 37, 35, 34, 34, 33, 34, 35, 32, 30, 31, 25, 30];
+    let borderColor = "#fc847b"
     const myChart = new Chart("lineChart", {
         type: "line",
         data: {
           labels: xValues,
           datasets: [{
-            
-            borderColor: "#fc847b",
+            borderColor: borderColor,
             data: yValues
           }]
         },
@@ -44,8 +62,8 @@
 
 <div class="home">
   <div class="money">
-    <p class="money-and-profit">1378$ <span class="profit" style="color: {profitColor};">(-10$; -0.87%)</span></p> 
-    <p class="money-with-prefered-currency">1267 CHF</p>
+    <p class="money-and-profit">{balance} <span class="profit" style="color: {profitColor};">(-10$; -0.87%)</span></p> 
+    <p class="money-with-prefered-currency">{balanceInLocalCurrency}</p>
   </div>
   <div class="assets">
     <p>Assets :</p>
