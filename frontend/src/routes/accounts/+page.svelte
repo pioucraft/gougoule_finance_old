@@ -45,6 +45,9 @@
         justify-content: space-between;
         padding-right: 1em;
         padding-left: 1em;
+        background-color: white;
+        border: none;
+        cursor: pointer;
     }
 
     .accounts-accountCard-balances {
@@ -69,16 +72,16 @@
 
 <div id="accounts">
     {#each accounts as account}
-        <div class="accounts-accountCard">
+        <button class="accounts-accountCard" on:click={() => goto((`/account/${account.id}`))}>
             <h2 class="accounts-accountCard-title">{account.name}</h2>
             <div class="accounts-accountCard-balances">
                 <h3 class="accounts-accountCard-balance">${account.balance.toFixed(2)}</h3>
             </div>
-        </div>
+        </button>
     {/each}
     
     
-    <div on:click={() => goto("/addAccount")} class="accounts-accountCard" id="accounts-addAccount">
+    <button on:click={() => goto("/addAccount")} class="accounts-accountCard" id="accounts-addAccount">
         <h2>Add an account</h2>
-    </div>
+    </button>
 </div>
