@@ -44,7 +44,6 @@
     }
 
     #addTransaction-account {
-        height: 4em;
         width: 100%;
     }
 
@@ -57,7 +56,7 @@
         padding-left: 1rem;
         align-items: center;
         width: calc(100%);
-        height: 100%;
+        height: 4rem;
     }
 
     #addTransactionbutton {

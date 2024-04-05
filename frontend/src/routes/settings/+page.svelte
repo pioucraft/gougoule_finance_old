@@ -80,9 +80,13 @@
     async function changeDefaultCurrency() {
         let password = getCookie("password")
         let email = getCookie("email")
-        let fetchBody = {"email": email, "password": password, "defaultCurrency": defaultCurrency}
+        let fetchBody = {"email": email, "password": password, "defaultCurrency": defaultCurrency.toUpperCase()}
         console.log(fetchBody)
-        // WHY ARE ***** PATCH REQUESTS NOT WORKING???
-        await axios.patch(`${url}/api/defaultCurrency`, fetchBody)
+        try {
+            await axios.put(`${url}/api/defaultCurrency`, JSON.stringify(fetchBody))
+        }
+        catch(err) {
+            alert("Error")
+        }
     }
 </script>

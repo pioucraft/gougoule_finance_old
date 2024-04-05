@@ -10,7 +10,7 @@ export async function defaultCurrency(req) {
     }
     
     if (req.method == "POST") return await getDefaultCurrency(body)
-    else if(req.method == "PATCH") return await changeDefaultCurrency(body)
+    else if(req.method == "PUT") return await changeDefaultCurrency(body)
 }
 
 async function changeDefaultCurrency(body) {
