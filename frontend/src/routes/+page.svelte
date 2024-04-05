@@ -63,14 +63,19 @@
     balance = "$"+balanceHistoryArray[0].balance.toFixed(2)
     balanceInLocalCurrency = `${(balanceHistoryArray[0].balance * defaultCurrency.price).toFixed(2)} ${defaultCurrency.defaultcurrency}`
     
-    let balanceDiference = (balanceHistoryArray[0].balance - balanceHistoryArray[1].balance).toFixed(2)
-    let profitPercentage = ((balanceDiference / balanceHistoryArray[0].balance) * 100).toFixed(2)
-    
-    if(balanceDiference > 0){
-      profitColor = "green"
+    try {
+      let balanceDiference = (balanceHistoryArray[0].balance - balanceHistoryArray[1].balance).toFixed(2)
+      let profitPercentage = ((balanceDiference / balanceHistoryArray[0].balance) * 100).toFixed(2)
+      
+      if(balanceDiference > 0){
+        profitColor = "green"
+      }
+  
+      profit = `(${balanceDiference}$; ${profitPercentage}%)`
     }
-
-    profit = `(${balanceDiference}$; ${profitPercentage}%)`
+    catch(err) {
+      profit = ""
+    }
 
     let portfolio = Object.entries(JSON.parse(balanceHistoryArray[0].portfolio))
     assets = [["Other", 0]]

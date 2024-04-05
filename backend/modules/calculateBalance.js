@@ -97,8 +97,8 @@ async function fetchQuotes() {
     console.log("FINISHED UPDATING STOCKS PRICES")
 }
 
-await calculateBalance()
-//await fetchQuotes()
+//await calculateBalance()
+await fetchQuotes()
 
 setInterval(() => {
     fetchQuotes()

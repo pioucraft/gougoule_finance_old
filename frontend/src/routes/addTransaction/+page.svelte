@@ -103,7 +103,7 @@
                 <option value="s">Stock</option>
                 <option value="c">Cryptocurrency</option>
             </select>
-            <input placeholder="Symbol" type="text" id="addTransaction-amount-symbol">
+            <input placeholder="Symbol" bind:value={symbol} type="text" id="addTransaction-amount-symbol">
         </div>
     </div>
 
@@ -127,6 +127,8 @@
     import { onMount } from 'svelte';
 
     var url = import.meta.env.VITE_BACKEND_URL
+    
+    var symbol = "Loading..."
 
     var accounts = [
                         {
@@ -140,13 +142,13 @@
         let name = document.getElementById('addTransaction-name-input').value;
         let amount = document.getElementById('addTransaction-amount-amount').value;
         let type = document.getElementById('addTransaction-amount-type').value;
-        let symbol = document.getElementById('addTransaction-amount-symbol').value.toUpperCase();
         let accountId = document.getElementById('addTransaction-account-input').value;
-
 
         let password = getCookie("password")
         let email = getCookie("email")
-        let fetchBody = JSON.stringify({"email": email, "password": password, "name": name, "amount": amount, "type": type, "symbol": symbol, "accountId": accountId})
+
+        
+        let fetchBody = JSON.stringify({"email": email, "password": password, "name": name, "amount": amount, "type": type, "symbol": symbol.toUpperCase(), "accountId": accountId})
         console.log(fetchBody)
         try {
             await axios.post(`${url}/api/transaction`, fetchBody)
@@ -163,5 +165,6 @@
         let fetchBody = JSON.stringify({"email": email, "password": password})
 
         accounts = (await axios.post(`${url}/api/getAccounts`, fetchBody)).data
+        symbol = (await axios.post(`${url}/api/defaultCurrency`, fetchBody)).data.defaultcurrency
     })
 </script>
