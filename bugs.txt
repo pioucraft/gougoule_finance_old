@@ -1,3 +1,0 @@
-when deleting account, if transactions inside account, everything is broken.
-fix : 
-delete all transactions from the account and recalculate the balance
