@@ -95,6 +95,7 @@
         justify-content: space-between;
         gap: 1em;
         padding: 0.7em;
+        margin-left: 1rem;
     }
 
     #leftBar-top {

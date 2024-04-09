@@ -33,6 +33,8 @@
         grid-template-rows: repeat(auto-fill, 5em);
         grid-gap: 1rem;
         align-items: stretch;
+        overflow-y: scroll;
+        padding-bottom: 5rem;
     }
 
     .accounts-accountCard {
@@ -66,7 +68,12 @@
     @media (max-width: 60em) {
         #accounts {
             grid-template-columns: auto;
+            grid-template-rows: auto;
+            grid-gap: 1rem;
         }
+    }
+
+    @media (max-width: 75rem) {
     }
 </style>
 

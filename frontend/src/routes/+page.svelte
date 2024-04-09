@@ -509,16 +509,11 @@
   }
 
   @media (max-width: 75rem) {
-    :global(body) {
-      padding: 0;
-    }
-
     .home {
       display: flex;
       flex-direction: column;
       overflow-y: scroll;
       width: 100vw;
-      height: calc(100vh-4rem);
     }
 
     .history {

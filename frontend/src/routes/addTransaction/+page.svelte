@@ -67,9 +67,6 @@
     }
 
     @media (max-width: 75rem) {
-        :global(body) {
-            padding: 0;
-        }
 
         #addTransaction {
             margin: 0;
