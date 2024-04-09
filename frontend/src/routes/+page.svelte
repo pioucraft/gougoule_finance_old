@@ -58,7 +58,7 @@
     transactions = transactions.sort((a, b) => (b.id - a.id))
     console.log(transactions)
     
-    balanceHistoryArray = balanceHistory.data.reverse()
+    balanceHistoryArray = balanceHistory.data.reverse().sort((a, b) => new Date(b.date) - new Date(a.date))
 
     balance = "$"+balanceHistoryArray[0].balance.toFixed(2)
     balanceInLocalCurrency = `${(balanceHistoryArray[0].balance * defaultCurrency.price).toFixed(2)} ${defaultCurrency.defaultcurrency}`
