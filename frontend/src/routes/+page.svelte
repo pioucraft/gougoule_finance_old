@@ -518,7 +518,7 @@
 
     .history {
       overflow: visible;
-      margin-bottom: 5rem;
+      margin-bottom: 10rem;
     }
 
     .money {

@@ -59,7 +59,7 @@
         grid-gap: 1rem;
         align-items: stretch;
         overflow-y: scroll;
-        padding-bottom: 5rem;
+        padding-bottom: 10rem;
     }
 
     .accounts-accountCard {

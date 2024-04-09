@@ -79,7 +79,7 @@
         }
 
         #addTransactionbutton {
-            margin-bottom: 5rem;
+            margin-bottom: 10rem;
         }
     }
 
