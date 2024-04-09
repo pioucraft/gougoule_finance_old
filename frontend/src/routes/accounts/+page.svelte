@@ -41,9 +41,11 @@
         let password = getCookie("password")
         let email = getCookie("email")
         let fetchBody = JSON.stringify({"email": email, "password": password, "id": accountId})
-
-        await axios.patch(`${url}/api/account`, fetchBody)
-        accounts = (await axios.post(`${url}/api/getAccounts`, fetchBody)).data
+        if(confirm("Are you sure")) {
+            await axios.patch(`${url}/api/account`, fetchBody)
+            accounts = (await axios.post(`${url}/api/getAccounts`, fetchBody)).data
+        }
+        
     }
 </script>
 
