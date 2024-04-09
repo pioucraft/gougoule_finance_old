@@ -530,6 +530,10 @@
     .money * {
       margin: 0;
     }
+
+    #line-chart-bottom-buttons button {
+      font-size: small;
+    }
   }
 
 </style>
