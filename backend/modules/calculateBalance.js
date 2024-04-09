@@ -66,7 +66,11 @@ export async function calculateBalance() {
 async function fetchQuotes() {
     console.log("STARTING TO UPDATE STOCKS PRICES")
     //update stocks prices
-    let stocks = await (await fetch(`https://financialmodelingprep.com/api/v3/stock/list?apikey=${process.env.FINANCIAL_MODELING_PREP_API}`)).json()
+    let stocks = await (await fetch(`https://financialmodelingprep.com/api/v3/stock/list?apikey=${process.env.FINANCIAL_MODELING_PREP_API}`, {
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+    })).json()
     let listOfOwnedStocks = (await DBClient.query("SELECT * FROM converter WHERE currency IS NOT NULL AND type = 's';")).rows.map(x => x["symbol"])
     for(let i=0;i<stocks.length;i++) {
         let stock = stocks[i]
@@ -76,7 +80,11 @@ async function fetchQuotes() {
     }
 
     //update crypto prices
-    let cryptos = await (await fetch("https://api.binance.com/api/v3/ticker/price")).json()
+    let cryptos = await (await fetch(`https://api.binance.com/api/v3/ticker/price`, {
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+    })).json()
     for(let i=0;i<cryptos.length;i++) {
         let crypto = cryptos[i]
         if(crypto.symbol.endsWith("USDT")) {
