@@ -10,8 +10,8 @@ export async function transaction(req) {
     }
 
     if(req.method == "POST") return await createTransaction(body)
-    else if(req.method == "PATCH") return await modifyTransaction(body)
-    else if(req.method == "DELETE") return await deleteTransaction(body)
+    else if(req.method == "PUT") return await modifyTransaction(body)
+    else if(req.method == "PATCH") return await deleteTransaction(body)
 }
 
 async function createTransaction(body) {

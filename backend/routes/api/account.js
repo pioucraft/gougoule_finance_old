@@ -9,8 +9,8 @@ export async function account(req) {
     }
 
     if(req.method == "POST") return await createAccount(body)
-    else if(req.method == "PATCH") return await modifyAccount(body)
-    else if(req.method == "DELETE") return await deleteAccount(body)
+    else if(req.method == "PUT") return await modifyAccount(body)
+    else if(req.method == "PATCH") return await deleteAccount(body)
 }
 
 async function createAccount(body) {
