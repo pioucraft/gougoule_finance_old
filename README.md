@@ -45,6 +45,8 @@ You will then need to run
 
 in the frontend and backend folders
 
+Before building the app, you'll have to create a 'backups' folder inside the backend folder, where you will store all your backups.
+
 Finally, you will need to build the sveltekit app :
 
 `bun run build` (inside the frontend folder)

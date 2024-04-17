@@ -21,8 +21,8 @@ async function fetchHandler(req) {
 }
 
 //await calculateBalance()
-await fetchQuotes()
 await backup()
+await fetchQuotes()
 
 setInterval(async () => {
     await fetchQuotes()
