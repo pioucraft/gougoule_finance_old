@@ -10,7 +10,6 @@ export async function backup() {
     
         const listOfFiles = await opendir("./backups")
         for await(let file of listOfFiles) {
-            console.log(file.name)
             lowestFileNumber = Number(file.name.split(".")[0]) < Number(lowestFileNumber.split(".")[0]) || lowestFileNumber == "" ? file.name : lowestFileNumber
         }
         await unlinkSync(`./backups/${lowestFileNumber}`)
@@ -18,7 +17,6 @@ export async function backup() {
     }
     catch(err) {
         // if error, it means that there is no directory or the directory is empty
-        console.log("error")
         for(let i=0;i<=Number(process.env.HOW_MANY_BACKUP_TO_KEEP)-1;i++ ) await Bun.write(`./backups/${i}.backup`, "")
         
         lowestFileNumber = "-1.backup"
