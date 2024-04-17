@@ -63,7 +63,7 @@ export async function calculateBalance() {
     }
 }
 
-async function fetchQuotes() {
+export async function fetchQuotes() {
     console.log("STARTING TO UPDATE STOCKS PRICES")
     //update stocks prices
     let stocks = await (await fetch(`https://financialmodelingprep.com/api/v3/stock/list?apikey=${process.env.FINANCIAL_MODELING_PREP_API}`, {
@@ -104,10 +104,3 @@ async function fetchQuotes() {
     await calculateBalance()
     console.log("FINISHED UPDATING STOCKS PRICES")
 }
-
-//await calculateBalance()
-await fetchQuotes()
-
-setInterval(() => {
-    fetchQuotes()
-}, 1000*60*60*6);
