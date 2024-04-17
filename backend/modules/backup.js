@@ -22,13 +22,13 @@ export async function backup() {
         lowestFileNumber = "-1.backup"
     }
 
-    let usersFromDB = (await DBClient.query("SELECT * FROM users;")).rows
-    let accountsFromDB = (await DBClient.query("SELECT * FROM accounts;")).rows
-    let transactionsFromDB = (await DBClient.query("SELECT * FROM transactions;")).rows
-    let balanceHistoryFromDB = (await DBClient.query("SELECT * FROM balancehistory;")).rows
-    let defaultCurrency = (await DBClient.query("SELECT * FROM defaultcurrency;")).rows
+    let users = (await DBClient.query("SELECT * FROM users;")).rows
+    let accounts = (await DBClient.query("SELECT * FROM accounts;")).rows
+    let transactions = (await DBClient.query("SELECT * FROM transactions;")).rows
+    let balancehistory = (await DBClient.query("SELECT * FROM balancehistory;")).rows
+    let defaultcurrency = (await DBClient.query("SELECT * FROM defaultcurrency;")).rows
 
-    let backupData = {"usersFromDB": usersFromDB, "accountsFromDB": accountsFromDB, "transactionsFromDB" : transactionsFromDB, "balanceHistoryFromDB": balanceHistoryFromDB, "defaultCurrency": defaultCurrency}
+    let backupData = {"users": users, "accounts": accounts, "transactions" : transactions, "balancehistory": balancehistory, "defaultcurrency": defaultcurrency}
 
     await Bun.write(`./backups/${Number(lowestFileNumber.split(".")[0])+Number(process.env.HOW_MANY_BACKUP_TO_KEEP)}.backup`, JSON.stringify(backupData))
 
