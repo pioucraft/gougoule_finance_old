@@ -71,4 +71,4 @@ and
 
 `bun run preview` (inside the frontend folder)
 
-in two different terminals and enjoy (don't forget to setup ProxyPass with apache2)!
+in two different terminals, and enjoy (don't forget to setup ProxyPass with apache2)!
