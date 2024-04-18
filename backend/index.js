@@ -1,5 +1,6 @@
 import { api } from "./routes/api"
-import { calculateBalance } from "./modules/calculateBalance";
+import { fetchQuotes } from "./modules/calculateBalance";
+import { backup } from "./modules/backup";
 
 Bun.serve({
     port: 3000,
@@ -18,3 +19,12 @@ async function fetchHandler(req) {
         return await api(req)
     }
 }
+
+//await calculateBalance()
+await backup()
+await fetchQuotes()
+
+setInterval(async () => {
+    await fetchQuotes()
+    await backup()
+}, 1000*60*60*6);
