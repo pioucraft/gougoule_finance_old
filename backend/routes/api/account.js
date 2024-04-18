@@ -1,5 +1,6 @@
 import { loginFunction } from "../../modules/login"
 import { DBClient } from "../../modules/db"
+import { calculateBalance } from "../../modules/calculateBalance"
 
 export async function account(req) {
     let body = await req.json()
@@ -27,6 +28,16 @@ async function modifyAccount(body) {
 
 async function deleteAccount(body) {
     let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
-    await DBClient.query("DELETE FROM accounts WHERE id = $1 AND userid = $2", [body.id, userId])
+        
+    if((await DBClient.query(`SELECT * FROM accounts WHERE id = $1 AND userid = $2`, [body.id, userId])).rows.length) {
+        await DBClient.query("DELETE FROM accounts WHERE id = $1", [body.id])
+        await DBClient.query("DELETE FROM transactions WHERE accountid = $1", [body.id])
+        await calculateBalance()
+    }
+    else {
+        return new Response("401 Unauthorized", {status: 401})
+    }
+    
+    
     return new Response("200 Success")
 }
