@@ -15,6 +15,7 @@
     var profitColor = "red"
     var profit = ""
   
+    var portfolio = [["USD", 0]]
     var assets = [["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10], ["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10]]
     var balanceHistoryArray = []
   
@@ -79,7 +80,7 @@
       }
       
   
-      let portfolio = Object.entries(JSON.parse(balanceHistoryArray[0].portfolio))
+      portfolio = Object.entries(JSON.parse(balanceHistoryArray[0].portfolio))
       assets = [["Other", 0]]
       for(let asset of portfolio) {
         if(asset[1]/balanceHistoryArray[0].balance*100 < 10) {
@@ -212,6 +213,14 @@
         {#each assets as asset}
           <div style="width: {asset[1]}%;" class="assets-{assets.indexOf(asset)} asset"><p>{asset[0]}</p></div>
         {/each}
+      </div>
+
+      <div class="assets-hover">
+        <ul>
+          {#each portfolio as asset}
+            <li>{asset[0].split(":")[0]} : {asset[1].toFixed(2)} USD</li>
+          {/each}
+        </ul>
       </div>
     </div>
     <div class="line-chart">
@@ -478,6 +487,20 @@
       white-space: nowrap;
       overflow: hidden;
     }
+
+  .assets-hover {
+    display: none;
+  }
+
+  #assets-graph:hover + .assets-hover {
+    display: flex;
+    background-color: #6c6c6c;
+    color: #ececec;
+    padding: 1rem;
+    border-radius: 0.7rem;
+    top: 1vh;
+    z-index: 1;
+  }
   
     .assets-0 {
       background-color: aqua;
