@@ -99,5 +99,9 @@ async function deleteUser() {
         }
     ])
 
+    await DBClient.query("DELETE FROM users WHERE name = $1", [userData.name]);
+
+    console.log("Success !")
+
     DBClient.end()
 }
