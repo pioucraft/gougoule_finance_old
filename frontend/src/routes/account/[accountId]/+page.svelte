@@ -56,7 +56,6 @@
       
   
   
-      let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
       
       let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
       defaultCurrency = (await axios.post(`${url}/api/defaultCurrency`, fetchBody)).data
