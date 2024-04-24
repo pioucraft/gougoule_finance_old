@@ -15,8 +15,8 @@
     var profitColor = "red"
     var profit = ""
   
-    var portfolio = [["USD", 0]]
-    var assets = [["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10], ["LOGN.SW", 10], ["NVDA", 10], ["CHF", 10], ["USD", 10], ["LOGN.SW", 10]]
+    var portfolio = [["Loading...", 0]]
+    var assets = [["Loading...", 100]]
     var balanceHistoryArray = []
   
     var transactions = [
@@ -55,6 +55,9 @@
       }
       
   
+  
+      let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
+      
       let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
       defaultCurrency = (await axios.post(`${url}/api/defaultCurrency`, fetchBody)).data
       transactions = (await axios.post(`${url}/api/getTransactions`, fetchBody)).data
