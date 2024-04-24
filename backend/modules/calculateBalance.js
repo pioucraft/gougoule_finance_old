@@ -98,7 +98,7 @@ export async function fetchQuotes() {
         let symbol = crypto.symbol.split("USDT")[0]
 
         if(crypto.symbol.endsWith("USDT")) {
-            await DBClient.query("INSERT INTO converter (type, name, symbol, price) VALUES ('c', $1, $2, $3)", [symbol, symbol, crypto["price"]])
+            await DBClient.query("INSERT INTO converter (type, name, symbol, price, currency) VALUES ('c', $1, $2, $3, 'USD')", [symbol, symbol, crypto["price"]])
         }
     }
 
@@ -108,7 +108,7 @@ export async function fetchQuotes() {
     await DBClient.query("DELETE FROM converter WHERE type = 'f'")
     for(let i=0;i<forexes.length;i++) {
         let forex = forexes[i]
-        await DBClient.query("INSERT INTO converter (type, name, symbol, price) VALUES ('f', $1, $2, $3)", [forex[0], forex[0], forex[1]])
+        await DBClient.query("INSERT INTO converter (type, name, symbol, price, currency) VALUES ('f', $1, $2, $3, 'USD')", [forex[0], forex[0], forex[1]])
     }
 
     await calculateBalance()
