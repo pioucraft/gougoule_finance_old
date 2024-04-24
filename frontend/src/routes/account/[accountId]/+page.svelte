@@ -46,9 +46,14 @@
   
     var url = import.meta.env.VITE_BACKEND_URL
     onMount(async () => {
+      console.log("AHHHHH")
       let password = getCookie("password")
       let email = getCookie("email")
-      let fetchBody = JSON.stringify({"email": email, "password": password, "account": data.accountId})
+      let fetchBody = JSON.stringify({"email": email, "password": password})
+      if(data.accountId != "main") {
+        fetchBody = JSON.stringify({"email": email, "password": password, "account": data.accountId})
+      }
+      
   
       let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
       defaultCurrency = (await axios.post(`${url}/api/defaultCurrency`, fetchBody)).data

@@ -1,6 +1,6 @@
-<div id="leftBar">
+<div id="leftBar" >
     <div id="leftBar-top">
-        <a href="/" class="transparentButton leftBarButton" on:click={() => changePressedButton("home")} id="leftBar-homeButton">Home</a>
+        <a data-sveltekit-reload href="/account/main" class="transparentButton leftBarButton" on:click={() => changePressedButton("home")} id="leftBar-homeButton">Home</a>
         <a href="/accounts" class="transparentButton leftBarButton" on:click={() => changePressedButton("accounts")} id="leftBar-accountsButton">Accounts</a>
         <a href="/settings" class="transparentButton leftBarButton" on:click={() => changePressedButton("settings")} id="leftBar-settingsButton">Settings</a>
         <a href="/addTransaction" class="transparentButton leftBarButton" on:click={() => changePressedButton("addTransaction")} id="leftBar-addTransaction">Add a transaction</a>
@@ -9,8 +9,8 @@
 
     <a href="/user" class="transparentButton leftBarButton" on:click={() => changePressedButton("user")} id="leftBar-userButton"><svg id="leftBar-userButton-svg" data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke-linecap="round" stroke-linejoin="round"></path></svg> {username}</a>
 </div>
-<div id="bottomBar">
-    <a href="/" class="bottomBar-item">
+<div id="bottomBar" >
+    <a data-sveltekit-reload href="/account/main" class="bottomBar-item">
         <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
