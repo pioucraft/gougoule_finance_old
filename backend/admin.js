@@ -72,9 +72,6 @@ async function modifyUser() {
         }
     ])
 
-    if(userData.name) {
-        await DBClient.query("UPDATE users SET name = $1 WHERE name = $2", [userData.name, userData.oldName]);
-    }
     if(userData.email) {
         await DBClient.query("UPDATE users SET email = $1 WHERE name = $2", [userData.email, userData.oldName]);
     }
@@ -85,6 +82,9 @@ async function modifyUser() {
     if(userData.password) {
         userData.password = await Bun.password.hash(sha256(userData.password));
         await DBClient.query("UPDATE users SET password = $1 WHERE name = $2", [userData.password, userData.oldName]);
+    }
+    if(userData.name) {
+        await DBClient.query("UPDATE users SET name = $1 WHERE name = $2", [userData.name, userData.oldName]);
     }
     console.log("Success !")
 
