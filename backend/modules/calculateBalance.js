@@ -65,15 +65,22 @@ export async function calculateBalance() {
 
 export async function fetchQuotes() {
     console.log("STARTING TO UPDATE STOCKS PRICES")
+
+    let listOfSymbols = (await DBClient.query("SELECT * FROM converter")).rows.map(x => x["symbol"])
+
     //update stocks prices
     let stocks = await (await fetch(`https://financialmodelingprep.com/api/v3/stock/list?apikey=${process.env.FINANCIAL_MODELING_PREP_API}`, {
         headers: {
           'Cache-Control': 'no-cache'
         }
     })).json()
+    
     let listOfOwnedStocks = (await DBClient.query("SELECT * FROM converter WHERE currency IS NOT NULL AND type = 's';")).rows.map(x => x["symbol"])
     for(let i=0;i<stocks.length;i++) {
         let stock = stocks[i]
+        if(!listOfSymbols.includes(stock["symbol"])) {
+            await DBClient.query(`INSERT INTO converter (type, name, symbol, price) VALUES ('s', $1, $2, $3)`, [stock["name"], stock["symbol"], stock["price"]])
+        }
         if(listOfOwnedStocks.includes(stock["symbol"])) {
             await DBClient.query("UPDATE converter SET price = $1 WHERE symbol = $2 AND type = 's';", [stock["price"], stock["symbol"]])
         }
@@ -85,20 +92,23 @@ export async function fetchQuotes() {
           'Cache-Control': 'no-cache'
         }
     })).json()
+    await DBClient.query("DELETE FROM converter WHERE type = 'c'")
     for(let i=0;i<cryptos.length;i++) {
         let crypto = cryptos[i]
+        let symbol = crypto.symbol.split("USDT")[0]
+
         if(crypto.symbol.endsWith("USDT")) {
-            let symbol = crypto.symbol.split("USDT")[0]
-            await DBClient.query("UPDATE converter SET price = $1 WHERE symbol = $2 AND type = 'c';", [crypto.price, symbol])
+            await DBClient.query("INSERT INTO converter (type, name, symbol, price) VALUES ('c', $1, $2, $3)", [symbol, symbol, crypto["price"]])
         }
     }
 
     //update forex prices
 
     let forexes = Object.entries((await (await fetch("https://api.exchangerate-api.com/v4/latest/USD")).json())["rates"])
+    await DBClient.query("DELETE FROM converter WHERE type = 'f'")
     for(let i=0;i<forexes.length;i++) {
         let forex = forexes[i]
-        await DBClient.query("UPDATE converter SET price = $1 WHERE symbol = $2 AND type = 'f'", [forex[1], forex[0]])
+        await DBClient.query("INSERT INTO converter (type, name, symbol, price) VALUES ('f', $1, $2, $3)", [forex[0], forex[0], forex[1]])
     }
 
     await calculateBalance()
