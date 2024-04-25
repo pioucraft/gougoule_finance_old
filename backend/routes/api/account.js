@@ -22,6 +22,7 @@ async function createAccount(body) {
 
 async function modifyAccount(body) {
     let userId = (await DBClient.query("SELECT * FROM users WHERE email = $1", [body.email])).rows[0]["id"]
+    if((await DBClient.query("SELECT * FROM accounts WHERE id = $1 AND userid = $2", [body.id, userId])).rows.length == 0) return new Response("401 Unhauthorized", {status: 401})
     await DBClient.query("UPDATE accounts SET name = $1 WHERE id = $2 AND userid = $3", [body.name, body.id, userId])
     return new Response("200 Success")
 }
