@@ -4,7 +4,7 @@ import { backup } from "./modules/backup";
 
 Bun.serve({
     development: process.env.DEVELOPMENT_MODE == "true",
-    port: 3000,
+    port: process.env.PORT,
     async fetch(req) {
         if(req.method == "OPTIONS") return new Response("204 No Content", {status: 204, headers: {"Allow": "POST, PATCH, DELETE, PUT", "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, PATCH, DELETE, PUT"}})
         let res = await fetchHandler(req);
