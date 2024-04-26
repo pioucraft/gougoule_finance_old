@@ -15,4 +15,5 @@ export async function api(req) {
     else if (url.pathname.startsWith("/api/transaction")) return await transaction(req)
     else if (url.pathname.startsWith("/api/getBalanceHistory")) return await getBalanceHistory(req)
     else if (url.pathname.startsWith("/api/getTransactions")) return await getTransactions(req)
+    else return new Response("404 Not Found", {status: 404})
 }

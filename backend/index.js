@@ -3,6 +3,7 @@ import { fetchQuotes } from "./modules/calculateBalance";
 import { backup } from "./modules/backup";
 
 Bun.serve({
+    development: process.env.DEVELOPMENT_MODE == "true",
     port: 3000,
     async fetch(req) {
         if(req.method == "OPTIONS") return new Response("204 No Content", {status: 204, headers: {"Allow": "POST, PATCH, DELETE, PUT", "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, PATCH, DELETE, PUT"}})
@@ -18,11 +19,14 @@ async function fetchHandler(req) {
     if(url.pathname.startsWith("/api/")) {
         return await api(req)
     }
+    else return new Response("404 Not Found", {status: 404})
 }
 
 //await calculateBalance()
-await backup()
-await fetchQuotes()
+if(process.env.DEVELOPMENT_MODE != "true") {
+    await backup()
+    await fetchQuotes()
+}
 
 setInterval(async () => {
     await fetchQuotes()
