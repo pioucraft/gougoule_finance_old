@@ -28,47 +28,85 @@ You will need to have the following apps installed on your system :
 
 1. Postgresql
 2. Apache2 (for ProxyPass)
-3. [Bun](https://bun.sh)
-4. Apache2 certbot (for https certificate)
+4. Apache2 certbot (for HTTPS certificate)
+5. Docker
 
 ### Setup
 
-First, clone the repository : 
+Start by clonning the repository with `git clone https://github.com/pioucraft/hub-for-things.git`.
 
-`git clone https://github.com/pioucraft/hub-for-things`
+Then run `cd hub-for-things`.
 
-Then, copy the two .env.example files (one in the backend folder and one in the frontend folder) and edit them to your needs.
+You can the do `cd backend && cp .env.example .env` and edit it to fit your needs (`nano .env`).
 
-You will then need to run 
+You can do the same in the frontend folder : `cd ../frontend && cp .env.example .env` and edit it to fit your needs (`nano .env`).
 
-`bun i`
 
-in the frontend and backend folders
+Afterwards, create a database on postgresql with the same name you specified in .env.
 
-Before building the app, you'll have to create a 'backups' folder inside the backend folder, where you will store all your backups.
+You will also need to create a config file for apache2 (in `/etc/apache2/sites-available`), create a file named `hub-for-things.conf` : 
 
-Finally, you will need to build the sveltekit app :
+`sudo nano /etc/apache2/sites-available/hub-for-things.conf`
 
-`bun run build` (inside the frontend folder)
+Here's the code you will add :
 
-Don't forget to create a database with the name specified in the.env file and then run the migrations :
+```         
+<VirtualHost *:80>
+    # The ServerName directive sets the request scheme, hostname and port that
+    # the server uses to identify itself. This is used when creating
+    # redirection URLs. In the context of virtual hosts, the ServerName
+    # specifies what hostname must appear in the request's Host: header to
+    # match this virtual host. For the default virtual host (this file) this
+    # value is not decisive as it is used as a last resort host regardless.
+    # However, you must set it for any further virtual host explicitly.
+    ServerName [YOUR_DOMAIN]
 
-`bun migrations` (inside the backend folder)
+    ServerAdmin [YOUR_EMAIL]
 
-And run :
+    # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+    # error, crit, alert, emerg.
+    # It is also possible to configure the loglevel for particular
+    # modules, e.g.
+    #LogLevel info ssl:warn
 
-`bun admin.js` (inside the backend folder) 
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-to guide you through the user creation process.
+    # For most configuration files from conf-available/, which are
+    # enabled or disabled at a global level, it is possible to
+    # include a line for only one particular virtual host. For example the
+    # following line enables the CGI configuration for this host only
+    # after it has been globally disabled with "a2disconf".
+    #Include conf-available/serve-cgi-bin.conf
 
-### Run
+    ProxyPass /api http://localhost:[YOUR_BACKEND_PORT (default is 3000)]/api
+    ProxyPassReverse /api http://localhost:[YOUR_BACKEND_PORT (default is 3000)]/api
 
-Simply run 
+    ProxyPass / http://localhost:8765/
+    ProxyPassReverse / http://localhost:8765/
+</VirtualHost>
+```
 
-`bun index.js` (inside the backend folder)
+(everything inside square brackets ("[]") needs to be replaced)
 
-and 
+You will then need to enable some plugins and restart apache2 :
 
-`bun run preview` (inside the frontend folder)
+```
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+sudo a2enmod proxy_balancer
+sudo a2enmod lbmethod_byrequests
 
-in two different terminals, and enjoy (don't forget to setup ProxyPass with apache2)!
+sudo a2ensite hub-for-things.conf
+
+sudo systemctl restart apache2
+```
+
+If you want HTTPS, you can simply run : `sudo certbot --apache` and follow the instructions.
+
+To install and run the Docker images, simply do :
+
+```
+cat install.sh | sudo sh
+cat start.sh | sudo sh
+```
