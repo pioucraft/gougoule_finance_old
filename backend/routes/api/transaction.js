@@ -4,6 +4,7 @@ import { calculateBalance } from "../../modules/calculateBalance"
 
 export async function transaction(req) {
     let body = await req.json()
+    if(!body.hasOwnProperty("email") || !body.hasOwnProperty("password")) return new Response("400 Bad Request", {status: 400})
 
     if(!(await loginFunction(body))) {
         return new Response("401 Unauthorized", {status: 401})
@@ -15,6 +16,7 @@ export async function transaction(req) {
 }
 
 async function createTransaction(body) {
+    if(!body.hasOwnProperty("accountId") || !body.hasOwnProperty("amount") || !body.hasOwnProperty("type") || !body.hasOwnProperty("symbol") || !body.hasOwnProperty("name")) return new Response("400 Bad Request", {status: 400})
 
     let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
     let accounts = (await DBClient.query("SELECT * FROM accounts WHERE userid = $1 AND id = $2", [userId, body.accountId])).rows
@@ -48,6 +50,7 @@ async function createTransaction(body) {
 }
 
 async function modifyTransaction(body) {
+    if(!body.hasOwnProperty("id")) return new Response("400 Bad Request", {status: 400})
     let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
     let accounts = (await DBClient.query("SELECT * FROM accounts WHERE userid = $1", [userId])).rows.map(x => x["id"])
 
@@ -70,6 +73,7 @@ async function modifyTransaction(body) {
 }
 
 async function deleteTransaction(body) {
+    if(!body.hasOwnProperty("id")) return new Response("400 Bad Request", {status: 400})
     let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
     let accounts = (await DBClient.query("SELECT * FROM accounts WHERE userid = $1", [userId])).rows.map(x => x["id"])
     let transaction = (await DBClient.query("SELECT * FROM transactions WHERE id = $1", [body.id])).rows[0]
