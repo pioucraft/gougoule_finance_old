@@ -4,6 +4,7 @@ import { calculateBalance } from "../../modules/calculateBalance"
 
 export async function defaultCurrency(req) {
     let body = await req.json()
+    if(!body.hasOwnProperty("email") || !body.hasOwnProperty("password")) return new Response("400 Bad Request", {status: 400})
 
     if(!(await loginFunction(body))) {
         return new Response("401 Unauthorized", {status: 401})
@@ -14,6 +15,7 @@ export async function defaultCurrency(req) {
 }
 
 async function changeDefaultCurrency(body) {
+    if(!body.hasOwnProperty("defaultCurrency")) return new Response("400 Bad Request", {status: 400})
     let userId = (await DBClient.query("SELECT * FROM users where email = $1", [body.email])).rows[0]["id"]
     await DBClient.query(`UPDATE defaultcurrency
     SET defaultcurrency = $1

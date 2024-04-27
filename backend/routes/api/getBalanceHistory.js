@@ -3,6 +3,7 @@ import { loginFunction } from "../../modules/login"
 
 export async function getBalanceHistory(req) {
     let body = await req.json()
+    if(!body.hasOwnProperty("email") || !body.hasOwnProperty("password")) return new Response("400 Bad Request", {status: 400})
 
     if(!(await loginFunction(body))) {
         return new Response("401 Unauthorized", {status: 401})
