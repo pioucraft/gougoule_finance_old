@@ -30,6 +30,10 @@
         height: 4rem;
         font-size: x-large;
         margin-top: 1rem;
+        border-radius: 1.5rem;
+        border: 2px solid;
+        background-color: transparent;
+        cursor: pointer;
     }
 
 </style>

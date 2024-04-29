@@ -3,14 +3,7 @@
 </div>
 
 <script>
-    import { goto } from '$app/navigation';
-    import { deleteCookie } from 'svelte-cookie';
-
-    function logout() {
-        deleteCookie("password")
-        deleteCookie("email")
-        goto("/login")
-    }
+    import { logout } from "./script"
 </script>
 
 <style>

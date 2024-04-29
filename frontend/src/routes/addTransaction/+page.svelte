@@ -67,6 +67,7 @@
         border-radius: 1.5rem;
         border: 2px solid;
         background-color: transparent;
+        cursor: pointer;
     }
 
     @media (max-width: 75rem) {

@@ -18,6 +18,7 @@
     border-radius: 1.5rem;
     background-color: white;
     border: solid black 2px;
+    cursor: pointer;
 }
 
 #user-logout svg {
