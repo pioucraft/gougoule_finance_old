@@ -20,23 +20,30 @@
     var balanceHistoryArray = []
   
     var transactions = [
-      {
-        "id": 1,
-        "amount": 0,
-        "date": "2024-04-02T22:00:00.000Z",
-        "type": "f",
-        "symbol": "Loading...",
-        "name": "Loading...",
-        "accountid": 1
-      }
+      [
+        "Wed Apr 03 2024",
+        [
+          {
+            "id": 1,
+            "amount": 0,
+            "date": "2024-04-02T22:00:00.000Z",
+            "type": "f",
+            "symbol": "Loading...",
+            "name": "Loading...",
+            "accountid": 1
+          }
+        ]
+        
+      ]
+      
     ]
   
     var accounts = {1: "Loading..."}
   
     var defaultCurrency = {
-                            "defaultcurrency": "USD",
-                            "price": 1
-                          }
+      "defaultcurrency": "USD",
+      "price": 1
+    }
   
     var selectedTimeStampForChart = "1W"
     var selectedTypeForChart = "balance"
@@ -59,14 +66,25 @@
       
       let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
       defaultCurrency = (await axios.post(`${url}/api/defaultCurrency`, fetchBody)).data
-      transactions = (await axios.post(`${url}/api/getTransactions`, fetchBody)).data
+      let listOfTransactions = (await axios.post(`${url}/api/getTransactions`, fetchBody)).data
       let fetchedAccounts = (await axios.post(`${url}/api/getAccounts`, fetchBody)).data
       fetchedAccounts.forEach(fetchedAccount => {
         accounts[fetchedAccount.id] = fetchedAccount.name
       })
-  
-      transactions = transactions.sort((a, b) => (b.id - a.id))
-      console.log(transactions)
+
+      transactions = []
+      let listOfTransactionsDates = []
+
+      listOfTransactions = listOfTransactions.sort((a, b) => (b.id - a.id))
+
+      listOfTransactions.forEach(transaction => {
+        let date = new Date(transaction.date).toDateString()
+        if(!listOfTransactionsDates.includes(date)) {
+          listOfTransactionsDates.push(date)
+          transactions.push([date, []])
+        } 
+        transactions[listOfTransactionsDates.indexOf(date)][1].push(transaction)
+      })
       
       balanceHistoryArray = balanceHistory.data.reverse().sort((a, b) => new Date(b.date) - new Date(a.date))
   
@@ -258,22 +276,28 @@
       </div>
     </div>
     <div class="history">
-      {#each transactions as transaction}
-        <div class="history-transaction">
-          {#if (transaction.amount > 0)}
-            <h3 style="color: green;">{transaction.amount} {transaction.symbol}</h3>
-          {:else}
-            <h3 style="color: red;">{transaction.amount} {transaction.symbol}</h3>
-          {/if}
-          
-          <h4>{transaction.name}</h4>
-          
-          <div>
-            <h4>{new Date(transaction.date).toDateString()}</h4>
-            <h4 style="color: gray;">{accounts[transaction.accountid]}</h4>
+        {#each transactions as transactionsOnDate}
+          <div class="history-date">
+            <p>{transactionsOnDate[0]}</p>
+            {#each transactionsOnDate[1] as transaction}
+              <div class="history-transaction">
+                {#if (transaction.amount > 0)}
+                  <h3 style="color: green;">{transaction.amount} {transaction.symbol}</h3>
+                {:else}
+                  <h3 style="color: red;">{transaction.amount} {transaction.symbol}</h3>
+                {/if}
+                
+                <h4>{transaction.name}</h4>
+                
+                <div>
+                  <h4>{new Date(transaction.date).toDateString()}</h4>
+                  <h4 style="color: gray;">{accounts[transaction.accountid]}</h4>
+                </div>
+              </div>
+            {/each}
           </div>
-        </div>
-      {/each}
+            
+        {/each}
     </div>
   </div>
   
@@ -434,17 +458,26 @@
       flex-direction: column;
       gap: 1rem;
       align-items: center;
-      padding: 2.5rem;
+      padding: 2rem;
       padding-top: 1rem;
       padding-bottom: 1rem;
       overflow-y: scroll;
       overflow-x: hidden;
     }
+
+    .history-date {
+      width: 100%;
+      border-radius: 1.5rem;
+      background-color: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+    }
   
     .history-transaction {
       border-radius: 1rem;
-      width: 100%;
-      box-shadow: 0px 0px 1rem rgb(88, 88, 88);
+      background-color: white;
       padding: 1rem;
       padding-left: 2rem;
       display: flex;

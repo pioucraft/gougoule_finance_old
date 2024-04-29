@@ -64,7 +64,7 @@
     #accounts-accounts {
         display: flex;
         flex-direction: column;
-        background-color: #fafafa;
+        background-color: #f7f7f7;
         padding: 1.5rem;
         gap: 1rem;
         border-radius: 1.5rem;
@@ -95,7 +95,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        background-color: #fafafa;
+        background-color: #f7f7f7;
     }
 
     #accounts-accountCard-left {
