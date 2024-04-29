@@ -71,6 +71,7 @@
     left: 0.5rem;
     color: white;
     font-size: small;
+    z-index: 2;
 }
 
 #login-box-text {
