@@ -1,4 +1,13 @@
 <script>
+
+  /* TODO */
+
+  /*
+    Plan for refactoring :
+
+    Separate the html and css into five files (just the money you have, assets, chart and transactions)
+    for js :  (fetch balancehistory, createchart and transactions)
+  */
     export let data
 
     import axios from 'axios';
