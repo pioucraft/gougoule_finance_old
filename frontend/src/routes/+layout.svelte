@@ -3,7 +3,7 @@
         <a href="/" class="transparentButton leftBarButton" on:click={() => changePressedButton("home")} id="leftBar-homeButton">Home</a>
         <a href="/accounts" class="transparentButton leftBarButton" on:click={() => changePressedButton("accounts")} id="leftBar-accountsButton">Accounts</a>
         <a href="/settings" class="transparentButton leftBarButton" on:click={() => changePressedButton("settings")} id="leftBar-settingsButton">Settings</a>
-        <a href="/addTransaction" class="transparentButton leftBarButton" on:click={() => changePressedButton("addTransaction")} id="leftBar-addTransaction">Add a transaction</a>
+        <a href="/addTransaction" class="transparentButton leftBarButton" on:click={() => changePressedButton("addTransaction")} id="leftBar-addTransactionButton">Add a transaction</a>
     </div>
     
 
@@ -51,7 +51,7 @@
         document.getElementById("leftBar-accountsButton").style = "background-color: auto";
         document.getElementById("leftBar-settingsButton").style = "background-color: auto";
         document.getElementById("leftBar-userButton").style = "background-color: auto";
-        document.getElementById("leftBar-addTransaction").style = "background-color: auto";
+        document.getElementById("leftBar-addTransactionButton").style = "background-color: auto";
         
         document.getElementById(`leftBar-${id}Button`).style = "background-color: rgb(235, 235, 235)";
     }
