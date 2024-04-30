@@ -1,0 +1,6 @@
+.history {
+    grid-row: 1 / 4;
+    grid-column: 2 / 3;
+    border-radius: 1.5rem;
+    box-shadow: 0 0 20px rgb(174, 174, 174);
+}

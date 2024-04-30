@@ -1,0 +1,9 @@
+.home {
+    display: grid;
+    grid-template-rows: 4em 7em auto;
+    grid-template-columns: auto 30em;
+    width: calc(100vw - 10em);
+    gap: 4%;
+    padding: 2%;
+    padding-left: 4%;
+}
