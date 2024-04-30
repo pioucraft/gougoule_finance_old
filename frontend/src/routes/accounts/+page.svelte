@@ -5,12 +5,12 @@
     import { getCookie } from 'svelte-cookie';
 
     var accounts = [
-                        {
-                            "id": 1,
-                            "name": "Loading...",
-                            "balance": 0
-                        }
-                    ]
+        {
+            "id": 1,
+            "name": "Loading...",
+            "balance": 0
+        }
+    ]
 
     var url = import.meta.env.VITE_BACKEND_URL
     onMount(async () => {
