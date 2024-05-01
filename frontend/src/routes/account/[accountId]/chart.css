@@ -13,7 +13,7 @@
     grid-template-columns: 0.5fr 1fr;
     align-items: center;
     padding-left: 1rem;
-padding-right: 1rem;
+    padding-right: 1rem;
 }
 
 #line-chart-top-buttons {
@@ -23,7 +23,7 @@ padding-right: 1rem;
     background-color: #ececec;
     border-radius: 0.7rem;
     padding: 0.5rem;
-gap: 0.5rem;
+    gap: 0.5rem;
 }
 
 .line-chart-top-button {
@@ -97,4 +97,11 @@ gap: 0.5rem;
     border: none;
     cursor: pointer;
     font-size: large;
+}
+
+@media (max-width: 75rem) {
+
+    #line-chart-bottom-buttons button {
+      font-size: small;
+    }
 }

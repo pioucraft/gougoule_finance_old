@@ -7,3 +7,13 @@
     padding: 2%;
     padding-left: 4%;
 }
+
+@media (max-width: 75rem) {
+  
+    .home {
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      width: 100vw;
+    }
+}

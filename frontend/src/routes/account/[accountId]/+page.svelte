@@ -1,5 +1,10 @@
 <script>
 
+  import Transactions from "./transactions.svelte"
+  import Chart from "./chart.svelte";
+  import Assets from "./assets.svelte";
+  import Money from "./money.svelte";
+
   /* TODO */
 
   /*
@@ -11,7 +16,7 @@
     export let data
 
     import axios from 'axios';
-    import Chart from 'chart.js/auto';
+    import chart from 'chart.js/auto';
     
     import { onMount } from 'svelte';
     import { getCookie } from 'svelte-cookie';
@@ -212,7 +217,7 @@
       if(historyOfTheMoneyYouHave[0][1] < historyOfTheMoneyYouHave[historyOfTheMoneyYouHave.length-1][1]) borderColor = "green"
       
       
-      balanceHistoryChart = new Chart("lineChart", {
+      balanceHistoryChart = new chart("lineChart", {
           type: "line",
           data: {
             labels: xValues,
@@ -237,80 +242,15 @@
   </script>
   
   <div class="home">
-    <div class="money">
-      <p class="money-and-profit">{balance} <span class="profit" style="color: {profitColor};">{profit}</span></p> 
-      <p class="money-with-prefered-currency">{balanceInLocalCurrency}</p>
-    </div>
-    <div class="assets">
-      <p>Assets :</p>
-      <div id="assets-graph">
-        {#each assets as asset}
-          <div style="width: {asset[1]}%;" class="assets-{assets.indexOf(asset)} asset"><p>{asset[0]}</p></div>
-        {/each}
-      </div>
-
-      <div class="assets-hover">
-        <ul>
-          {#each portfolio as asset}
-            <li>{asset[0].split(":")[0]} : {asset[1].toFixed(2)} USD</li>
-          {/each}
-        </ul>
-      </div>
-    </div>
-    <div class="line-chart">
-      <div id="line-chart-top">
-        <h3>Graphs : </h3>
-        <div id="line-chart-top-buttons">
-          <button class="line-chart-top-button line-chart-top-button-selected" id="line-chart-top-buttons-balance" on:click={() => changeChartType("balance")}>Balance</button>
-          <button class="line-chart-top-button line-chart-top-button-unselected" id="line-chart-top-buttons-fiat" on:click={() => changeChartType("fiat")}>Fiat</button>
-        </div>
-      </div>
-      <div id="line-chart-middle">
-        <canvas id="lineChart"></canvas> 
-      </div>
-      
-      <div id="line-chart-bottom">
-        <div id="line-chart-bottom-buttons">
-          <button class="line-chart-bottom-selectedButton" id="line-chart-bottom-selectedButton-1W" on:click={() => changeTimeStamp("1W")}>1W</button>
-          <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-1M" on:click={() => changeTimeStamp("1M")}>1M</button>
-          <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-3M" on:click={() => changeTimeStamp("3M")}>3M</button>
-          <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-6M" on:click={() => changeTimeStamp("6M")}>6M</button>
-          <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-1Y" on:click={() => changeTimeStamp("1Y")}>1Y</button>
-          <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-3Y" on:click={() => changeTimeStamp("3Y")}>3Y</button>
-          <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-5Y" on:click={() => changeTimeStamp("5Y")}>5Y</button>
-          <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-10Y" on:click={() => changeTimeStamp("10Y")}>10Y</button>
-          <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-20Y" on:click={() => changeTimeStamp("20Y")}>20Y</button>
-          <button class="line-chart-bottom-unselectedButton" id="line-chart-bottom-selectedButton-All" on:click={() => changeTimeStamp("All")}>All</button>
-        </div>
-      </div>
-    </div>
-    <div class="history">
-        {#each transactions as transactionsOnDate}
-          <div class="history-date">
-            <p>{transactionsOnDate[0]}</p>
-            {#each transactionsOnDate[1] as transaction}
-              <div class="history-transaction">
-                {#if (transaction.amount > 0)}
-                  <h3 style="color: green;">{transaction.amount} {transaction.symbol}</h3>
-                {:else}
-                  <h3 style="color: red;">{transaction.amount} {transaction.symbol}</h3>
-                {/if}
-                
-                <h4>{transaction.name}</h4>
-                
-                <div>
-                  <h4>{new Date(transaction.date).toDateString()}</h4>
-                  <h4 style="color: gray;">{accounts[transaction.accountid]}</h4>
-                </div>
-              </div>
-            {/each}
-          </div>
-            
-        {/each}
-    </div>
+    
+    <Money balance={balance} profit={profit} profitColor={profitColor} balanceInLocalCurrency={balanceInLocalCurrency}/>
+    <Assets assets={assets} portfolio={portfolio} />
+    <Chart changeChartType={changeChartType} changeTimeStamp={changeTimeStamp} />
+    <Transactions transactions={transactions} accounts={accounts}/>
+    
   </div>
   
-  <style>
+<style>
 
     @import "./style.css";
 
@@ -318,155 +258,4 @@
     @import "./assets.css";
     @import "./chart.css";
     @import "./transactions.css";
-
-  
-    .history {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      align-items: center;
-      padding: 2rem;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-      overflow-y: scroll;
-      overflow-x: hidden;
-    }
-
-    .history-date {
-      width: 100%;
-      border-radius: 1.5rem;
-      background-color: #f7f7f7;
-      display: flex;
-      flex-direction: column;
-      padding: 1rem;
-      gap: 1rem;
-    }
-  
-    .history-transaction {
-      border-radius: 1rem;
-      background-color: white;
-      padding: 1rem;
-      padding-left: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-  
-    .history-transaction div, .history-transaction h3, .history-transaction h4 {
-      margin: 0;
-    }
-  
-    .history-transaction div {
-      display: flex;
-      flex-direction: row;
-      gap: 2rem;
-    }
-  
-    #assets-graph {
-      background-color: #ececec;
-      width: 100%;
-      height: 3rem;
-      border-radius: 0.7rem;
-      display: flex;
-      gap: 0.3rem;
-      padding-left: 0.3rem;
-      padding-right: 0.3rem;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      width: 96%;
-      align-self: center;
-    }
-  
-    .asset {
-      border-radius: 0.7rem;
-      height: 2.3rem;
-      font-size: large;
-      
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  
-    }
-  
-    .asset p {
-      margin: 0;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-  .assets-hover {
-    display: none;
-  }
-
-  #assets-graph:hover + .assets-hover {
-    display: flex;
-    background-color: #6c6c6c;
-    color: #ececec;
-    padding: 1rem;
-    border-radius: 0.7rem;
-    top: 1vh;
-    z-index: 1;
-  }
-  
-    .assets-0 {
-      background-color: aqua;
-    }
-    .assets-1 {
-      background-color: red;
-    }
-    .assets-2 {
-      background-color: pink;
-    }
-    .assets-3 {
-      background-color: greenyellow;
-    }
-    .assets-4 {
-      background-color: yellow;
-    }
-    .assets-5 {
-      background-color:azure;
-    }
-    .assets-6 {
-      background-color:chocolate;
-    }
-    .assets-7 {
-      background-color:steelblue;
-    }
-    .assets-8 {
-      background-color:orange;
-    }
-    .assets-9 {
-      background-color:darksalmon;
-    }
-  
-    @media (max-width: 75rem) {
-  
-      .home {
-        display: flex;
-        flex-direction: column;
-        overflow-y: scroll;
-        width: 100vw;
-      }
-  
-      .history {
-        overflow: visible;
-        margin-bottom: 10rem;
-      }
-  
-      .money {
-        flex-direction: column;
-        align-items: start;
-        padding: 0.6rem;
-      }
-  
-      .money * {
-        margin: 0;
-      }
-
-      #line-chart-bottom-buttons button {
-        font-size: small;
-      }
-    }
-  
-  </style>
+</style>

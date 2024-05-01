@@ -13,3 +13,15 @@
 .money-with-prefered-currency {
     color: #6c6c6c;
 }
+
+@media (max-width: 75rem) {
+    .money {
+      flex-direction: column;
+      align-items: start;
+      padding: 0.6rem;
+    }
+
+    .money * {
+      margin: 0;
+    }
+}
