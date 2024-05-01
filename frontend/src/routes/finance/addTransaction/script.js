@@ -13,7 +13,7 @@ export async function addTransaction(name, amount, type, symbol, accountId) {
     console.log(fetchBody)
     try {
         await axios.post(`${url}/api/transaction`, fetchBody)
-        goto("/")
+        goto("/finance/")
     }
     catch(err) {
         alert("Error")

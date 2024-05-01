@@ -1,8 +1,8 @@
 <script>
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
-  
-  onMount(() => {
-    goto('/account/main');
-  });
+    import { goto } from '$app/navigation';
+    import { onMount } from 'svelte';
+    
+    onMount(() => {
+      goto('/finance/account/main');
+    });
 </script>
