@@ -15,11 +15,13 @@
   */
     export let data
 
-    import axios from 'axios';
+    
     import chart from 'chart.js/auto';
     
     import { onMount } from 'svelte';
-    import { getCookie } from 'svelte-cookie';
+    
+
+    import { createData } from "./script"
   
     var balance = "Loading..."
     var balanceInLocalCurrency = ""
@@ -67,60 +69,20 @@
   
     var url = import.meta.env.VITE_BACKEND_URL
     onMount(async () => {
-      console.log("AHHHHH")
-      let password = getCookie("password")
-      let email = getCookie("email")
-      let fetchBody = JSON.stringify({"email": email, "password": password})
-      if(data.accountId != "main") {
-        fetchBody = JSON.stringify({"email": email, "password": password, "account": data.accountId})
-      }
-      
-  
-  
-      
-      let balanceHistory = await axios.post(`${url}/api/getBalanceHistory`, fetchBody)
-      defaultCurrency = (await axios.post(`${url}/api/defaultCurrency`, fetchBody)).data
-      let listOfTransactions = (await axios.post(`${url}/api/getTransactions`, fetchBody)).data
-      let fetchedAccounts = (await axios.post(`${url}/api/getAccounts`, fetchBody)).data
-      fetchedAccounts.forEach(fetchedAccount => {
-        accounts[fetchedAccount.id] = fetchedAccount.name
-      })
+      let dataCreated = await createData(data, url)
 
-      transactions = []
-      let listOfTransactionsDates = []
-
-      listOfTransactions = listOfTransactions.sort((a, b) => (b.id - a.id))
-
-      listOfTransactions.forEach(transaction => {
-        let date = new Date(transaction.date).toDateString()
-        if(!listOfTransactionsDates.includes(date)) {
-          listOfTransactionsDates.push(date)
-          transactions.push([date, []])
-        } 
-        transactions[listOfTransactionsDates.indexOf(date)][1].push(transaction)
-      })
+      defaultCurrency = dataCreated.defaultCurrency
+      balanceHistoryArray = dataCreated.balanceHistoryArray
+      transactions = dataCreated.transactions
+      portfolio = dataCreated.portfolio
+      assets = dataCreated.assets
+      profit = dataCreated.profit
+      profitColor = dataCreated.profitColor
+      balance = dataCreated.balance
+      balanceInLocalCurrency = dataCreated.balanceInLocalCurrency
+      accounts = dataCreated.accounts
       
-      balanceHistoryArray = balanceHistory.data.reverse().sort((a, b) => new Date(b.date) - new Date(a.date))
-  
-      balance = "$"+balanceHistoryArray[0].balance.toFixed(2)
-      balanceInLocalCurrency = `${(balanceHistoryArray[0].balance * defaultCurrency.price).toFixed(2)} ${defaultCurrency.defaultcurrency}`
-      try {
-        let balanceDiference = (balanceHistoryArray[0].balance - balanceHistoryArray[1].balance).toFixed(2)
-        let profitPercentage = ((balanceDiference / balanceHistoryArray[0].balance) * 100).toFixed(2)
-        
-        if(balanceDiference > 0){
-          profitColor = "green"
-        }
-    
-        profit = `(${balanceDiference}$; ${profitPercentage}%)`
-      }
-      catch(err) {
-        profit = ""
-      }
       
-  
-      portfolio = Object.entries(JSON.parse(balanceHistoryArray[0].portfolio))
-      assets = [["Other", 0]]
       for(let asset of portfolio) {
         if(asset[1]/balanceHistoryArray[0].balance*100 < 10) {
           assets[0][1] += asset[1]/balanceHistoryArray[0].balance*100
