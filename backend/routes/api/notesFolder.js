@@ -32,11 +32,12 @@ function createNotesFolder(body, userId) {
 function modifyNotesFolder(body, userId) {
     // body : {location (folder to modify), name (new name )}
     let newLocation = body.location.split("/").slice(0,-1).join("/") + "/" + body.name;
-    console.log(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`, `${__dirname}/../../userFiles/${userId}/notes/${newLocation}`)
     fs.renameSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`, `${__dirname}/../../userFiles/${userId}/notes/${newLocation}`)
     return new Response("200 Success")
 }
 
 function deleteNotesFolder(body, userId) {
     // body : {location (folder to delete)}
+    fs.rmSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`,  { recursive: true, force: true })
+    return new Response("200 Success")
 }
