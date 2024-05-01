@@ -1,6 +1,5 @@
 import { api } from "./routes/api"
 import { fetchQuotes } from "./modules/calculateBalance";
-import { backup } from "./modules/backup";
 
 Bun.serve({
     development: process.env.DEVELOPMENT_MODE == "true",
@@ -24,11 +23,9 @@ async function fetchHandler(req) {
 
 //await calculateBalance()
 if(process.env.DEVELOPMENT_MODE != "true") {
-    await backup()
     await fetchQuotes()
 }
 
 setInterval(async () => {
     await fetchQuotes()
-    await backup()
 }, 1000*60*60*6);
