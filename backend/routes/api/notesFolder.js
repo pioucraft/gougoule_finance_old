@@ -1,5 +1,6 @@
 import { DBClient } from "../../modules/db"
 import { loginFunction } from "../../modules/login"
+import fs from "node:fs"
 
 import { createUserFolder } from "../../modules/createUserFolder"
 
@@ -15,19 +16,27 @@ export async function notesFolder(req) {
     
     createUserFolder(userId)
 
-    if(req.method == "POST") return createNotesFolder(body)
-    else if(req.method == "PUT") return modifyNotesFolder(body)
-    else if(req.method == "PATCH") return deleteNotesFolder(body)
+    if(!fs.existsSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`)) return new Response("403 Forbidden", {status: 403})
+
+    if(req.method == "POST") return createNotesFolder(body, userId)
+    else if(req.method == "PUT") return modifyNotesFolder(body, userId)
+    else if(req.method == "PATCH") return deleteNotesFolder(body, userId)
 }
 
-function createNotesFolder(body) {
-
+function createNotesFolder(body, userId) {
+    // body : {location, name (without directory)}
+    fs.mkdirSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}/${body.name}`)
+    return new Response("200 Success")
 }
 
-function modifyNotesFolder(body) {
-
+function modifyNotesFolder(body, userId) {
+    // body : {location (folder to modify), name (new name )}
+    let newLocation = body.location.split("/").slice(0,-1).join("/") + "/" + body.name;
+    console.log(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`, `${__dirname}/../../userFiles/${userId}/notes/${newLocation}`)
+    fs.renameSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`, `${__dirname}/../../userFiles/${userId}/notes/${newLocation}`)
+    return new Response("200 Success")
 }
 
-function deleteNotesFolder(body) {
-    
+function deleteNotesFolder(body, userId) {
+    // body : {location (folder to delete)}
 }
