@@ -36,5 +36,4 @@
     var selectedTimeStampForChart = "1W"
     var selectedTypeForChart = "balance"
 
-    onMount(() => updateChart(selectedTimeStampForChart, selectedTypeForChart, balanceHistoryArray))
 </script>
