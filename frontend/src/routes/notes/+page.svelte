@@ -1,6 +1,5 @@
 <div id="wrapper">
     <div id="leftBar">
-        <h3>Select a folder/note :</h3>
         {#if currentLocation}
             <button id="leftBar-back" class="leftBar-item" on:click={() => [currentFilesAndFolders, currentLocation] = expandFolder(currentLocation.split("/").slice(0, -1).join("/"), filesAndFolders)}> ← {currentLocation}</button>
             <span style="height: 1rem;"></span>
@@ -9,10 +8,14 @@
         
         {#each currentFilesAndFolders as file}
             
+            {#if !file.endsWith(".html")}
+            <button on:click={() => [currentFilesAndFolders, currentLocation] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder"> {file.split("/")[file.split("/").length-1]}</button>
+            {/if}
+        {/each}
+        {#each currentFilesAndFolders as file}
+            
             {#if file.endsWith(".html")}
                 <button id="leftBar-filesAndFolders-{file}" class="leftBar-item">{file.split(".html")[0].split("/")[file.split("/").length-1]}</button>
-            {:else}
-                <button on:click={() => [currentFilesAndFolders, currentLocation] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder"> {file.split("/")[file.split("/").length-1]}</button>
             {/if}
         {/each}
         <div id="leftBar-buttons">
