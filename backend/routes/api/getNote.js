@@ -27,13 +27,15 @@ export async function getNote(req) {
 }
 
 function getDirectories(location, userId) {
+
     let directories = fs.readdirSync(`${__dirname}/../../userFiles/${userId}/notes/${location}`).map(x => location+"/"+x).map(x => x.split("/").filter(x => x!= "").join("/"))
     let returnStatement = directories
     directories.forEach((directory) => {
         if(!directory.endsWith(".html")) {
-            returnStatement = returnStatement.concat(getDirectories(`/${location}/${directory}`, userId))
+            returnStatement = returnStatement.concat(getDirectories(directory, userId))
         }
     })
-
     return returnStatement
+    
+    
 }
