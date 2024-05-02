@@ -1,5 +1,6 @@
 import { DBClient } from "../../modules/db"
 import { loginFunction } from "../../modules/login"
+import fs from "node:fs"
 
 import { createUserFolder } from "../../modules/createUserFolder"
 
@@ -22,7 +23,7 @@ export async function note(req) {
 
 function createNote(body, userId) {
     // body : {location, name (without directory)}
-    Bun.write(`${__dirname}/../../userFiles/${userId}/notes/${body.location}/${body.name}`, "")
+    Bun.write(`${__dirname}/../../userFiles/${userId}/notes/${body.location}/${body.name}.html`, "")
     return new Response("200 Success")
 }
 
