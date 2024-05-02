@@ -25,12 +25,16 @@ export async function notesFolder(req) {
 
 function createNotesFolder(body, userId) {
     // body : {location, name (without directory)}
+    if(!body.hasOwnProperty("location") || !body.hasOwnProperty("name")) return new Response("400 Bad Request", {status: 400})
+
     fs.mkdirSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}/${body.name}`)
     return new Response("200 Success")
 }
 
 function modifyNotesFolder(body, userId) {
     // body : {location (folder to modify), name (new name )}
+    if(!body.hasOwnProperty("location") || !body.hasOwnProperty("name")) return new Response("400 Bad Request", {status: 400})
+
     let newLocation = body.location.split("/").slice(0,-1).join("/") + "/" + body.name;
     fs.renameSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`, `${__dirname}/../../userFiles/${userId}/notes/${newLocation}`)
     return new Response("200 Success")
@@ -38,6 +42,8 @@ function modifyNotesFolder(body, userId) {
 
 function deleteNotesFolder(body, userId) {
     // body : {location (folder to delete)}
+    if(!body.hasOwnProperty("location")) return new Response("400 Bad Request", {status: 400})
+
     fs.rmSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`,  { recursive: true, force: true })
     return new Response("200 Success")
 }

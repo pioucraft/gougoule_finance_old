@@ -6,7 +6,7 @@ import { createUserFolder } from "../../modules/createUserFolder"
 
 export async function getNote(req) {
     let body = await req.json()
-    if(!body.hasOwnProperty("email") || !body.hasOwnProperty("password")) return new Response("400 Bad Request", {status: 400})
+    if(!body.hasOwnProperty("email") || !body.hasOwnProperty("password") || !body.hasOwnProperty("location")) return new Response("400 Bad Request", {status: 400})
 
     if(!(await loginFunction(body))) {
         return new Response("401 Unauthorized", {status: 401})
@@ -27,7 +27,7 @@ export async function getNote(req) {
 }
 
 function getDirectories(location, userId) {
-    let directories = fs.readdirSync(`${__dirname}/../../userFiles/${userId}/notes/${location}`).map(x => location+"/"+x)
+    let directories = fs.readdirSync(`${__dirname}/../../userFiles/${userId}/notes/${location}`).map(x => location+"/"+x).map(x => x.split("/").filter(x => x!= "").join("/"))
     let returnStatement = directories
     directories.forEach((directory) => {
         if(!directory.endsWith(".html")) {
