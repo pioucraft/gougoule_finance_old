@@ -54,15 +54,16 @@
     #leftBar {
         height: calc(100% - 1.4em);
         width: 10em;
-        border-radius: 0.7em;
+        height: 100vh;
         border: none;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
         gap: 1em;
-        padding: 0.7em;
-        margin-left: 1rem;
+        padding: 1.5rem;
+        background-color: whitesmoke;
+        border-right: solid 2px black;
     }
 
     #leftBar-top {

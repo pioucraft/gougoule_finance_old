@@ -11,15 +11,26 @@
     flex-direction: column;
     padding: 1rem;
     gap: 0.5rem;
+    background-color: whitesmoke;
+    border-right: solid 2px black;
+}
+
+#leftBar-back {
+    color: gray;
 }
 
 .leftBar-item {
     background-color: transparent;
     border-radius: 0.5rem;
     border: none;
-    height: 3rem;
+    min-height: 3rem;
     font-size: large;
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.leftBar-item svg {
+    height: 1em;
 }
 
 .leftBar-item:hover {
@@ -27,5 +38,13 @@
 }
 
 .leftBar-folder {
-    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+#leftBar-buttons {
+    width: 13rem;
+    position: absolute;
+    bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
 }
