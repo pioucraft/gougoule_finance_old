@@ -6,7 +6,7 @@ import { createUserFolder } from "../../modules/createUserFolder"
 
 export async function getNote(req) {
     let body = await req.json()
-    if(!body.hasOwnProperty("email") || !body.hasOwnProperty("password") || !body.hasOwnProperty("location")) return new Response("400 Bad Request", {status: 400})
+    if(!body.hasOwnProperty("email") || !body.hasOwnProperty("password")) return new Response("400 Bad Request", {status: 400})
 
     if(!(await loginFunction(body))) {
         return new Response("401 Unauthorized", {status: 401})
