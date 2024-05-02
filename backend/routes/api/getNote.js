@@ -17,12 +17,23 @@ export async function getNote(req) {
     createUserFolder(userId)
 
     console.log
-    try {
-        let response = fs.readdirSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`)
-        return new Response(JSON.stringify(response), {headers: {"Content-Type": "application/json"}})
-    }
-    catch(err) {
+    if(body.location) {
         let response = await Bun.file(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`).text()
-        return new Response(JSON.stringify(response))
+        return new Response(response)
     }
+    
+    let response = getDirectories("/", userId)
+    return new Response(JSON.stringify(response), {headers: {"Content-Type": "application/json"}})
+}
+
+function getDirectories(location, userId) {
+    let directories = fs.readdirSync(`${__dirname}/../../userFiles/${userId}/notes/${location}`).map(x => location+"/"+x)
+    let returnStatement = directories
+    directories.forEach((directory) => {
+        if(!directory.endsWith(".html")) {
+            returnStatement = returnStatement.concat(getDirectories(`/${location}/${directory}`, userId))
+        }
+    })
+
+    return returnStatement
 }
