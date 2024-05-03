@@ -115,3 +115,14 @@ export async function saveNote(url, location,content) {
     await axios.put(`${url}/api/note`, JSON.stringify({"email": email, "password": password, "location": location,"content": content}))
     return content
 }
+
+export function editOrNoteANote(editNote) {
+    try {
+        return !editNote
+    }
+    finally {
+        setTimeout(() => {
+            textAreaResize()
+        }, 1);
+    }
+}
