@@ -18,6 +18,7 @@ export async function getNote(req) {
 
     console.log
     if(body.location) {
+        if(body.location.includes("..")) return new Response("403 Forbidden", {status: 403})
         let response = await Bun.file(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`).text()
         return new Response(response)
     }

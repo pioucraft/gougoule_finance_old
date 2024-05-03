@@ -24,7 +24,8 @@ export async function note(req) {
 function createNote(body, userId) {
     // body : {location, name (without directory)}
     if(!body.hasOwnProperty("location") || !body.hasOwnProperty("name")) return new Response("400 Bad Request", {status: 400})
-    
+    if(body.location.includes("..") || body.name.includes("..")) return new Response("403 Forbidden", {status: 403})
+
     Bun.write(`${__dirname}/../../userFiles/${userId}/notes/${body.location}/${body.name}.md`, "")
     return new Response("200 Success")
 }
@@ -32,8 +33,10 @@ function createNote(body, userId) {
 function modifyNote(body, userId) {
     // body : {location (folder to modify), name (new name ), content (full content of file)}
     if(!body.hasOwnProperty("location")) return new Response("400 Bad Request", {status: 400})
-    
+    if(body.location.includes("..")) return new Response("403 Forbidden", {status: 403})
+
     if(body.name) {
+        if(body.name.includes("..")) return new Response("403 Forbidden", {status: 403})
         let newLocation = body.location.split("/").slice(0,-1).join("/") + "/" + body.name;
         fs.renameSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`, `${__dirname}/../../userFiles/${userId}/notes/${newLocation}.md`)
     }
