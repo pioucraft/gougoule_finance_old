@@ -50,3 +50,42 @@
     display: flex;
     flex-direction: column;
 }
+
+#editor {
+    padding-left: 2rem;
+    width: calc(100% - 17rem);
+    height: 100%;
+}
+
+#editor-path {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#editor-title {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+#editor-title-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: calc(100% - 5rem);
+}
+
+#editor-title-edit {
+    width: 2rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#editor-title-delete {
+    width: 2rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
