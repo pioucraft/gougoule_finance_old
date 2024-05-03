@@ -89,7 +89,6 @@ export async function openNote(url, location) {
         let password = getCookie("password")
         let email = getCookie("email")
         let content = (await axios.post(`${url}/api/getNote`, JSON.stringify({"email": email, "password": password, "location": location}))).data
-        if(!content) content = "<br>"
         return [content, location]
     }
     catch(err) {

@@ -35,9 +35,7 @@
         </div>
         
         {#if opened.endsWith(".md")}
-            <div id="editor-editor" contenteditable="true">
-                {@html openedNoteContent}
-            </div>
+            <textarea on:input={() => document.getElementById("editor-editor").style.minHeight = `${document.getElementById("editor-editor").scrollHeight + 10}px`} bind:value={openedNoteContent} id="editor-editor"></textarea>
         {/if}
     </div>
 </div>
