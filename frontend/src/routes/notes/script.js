@@ -66,3 +66,19 @@ export async function editNote(url, location) {
     console.log(currentFilesAndFolders)
     return [filesAndFolders, currentFilesAndFolders, "", ""]
 }
+
+export async function deleteNote(url, location) {
+    try {
+        let password = getCookie("password")
+        let email = getCookie("email")
+        
+        await axios.patch(`${url}/api/note`, JSON.stringify({"email": email, "password": password, "location": location}))
+    }
+    catch(err) {
+        alert("Error")
+    }
+    let filesAndFolders = await makeData(url)
+    let currentFilesAndFolders = expandFolder("", filesAndFolders)[0]
+    console.log(currentFilesAndFolders)
+    return [filesAndFolders, currentFilesAndFolders, "", ""]
+}
