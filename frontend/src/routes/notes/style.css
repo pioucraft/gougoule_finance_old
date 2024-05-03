@@ -1,5 +1,4 @@
 #wrapper {
-    display: flex;
     display: grid;
     grid-template-columns: 15rem auto;
     width: 100vw;
@@ -59,7 +58,23 @@
     overflow-y: scroll;
 }
 
-#editor-path {
+#editor-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+#editor-top-directories {
+    background-color: transparent;
+    padding: 0.5rem;
+    height: min-content;
+    border-radius: 0.5rem;
+    border: solid;
+    cursor: pointer;
+}
+
+#editor-top-path {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -114,4 +129,17 @@
     resize: vertical;
     text-overflow: ellipsis;
     font-size: x-large;
+}
+
+@media (max-width: 80vh) {
+    #wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #leftBar-buttons {
+        margin-top: 3rem;
+        position: initial;
+        bottom: auto;
+    }
 }

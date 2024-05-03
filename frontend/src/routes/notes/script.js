@@ -94,6 +94,12 @@ export async function openNote(url, location) {
     catch(err) {
         alert("Error")
     }
+    finally {
+        setTimeout(() => {
+            textAreaResize()
+        }, 1);
+        
+    }
     
 }
 

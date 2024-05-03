@@ -1,31 +1,44 @@
 <div id="wrapper">
-    <div id="leftBar">
-        {#if currentLocation}
-            <button id="leftBar-back" class="leftBar-item" on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(currentLocation.split("/").slice(0, -1).join("/"), filesAndFolders)}> ← {currentLocation}/</button>
-            <span style="height: 1rem;"></span>
-        {/if}
+    {#if showDirectories}
+        <div id="leftBar">
         
+            {#if currentLocation}
+                <button id="leftBar-back" class="leftBar-item" on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(currentLocation.split("/").slice(0, -1).join("/"), filesAndFolders)}> ← {currentLocation}/</button>
+                <span style="height: 1rem;"></span>
+            {/if}
+            
+            
+            {#each currentFilesAndFolders as file}
+                
+                {#if !file.endsWith(".md")}
+                <button on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder">{file.split("/")[file.split("/").length-1]}/</button>
+                {/if}
+            {/each}
+            {#each currentFilesAndFolders as file}
+                
+                {#if file.endsWith(".md")}
+                    <button on:click={async () => [openedNoteContent, lastSavedNoteContent , opened] = await openNote(url, file)} id="leftBar-filesAndFolders-{file}" class="leftBar-item">{file.split(".md")[0].split("/")[file.split("/").length-1]}</button>
+                {/if}
+            {/each}
+            <div id="leftBar-buttons">
+                <button id="leftBar-buttons-newFolderButton" class="leftBar-item" on:click={async () => [filesAndFolders, currentFilesAndFolders] = await createNewFolder(url, currentLocation)}>Create new folder</button>
+                <button id="leftBar-buttons-newNoteButton" class="leftBar-item" on:click={async () => [filesAndFolders, currentFilesAndFolders] = await createNewNote(url, currentLocation)}>Create new note</button>
+            </div>
         
-        {#each currentFilesAndFolders as file}
-            
-            {#if !file.endsWith(".md")}
-            <button on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder">{file.split("/")[file.split("/").length-1]}/</button>
-            {/if}
-        {/each}
-        {#each currentFilesAndFolders as file}
-            
-            {#if file.endsWith(".md")}
-                <button on:click={async () => [openedNoteContent, lastSavedNoteContent , opened] = await openNote(url, file)} id="leftBar-filesAndFolders-{file}" class="leftBar-item">{file.split(".md")[0].split("/")[file.split("/").length-1]}</button>
-            {/if}
-        {/each}
-        <div id="leftBar-buttons">
-            <button id="leftBar-buttons-newFolderButton" class="leftBar-item" on:click={async () => [filesAndFolders, currentFilesAndFolders] = await createNewFolder(url, currentLocation)}>Create new folder</button>
-            <button id="leftBar-buttons-newNoteButton" class="leftBar-item" on:click={async () => [filesAndFolders, currentFilesAndFolders] = await createNewNote(url, currentLocation)}>Create new note</button>
+        </div>
+    {/if}
+    <div id="editor">
+        <div id="editor-top">
+            <button on:click={() => showDirectories = !showDirectories} id="editor-top-directories">
+                {#if showDirectories}
+                    Hide directories
+                {:else}
+                    Show directories
+                {/if}
+            </button>
+            <p id="editor-top-path">/{opened}</p>
         </div>
         
-    </div>
-    <div id="editor">
-        <p id="editor-path">/{opened}</p>
         <div id="editor-title">
             <h1 id="editor-title-title">{opened.split("/")[opened.split("/").length-1].split(".md")[0]}</h1>
             {#if opened}
@@ -74,7 +87,9 @@
 
     var openedNoteContent = ""
     var lastSavedNoteContent = openedNoteContent
+    
     var editingNote = true
+    var showDirectories = true
 
     const converter = new showdown.Converter()
 
