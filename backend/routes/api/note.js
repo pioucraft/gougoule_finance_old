@@ -25,7 +25,7 @@ function createNote(body, userId) {
     // body : {location, name (without directory)}
     if(!body.hasOwnProperty("location") || !body.hasOwnProperty("name")) return new Response("400 Bad Request", {status: 400})
     
-    Bun.write(`${__dirname}/../../userFiles/${userId}/notes/${body.location}/${body.name}.html`, "")
+    Bun.write(`${__dirname}/../../userFiles/${userId}/notes/${body.location}/${body.name}.md`, "")
     return new Response("200 Success")
 }
 
@@ -35,7 +35,7 @@ function modifyNote(body, userId) {
     
     if(body.name) {
         let newLocation = body.location.split("/").slice(0,-1).join("/") + "/" + body.name;
-        fs.renameSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`, `${__dirname}/../../userFiles/${userId}/notes/${newLocation}`)
+        fs.renameSync(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`, `${__dirname}/../../userFiles/${userId}/notes/${newLocation}.md`)
     }
     else if(body.content) {
         Bun.write(`${__dirname}/../../userFiles/${userId}/notes/${body.location}`, body.content)

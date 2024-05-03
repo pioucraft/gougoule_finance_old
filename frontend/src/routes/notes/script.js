@@ -1,5 +1,4 @@
 import { getCookie } from 'svelte-cookie';
-import { onMount } from "svelte";
 
 import axios from "axios"
 
@@ -90,7 +89,7 @@ export async function openNote(url, location) {
         let password = getCookie("password")
         let email = getCookie("email")
         let content = (await axios.post(`${url}/api/getNote`, JSON.stringify({"email": email, "password": password, "location": location}))).data
-        if(!content) content = "‎"
+        if(!content) content = "<br>"
         return [content, location]
     }
     catch(err) {
@@ -98,12 +97,3 @@ export async function openNote(url, location) {
     }
     
 }
-/*
-onMount(() => {
-    document.onkeydown = function(e) {
-        if(e.key == "/") {
-            e.preventDefault()
-        }
-    }
-})
-*/
