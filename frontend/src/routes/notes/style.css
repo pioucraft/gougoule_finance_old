@@ -95,6 +95,15 @@
     height: 2rem;
 }
 
+#editor-title-modifyOrView {
+    height: 2rem;
+    background-color: whitesmoke;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
 #editor-editor {
     outline: none;
     width: 100%;
