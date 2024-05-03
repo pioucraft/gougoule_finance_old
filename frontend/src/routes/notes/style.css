@@ -20,10 +20,11 @@
 }
 
 .leftBar-item {
+    text-align: start;
     background-color: transparent;
     border-radius: 0.5rem;
     border: none;
-    min-height: 3rem;
+    padding: 0.5rem;
     font-size: large;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;

@@ -62,8 +62,6 @@
         justify-content: space-between;
         gap: 1em;
         padding: 1.5rem;
-        background-color: whitesmoke;
-        border-right: solid 2px black;
     }
 
     #leftBar-top {

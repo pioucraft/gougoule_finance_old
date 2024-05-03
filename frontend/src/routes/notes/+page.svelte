@@ -1,7 +1,7 @@
 <div id="wrapper">
     <div id="leftBar">
         {#if currentLocation}
-            <button id="leftBar-back" class="leftBar-item" on:click={() => [currentFilesAndFolders, currentLocation] = expandFolder(currentLocation.split("/").slice(0, -1).join("/"), filesAndFolders)}> ← {currentLocation}</button>
+            <button id="leftBar-back" class="leftBar-item" on:click={() => [currentFilesAndFolders, currentLocation] = expandFolder(currentLocation.split("/").slice(0, -1).join("/"), filesAndFolders)}> ← {currentLocation}/</button>
             <span style="height: 1rem;"></span>
         {/if}
         
@@ -9,7 +9,7 @@
         {#each currentFilesAndFolders as file}
             
             {#if !file.endsWith(".html")}
-            <button on:click={() => [currentFilesAndFolders, currentLocation] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder"> {file.split("/")[file.split("/").length-1]}</button>
+            <button on:click={() => [currentFilesAndFolders, currentLocation] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder">{file.split("/")[file.split("/").length-1]}/</button>
             {/if}
         {/each}
         {#each currentFilesAndFolders as file}
