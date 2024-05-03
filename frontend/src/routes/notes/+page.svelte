@@ -15,7 +15,7 @@
         {#each currentFilesAndFolders as file}
             
             {#if file.endsWith(".md")}
-                <button on:click={async () => [openedNoteContent, opened] = await openNote(url, file)} id="leftBar-filesAndFolders-{file}" class="leftBar-item">{file.split(".md")[0].split("/")[file.split("/").length-1]}</button>
+                <button on:click={async () => [openedNoteContent, lastSavedNoteContent , opened] = await openNote(url, file)} id="leftBar-filesAndFolders-{file}" class="leftBar-item">{file.split(".md")[0].split("/")[file.split("/").length-1]}</button>
             {/if}
         {/each}
         <div id="leftBar-buttons">
@@ -40,6 +40,11 @@
                        Edit 
                     {/if}
                 </button>
+                {#if openedNoteContent == lastSavedNoteContent}
+                    <p>Saved</p>
+                {:else}
+                    <p>Not saved</p>
+                {/if}
                 
             {/if}
         </div>
@@ -47,7 +52,7 @@
             {#if editingNote}
             <textarea on:input={textAreaResize} bind:value={openedNoteContent} id="editor-editor"></textarea>
             {:else}
-                <div id="editor-editor-">
+                <div>
                     {@html converter.makeHtml(openedNoteContent)}
                 </div>
             {/if}
@@ -58,9 +63,9 @@
 
 <script>
     import { onMount } from "svelte";
-    import { Converter } from "showdown"
+    import showdown from "showdown"
 
-    import { createNewFolder, createNewNote, expandFolder, makeData, editNote, deleteNote, openNote, textAreaResize } from "./script"
+    import { createNewFolder, createNewNote, expandFolder, makeData, editNote, deleteNote, openNote, textAreaResize, saveNote } from "./script"
 
     var filesAndFolders = []
     var currentFilesAndFolders = [""]
@@ -68,29 +73,23 @@
     var opened = ""
 
     var openedNoteContent = ""
+    var lastSavedNoteContent = openedNoteContent
     var editingNote = true
 
-    const converter = new Converter()
+    const converter = new showdown.Converter()
+
+    setInterval(async () => {
+        if(lastSavedNoteContent != openedNoteContent && opened.endsWith(".md")){
+             lastSavedNoteContent = await saveNote(url, opened, openedNoteContent)
+        }
+    }, 2*1000);
 
     var url = import.meta.env.VITE_BACKEND_URL
     onMount(async () => {
         filesAndFolders = await makeData(url)
         currentFilesAndFolders = filesAndFolders.filter(file =>!file.includes("/"))
     })
-    /*
-    <p>
-        TODO :
-        <br>
-        add leftBar 
-        <br>
-        add javascript to fetch items on leftBar
-        <br>
-        add editor
-        <br>
-        add javascript to fetch content of a file
-
-    </p>
-    */
+    
 </script>
 
 <style>

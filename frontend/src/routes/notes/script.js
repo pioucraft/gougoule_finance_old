@@ -89,7 +89,7 @@ export async function openNote(url, location) {
         let password = getCookie("password")
         let email = getCookie("email")
         let content = (await axios.post(`${url}/api/getNote`, JSON.stringify({"email": email, "password": password, "location": location}))).data
-        return [content, location]
+        return [content, content, location]
     }
     catch(err) {
         alert("Error")
@@ -100,4 +100,12 @@ export async function openNote(url, location) {
 export function textAreaResize() {
     document.getElementById("editor-editor").style.height = "auto"
     document.getElementById("editor-editor").style.height = `${document.getElementById("editor-editor").scrollHeight}px`
+}
+
+export async function saveNote(url, location,content) {
+    let password = getCookie("password")
+    let email = getCookie("email")
+
+    await axios.put(`${url}/api/note`, JSON.stringify({"email": email, "password": password, "location": location,"content": content}))
+    return content
 }
