@@ -1,4 +1,6 @@
 import { getCookie } from 'svelte-cookie';
+import { onMount } from "svelte";
+
 import axios from "axios"
 
 export function expandFolder(location, filesAndFolders) {
@@ -82,3 +84,26 @@ export async function deleteNote(url, location) {
     console.log(currentFilesAndFolders)
     return [filesAndFolders, currentFilesAndFolders, "", ""]
 }
+
+export async function openNote(url, location) {
+    try {
+        let password = getCookie("password")
+        let email = getCookie("email")
+        let content = (await axios.post(`${url}/api/getNote`, JSON.stringify({"email": email, "password": password, "location": location}))).data
+        if(!content) content = "‎"
+        return [content, location]
+    }
+    catch(err) {
+        alert("Error")
+    }
+    
+}
+/*
+onMount(() => {
+    document.onkeydown = function(e) {
+        if(e.key == "/") {
+            e.preventDefault()
+        }
+    }
+})
+*/
