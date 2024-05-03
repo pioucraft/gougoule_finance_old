@@ -11,8 +11,6 @@
     flex-direction: column;
     padding: 1rem;
     gap: 0.5rem;
-    background-color: whitesmoke;
-    border-right: solid 2px black;
 }
 
 #leftBar-back {
@@ -28,6 +26,9 @@
     font-size: large;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .leftBar-item svg {

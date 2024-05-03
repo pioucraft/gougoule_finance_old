@@ -19,8 +19,8 @@
             {/if}
         {/each}
         <div id="leftBar-buttons">
-            <button id="leftBar-buttons-newFolderButton" class="leftBar-item">Create new folder</button>
-            <button id="leftBar-buttons-newNoteButton" class="leftBar-item">Create new note</button>
+            <button id="leftBar-buttons-newFolderButton" class="leftBar-item" on:click={async () => [filesAndFolders, currentFilesAndFolders] = await createNewFolder(url, currentLocation)}>Create new folder</button>
+            <button id="leftBar-buttons-newNoteButton" class="leftBar-item" on:click={async () => [filesAndFolders, currentFilesAndFolders] = await createNewNote(url, currentLocation)}>Create new note</button>
         </div>
         
     </div>
@@ -29,10 +29,10 @@
 
 <script>
     import { onMount } from "svelte";
-    import { expandFolder, makeData } from "./script"
+    import { createNewFolder, createNewNote, expandFolder, makeData } from "./script"
 
-    var filesAndFolders = ["test.html", "test", "test/index.html", "test/folder", "test/folder/2.html", "test/folder/anotherFolder", "test/folder/anotherFolder/⭐ yeatAnotherFolder", "test/folder/anotherFolder/⭐ yeatAnotherFolder/hi.html"]
-    var currentFilesAndFolders = filesAndFolders.filter(file =>!file.includes("/"))
+    var filesAndFolders = []
+    var currentFilesAndFolders = [""]
     var currentLocation = ""
 
     var url = import.meta.env.VITE_BACKEND_URL
