@@ -36,10 +36,17 @@ export async function createNewFolder(url, location) {
 
 export async function createNewNote(url, location) {
     try {
-
+        let noteName = prompt("Enter the name of your new note")
+        let password = getCookie("password")
+        let email = getCookie("email")
+        
+        await axios.post(`${url}/api/note`, JSON.stringify({"email": email, "password": password, "name": noteName, "location": location}))
     }
     catch(err) {
         alert("Error")
     }
-    return expandFolder(location, filesAndFolders)
+    let filesAndFolders = await makeData(url)
+    let currentFilesAndFolders = expandFolder(location, filesAndFolders)[0]
+    console.log(filesAndFolders)
+    return [filesAndFolders, currentFilesAndFolders]
 }
