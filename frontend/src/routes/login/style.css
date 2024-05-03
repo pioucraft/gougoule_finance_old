@@ -5,7 +5,7 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
-    background-image: url("/login-background.jpg");
+    background-image: url("/main-background.jpg");
     background-size: cover;
     display: flex;
     justify-content: center;
