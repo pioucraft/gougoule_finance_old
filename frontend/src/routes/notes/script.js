@@ -96,3 +96,8 @@ export async function openNote(url, location) {
     }
     
 }
+
+export function textAreaResize() {
+    document.getElementById("editor-editor").style.height = "auto"
+    document.getElementById("editor-editor").style.height = `${document.getElementById("editor-editor").scrollHeight}px`
+}

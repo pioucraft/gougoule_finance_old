@@ -35,7 +35,7 @@
         </div>
         
         {#if opened.endsWith(".md")}
-            <textarea on:input={() => document.getElementById("editor-editor").style.minHeight = `${document.getElementById("editor-editor").scrollHeight + 10}px`} bind:value={openedNoteContent} id="editor-editor"></textarea>
+            <textarea on:input={textAreaResize} bind:value={openedNoteContent} id="editor-editor"></textarea>
         {/if}
     </div>
 </div>
@@ -44,7 +44,7 @@
 <script>
     import { onMount } from "svelte";
 
-    import { createNewFolder, createNewNote, expandFolder, makeData, editNote, deleteNote, openNote } from "./script"
+    import { createNewFolder, createNewNote, expandFolder, makeData, editNote, deleteNote, openNote, textAreaResize } from "./script"
 
     var filesAndFolders = []
     var currentFilesAndFolders = [""]
