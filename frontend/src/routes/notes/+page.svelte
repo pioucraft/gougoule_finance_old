@@ -3,7 +3,7 @@
         <div id="leftBar">
         
             {#if currentLocation}
-                <button id="leftBar-back" class="leftBar-item" on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(currentLocation.split("/").slice(0, -1).join("/"), filesAndFolders)}> ← {currentLocation}/</button>
+                <button use:dropzone id="leftBar-back" class="leftBar-item" on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(currentLocation.split("/").slice(0, -1).join("/"), filesAndFolders)}> ← {currentLocation}/</button>
                 <span style="height: 1rem;"></span>
             {/if}
             
@@ -11,13 +11,13 @@
             {#each currentFilesAndFolders as file}
                 
                 {#if !file.endsWith(".md")}
-                <button on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder">{file.split("/")[file.split("/").length-1]}/</button>
+                <button use:dropzone use:draggable={file} on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder">{file.split("/")[file.split("/").length-1]}/</button>
                 {/if}
             {/each}
             {#each currentFilesAndFolders as file}
                 
                 {#if file.endsWith(".md")}
-                    <button on:click={async () => [openedNoteContent, lastSavedNoteContent , opened, showFolders] = await openNote(url, file, showFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item">{file.split(".md")[0].split("/")[file.split("/").length-1]}</button>
+                    <button use:draggable={file} on:click={async () => [openedNoteContent, lastSavedNoteContent , opened, showFolders] = await openNote(url, file, showFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item">{file.split(".md")[0].split("/")[file.split("/").length-1]}</button>
                 {/if}
             {/each}
             <div id="leftBar-buttons">
@@ -81,6 +81,7 @@
     import showdown from "showdown"
 
     import { createNewFolder, createNewNote, expandFolder, makeData, editNote, deleteNote, openNote, textAreaResize, saveNote, editOrNoteANote } from "./script"
+    import { draggable, dropzone } from "./dnd"
 
     var filesAndFolders = []
     var currentFilesAndFolders = [""]
