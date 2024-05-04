@@ -1,5 +1,5 @@
 <div id="wrapper">
-    {#if showDirectories}
+    {#if showFolders && !isDesktop}
         <div id="leftBar">
         
             {#if currentLocation}
@@ -17,7 +17,7 @@
             {#each currentFilesAndFolders as file}
                 
                 {#if file.endsWith(".md")}
-                    <button on:click={async () => [openedNoteContent, lastSavedNoteContent , opened] = await openNote(url, file)} id="leftBar-filesAndFolders-{file}" class="leftBar-item">{file.split(".md")[0].split("/")[file.split("/").length-1]}</button>
+                    <button on:click={async () => [openedNoteContent, lastSavedNoteContent , opened, showFolders] = await openNote(url, file, showFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item">{file.split(".md")[0].split("/")[file.split("/").length-1]}</button>
                 {/if}
             {/each}
             <div id="leftBar-buttons">
@@ -29,13 +29,15 @@
     {/if}
     <div id="editor">
         <div id="editor-top">
-            <button on:click={() => showDirectories = !showDirectories} id="editor-top-directories">
-                {#if showDirectories}
-                    Hide directories
-                {:else}
-                    Show directories
-                {/if}
-            </button>
+            {#if !isDesktop}
+                <button on:click={() => showFolders = !showFolders} id="editor-top-directories">
+                    {#if showFolders}
+                        Hide folders
+                    {:else}
+                        Show folders
+                    {/if}
+                </button>
+            {/if}
             <p id="editor-top-path">/{opened}</p>
         </div>
         
@@ -89,13 +91,14 @@
     var lastSavedNoteContent = openedNoteContent
     
     var editingNote = true
-    var showDirectories = true
+    var showFolders = true
+    var isDesktop = true
 
     const converter = new showdown.Converter()
 
     setInterval(async () => {
         if(lastSavedNoteContent != openedNoteContent && opened.endsWith(".md")){
-             lastSavedNoteContent = await saveNote(url, opened, openedNoteContent)
+            lastSavedNoteContent = await saveNote(url, opened, openedNoteContent)
         }
     }, 2*1000);
 
@@ -103,6 +106,7 @@
     onMount(async () => {
         filesAndFolders = await makeData(url)
         currentFilesAndFolders = filesAndFolders.filter(file =>!file.includes("/"))
+        isDesktop = window.innerHeight*0.8 < window.innerWidth
     })
     
 </script>

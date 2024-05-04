@@ -84,12 +84,12 @@ export async function deleteNote(url, location) {
     return [filesAndFolders, currentFilesAndFolders, "", ""]
 }
 
-export async function openNote(url, location) {
+export async function openNote(url, location, showFolders) {
     try {
         let password = getCookie("password")
         let email = getCookie("email")
         let content = (await axios.post(`${url}/api/getNote`, JSON.stringify({"email": email, "password": password, "location": location}))).data
-        return [content, content, location]
+        return [content, content, location, !showFolders]
     }
     catch(err) {
         alert("Error")
