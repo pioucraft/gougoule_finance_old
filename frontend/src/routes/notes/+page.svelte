@@ -106,7 +106,7 @@
     onMount(async () => {
         filesAndFolders = await makeData(url)
         currentFilesAndFolders = filesAndFolders.filter(file =>!file.includes("/"))
-        isDesktop = window.innerHeight*0.8 < window.innerWidth
+        isDesktop = window.innerHeight < window.innerWidth
     })
     
 </script>

@@ -136,7 +136,7 @@ img {
     height: auto;
 }
 
-@media (max-width: 80vh) {
+@media (max-width: 100vh) {
     #wrapper {
         display: flex;
         flex-direction: column;
