@@ -131,6 +131,11 @@
     font-size: x-large;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 @media (max-width: 80vh) {
     #wrapper {
         display: flex;
