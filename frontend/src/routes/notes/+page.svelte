@@ -1,5 +1,5 @@
 <div id="wrapper">
-    {#if showFolders && !isDesktop}
+    {#if showFolders || isDesktop}
         <div id="leftBar">
         
             {#if currentLocation}
