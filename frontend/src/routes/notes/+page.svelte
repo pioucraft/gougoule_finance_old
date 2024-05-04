@@ -94,7 +94,7 @@
     var showFolders = true
     var isDesktop = true
 
-    const converter = new showdown.Converter()
+    const converter = new showdown.Converter({"tasklists": true, "strikethrough": true, "simplifiedautolink": true, "tables": true})
 
     setInterval(async () => {
         if(lastSavedNoteContent != openedNoteContent && opened.endsWith(".md")){
