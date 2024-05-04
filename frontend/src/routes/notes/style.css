@@ -30,6 +30,10 @@
     overflow: hidden;
 }
 
+.droppable {
+    border: solid 1px red;
+}
+
 .leftBar-item svg {
     height: 1em;
 }
