@@ -147,8 +147,8 @@
 }
 
 img {
-    max-width: 100%;
-    height: auto;
+    max-width: 60%;
+    max-height: 60%;
 }
 
 @media (max-width: 100vh) {
