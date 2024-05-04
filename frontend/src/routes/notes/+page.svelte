@@ -11,7 +11,7 @@
             {#each currentFilesAndFolders as file}
                 
                 {#if !file.endsWith(".md")}
-                <button use:dropzone use:draggable={file} on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder">{file.split("/")[file.split("/").length-1]}/</button>
+                    <button use:dropzone use:draggable={file} on:click={() => [currentFilesAndFolders, currentLocation, opened] = expandFolder(file, filesAndFolders)} id="leftBar-filesAndFolders-{file}" class="leftBar-item leftBar-folder">{file.split("/")[file.split("/").length-1]}/</button>
                 {/if}
             {/each}
             {#each currentFilesAndFolders as file}
@@ -38,7 +38,7 @@
                     {/if}
                 </button>
             {/if}
-            <p id="editor-top-path">/{opened}</p>
+            <button id="editor-top-path" use:copy={opened} on:click={() => {toast.push("Path copied to clipboard !")}}>/{opened}</button>
         </div>
         
         <div id="editor-title">
@@ -78,10 +78,13 @@
     </div>
 </div>
 
+<SvelteToast />
 
 <script>
     import { onMount } from "svelte";
     import showdown from "showdown"
+    import { toast, SvelteToast } from '@zerodevx/svelte-toast'
+    import { copy } from 'svelte-copy';
 
     import { createNewFolder, createNewNote, expandFolder, makeData, editNote, deleteNote, openNote, textAreaResize, saveNote, editOrNoteANote } from "./script"
     import { draggable, dropzone } from "./dnd"
@@ -110,6 +113,13 @@
     onMount(async () => {
         filesAndFolders = await makeData(url)
         currentFilesAndFolders = filesAndFolders.filter(file =>!file.includes("/"))
+        if(window.location.search) {
+            if(!window.location.search.endsWith(".md")) [currentFilesAndFolders, currentLocation, opened] = expandFolder(decodeURIComponent(window.location.search.split("?n=")[1]), filesAndFolders);
+            else {
+                currentLocation = decodeURIComponent(window.location.search.split("?n=")[1]).split("/").slice(0, -1).join("/");
+                [openedNoteContent, lastSavedNoteContent, opened, showFolders] = await openNote(url, decodeURIComponent(window.location.search.split("?n=")[1]), showFolders)
+            } 
+        }
         isDesktop = window.innerHeight < window.innerWidth
     })
     

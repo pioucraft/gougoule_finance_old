@@ -82,6 +82,9 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
     max-width: calc(100vw - 25rem);
 }
 
