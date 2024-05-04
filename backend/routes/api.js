@@ -10,6 +10,7 @@ import { getTransactions } from "./api/getTransactions"
 import { notesFolder } from "./api/notesFolder"
 import { note } from "./api/note"
 import { getNote } from "./api/getNote"
+import { moveNote } from "./api/moveNote"
 
 export async function api(req) {
     let url = new URL(req.url)
@@ -27,6 +28,7 @@ export async function api(req) {
     else if (url.pathname.startsWith("/api/notesFolder")) return await notesFolder(req)
     else if (url.pathname.startsWith("/api/note")) return await note(req)
     else if (url.pathname.startsWith("/api/getNote")) return await getNote(req)
+    else if (url.pathname.startsWith("/api/moveNote")) return await moveNote(req)
 
     else return new Response("404 Not Found", {status: 404})
 }

@@ -1,4 +1,6 @@
-import { goto } from '$app/navigation';
+import { getCookie } from 'svelte-cookie';
+
+import axios from "axios"
 
 export function draggable(node, data) {
     let state = data
@@ -77,12 +79,9 @@ export function dropzone(node, options) {
 }
 
 function handleFileMove(original, data) {
-    console.log('handleFileMove')
-    console.log(original)
-    console.log(data)
 
     if(data.startsWith("←")) {
-		moveFile(original, original.split("/").slice(0, -1).join("/"))
+		moveFile(original, original.split("/").slice(0, -2).join("/"))
     }
     else {
 		moveFile(original, `${original.split("/").slice(0, -1).join("/")}/${data}`)
@@ -90,5 +89,16 @@ function handleFileMove(original, data) {
 }
 
 async function moveFile(original, newLocation) {
-    console.log(currentFilesAndFolders)
+    let password = getCookie("password")
+    let email = getCookie("email")
+	let url = import.meta.env.VITE_BACKEND_URL
+    let fetchBody = JSON.stringify({"email": email, "password": password, "location": original, "newLocation": newLocation})
+	try {
+		await axios.post(`${url}/api/moveNote`, fetchBody)
+	}
+	catch(err) {
+		alert("Error")
+	}
+	
+    window.location.reload()
 }
