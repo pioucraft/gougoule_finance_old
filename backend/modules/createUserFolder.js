@@ -11,8 +11,13 @@ export function createUserFolder(userId) {
         fs.mkdirSync(dir);
     }
 
-    dir += "/notes";
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
+    let notesDir = dir + "/notes";
+    if (!fs.existsSync(notesDir)) {
+        fs.mkdirSync(notesDir);
+    }
+
+    let notesImagesDir = dir + "/notesImages";
+    if (!fs.existsSync(notesImagesDir)) {
+        fs.mkdirSync(notesImagesDir);
     }
 }
