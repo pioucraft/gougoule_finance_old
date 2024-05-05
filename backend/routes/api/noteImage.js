@@ -22,7 +22,6 @@ async function postImage(req) {
     createUserFolder(userId)
 
     let image = formData.get("image");
-    console.log(image)
     let name = `${crypto.randomUUID()}.${image.type.split("/")[1]}`
     if(name.includes("..")) return new Response("403 Forbidden", {status: 403})
 
