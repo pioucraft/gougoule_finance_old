@@ -134,6 +134,15 @@
     border-radius: 0.5rem;
 }
 
+#editor-infos-uploadImage {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    height: 2rem;
+    width: 2rem;
+}
+
+
 #editor-editor {
     outline: none;
     width: 100%;

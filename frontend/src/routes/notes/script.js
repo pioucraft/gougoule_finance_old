@@ -126,3 +126,18 @@ export function editOrNoteANote(editNote) {
         }, 1);
     }
 }
+
+export async function uploadImage(url, openedNoteContent) {
+    let password = getCookie("password")
+    let email = getCookie("email")
+    let file = document.getElementById("filePicker").files[0]
+
+    let body = new FormData()
+    body.append('image', file);
+    body.append('email', email)
+    body.append('password', password)
+
+    let response = (await axios.post(`${url}/api/noteImage`, body)).data
+
+    return `${openedNoteContent}\n\n![Image](${url}/api/noteImage/${response})`
+}
