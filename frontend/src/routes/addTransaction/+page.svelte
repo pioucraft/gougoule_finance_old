@@ -35,8 +35,6 @@
 
 
 <script>
-    import axios from 'axios';
-    import { getCookie } from 'svelte-cookie';
     import { onMount } from 'svelte';
 
     import { addTransaction, fetchAccountsAndDefaultCurrency } from "./script"

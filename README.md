@@ -1,24 +1,14 @@
-# Hub For Things
+# Gougoule Finance
 
 ## Introduction
 
-This repository is a hub for things... It's a place to store everything you want without needing to services from big tech companies.
+This repository is Gougoule Finance... It's a place to track your money
 
-You can self-host it yourself on your server. For now, it requires very few resources, but it will probably need more in the future.
+You can self-host it yourself on your server.
 
 ## Features
 
-Currently, the app is in early development. Here's the full list of the features :
-
-1. Track the money you have (including stocks, crypto). You can also track your expenses and income, have a graph showing the history of your wealth and many more features.
-
-Here's a list of the features I'm planning to add :
-
-1. Store notes 
-2. Have an AI (using [Ollama](https://ollama.com)) you can connect to your data and notes
-2. Calendar
-3. Store files
-4. Have a good photos gallery
+Track the money you have (including stocks, crypto). You can also track your expenses and income, have a graph showing the history of your wealth and many more features.
 
 ## Installation
 
@@ -33,9 +23,9 @@ You will need to have the following apps installed on your system :
 
 ### Setup
 
-Start by clonning the repository with `git clone https://github.com/pioucraft/hub-for-things.git`.
+Start by clonning the repository with `git clone https://github.com/pioucraft/gougoule_finance.git`.
 
-Then run `cd hub-for-things`.
+Then run `cd gougoule_finance`.
 
 You can the do `cd backend && cp .env.example .env` and edit it to fit your needs (`nano .env`).
 
@@ -44,9 +34,9 @@ You can do the same in the frontend folder : `cd ../frontend && cp .env.example 
 
 Afterwards, create a database on postgresql with the same name you specified in .env.
 
-You will also need to create a config file for apache2 (in `/etc/apache2/sites-available`), create a file named `hub-for-things.conf` : 
+You will also need to create a config file for apache2 (in `/etc/apache2/sites-available`), create a file named `gougoule_finance.conf` : 
 
-`sudo nano /etc/apache2/sites-available/hub-for-things.conf`
+`sudo nano /etc/apache2/sites-available/gougoule_finance.conf`
 
 Here's the code you will add :
 
@@ -97,7 +87,7 @@ sudo a2enmod proxy_http
 sudo a2enmod proxy_balancer
 sudo a2enmod lbmethod_byrequests
 
-sudo a2ensite hub-for-things.conf
+sudo a2ensite gougoule_finance.conf
 
 sudo systemctl restart apache2
 ```

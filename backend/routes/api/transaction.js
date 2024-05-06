@@ -39,7 +39,6 @@ async function createTransaction(body) {
         $5
     )`, [body.amount, body.type, body.symbol, body.name, body.accountId])
     if(body.type == "s" && !(await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = 's'", [body.symbol])).rows[0].currency) {
-        console.log((await DBClient.query("SELECT * FROM converter WHERE symbol = $1 AND type = 's'", [body.symbol])).rows[0])
         let currency = (await (await fetch(`https://financialmodelingprep.com/api/v3/search?query=${body.symbol}&apikey=${process.env.FINANCIAL_MODELING_PREP_API}`)).json())[0].currency
         await DBClient.query("UPDATE converter SET currency = $1 WHERE symbol = $2 AND type = 's'", [currency, body.symbol])
     }

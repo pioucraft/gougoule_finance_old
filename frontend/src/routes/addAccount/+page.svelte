@@ -63,7 +63,7 @@
 
         try {
             await axios.post(`${url}/api/account`, fetchBody)
-            goto("/finance/accounts")
+            goto("/accounts")
         }
         catch(err) {
             alert("Error")

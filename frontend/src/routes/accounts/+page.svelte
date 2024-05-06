@@ -125,7 +125,7 @@
 <div id="accounts">
     <div id="accounts-accounts">
         {#each accounts as account}
-            <button class="accounts-accountCard" on:click={() => goto((`/finance/account/${account.id}`))}>
+            <button class="accounts-accountCard" on:click={() => goto((`/account/${account.id}`))}>
                 <div id="accounts-accountCard-left">
                     <h2 class="accounts-accountCard-left-title">{account.name}</h2>
                     <div id="accounts-accountCard-left-buttons">
@@ -148,7 +148,7 @@
         {/each}
     </div>
     
-    <button on:click={() => goto("/finance/addAccount")} class="accounts-accountCard" id="accounts-addAccount">
+    <button on:click={() => goto("/addAccount")} class="accounts-accountCard" id="accounts-addAccount">
         <h2>Add an account</h2>
     </button>
 </div>

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd backend
-docker build --pull -t hub-for-things-backend .
+docker build --pull -t gougoule-finance-backend .
 
 cd ../frontend
-docker build --pull -t hub-for-things-frontend .
+docker build --pull -t gougoule-finance-frontend .

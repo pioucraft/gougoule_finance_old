@@ -36,14 +36,10 @@ async function createUser() {
         {
             "name": "password",  
             "message": "Enter password : ", 
-        },
-        {
-            "name": "storage",
-            "message": "Enter storage path : "
         }
     ])
     userData.password = await Bun.password.hash(sha256(userData.password));
-    await DBClient.query("INSERT INTO users (name, email, password, storage) VALUES ($1, $2, $3, $4)", [userData.name, userData.email, userData.password, userData.storage])
+    await DBClient.query("INSERT INTO users (name, email, password, storage) VALUES ($1, $2, $3, $4)", [userData.name, userData.email, userData.password, ""])
 
     console.log("New user successfully created, you can now safely Ctrl+C this script. DON'T FORGET TO RUN 'bun migrations.js'")
 }
@@ -65,19 +61,11 @@ async function modifyUser() {
         {
             "name": "password",  
             "message": "Enter the new password (leave empty for unchanged) : ", 
-        },
-        {
-            "name": "storage",
-            "message": "Enter the new storage path (leave empty for unchanged) : "
         }
     ])
 
     if(userData.email) {
         await DBClient.query("UPDATE users SET email = $1 WHERE name = $2", [userData.email, userData.oldName]);
-    }
-    if(userData.storage) {
-        console.log("storage")
-        await DBClient.query("UPDATE users SET storage = $1 WHERE name = $2", [userData.storage, userData.oldName]);
     }
     if(userData.password) {
         userData.password = await Bun.password.hash(sha256(userData.password));

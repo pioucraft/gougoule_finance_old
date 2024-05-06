@@ -65,7 +65,6 @@ export function updateChart(selectedTimeStampForChart, selectedTypeForChart, bal
       }
     }
     historyOfTheMoneyYouHave = historyOfTheMoneyYouHave.reverse()
-    console.log(historyOfTheMoneyYouHave)
     xValues = historyOfTheMoneyYouHave.map(element => element[0])
     yValues = historyOfTheMoneyYouHave.map(element => element[1])
 
