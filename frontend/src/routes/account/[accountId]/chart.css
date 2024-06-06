@@ -99,6 +99,10 @@
     font-size: large;
 }
 
+#line-chart-middle {
+    width: 100%;
+}
+
 @media (max-width: 75rem) {
 
     #line-chart-bottom-buttons button {

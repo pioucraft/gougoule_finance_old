@@ -41,55 +41,84 @@ export function changeChartType(type, selectedTimeStampForChart, balanceHistoryA
 
 
 export function updateChart(selectedTimeStampForChart, selectedTypeForChart, balanceHistoryArray) {
+  let xValues = []
+  let yValues = []
+  let numberOfDaysToDisplayInChart = 0
+  let timeStampToNumberOfDaysToDisplayInChart = {"1W": 7, "1M": 30, "3M": 30*3, "6M": 30*6, "1Y": 365, "3Y": 365*3, "5Y": 365*5, "10Y": 365*10, "20Y": 365*20, "All": Infinity}
+  numberOfDaysToDisplayInChart = timeStampToNumberOfDaysToDisplayInChart[selectedTimeStampForChart]
 
-    let xValues = []
-    let yValues = []
-    let numberOfDaysToDisplayInChart = 0
-    let timeStampToNumberOfDaysToDisplayInChart = {"1W": 7, "1M": 30, "3M": 30*3, "6M": 30*6, "1Y": 365, "3Y": 365*3, "5Y": 365*5, "10Y": 365*10, "20Y": 365*20, "All": Infinity}
-    numberOfDaysToDisplayInChart = timeStampToNumberOfDaysToDisplayInChart[selectedTimeStampForChart]
+  let historyOfTheMoneyYouHave = []
 
-    let historyOfTheMoneyYouHave = []
-
-    for(let i=0;i<numberOfDaysToDisplayInChart && i<balanceHistoryArray.length;i++) {
-      if(selectedTypeForChart == "balance") {
-        let date = new Date(balanceHistoryArray[i].date)
-        historyOfTheMoneyYouHave.push([date.toDateString(), balanceHistoryArray[i].balance])
-      }
-      else {
-        let date = new Date(balanceHistoryArray[i].date)
-        historyOfTheMoneyYouHave.push([date.toDateString(), 0])
-        let portfolio = Object.entries(JSON.parse(balanceHistoryArray[i].portfolio))
-        portfolio.forEach(element => {
-          if(element[0].split(":")[1] == "f") historyOfTheMoneyYouHave[historyOfTheMoneyYouHave.length-1][1] += element[1]
-        })
-      }
+  for(let i=0;i<numberOfDaysToDisplayInChart && i<balanceHistoryArray.length;i++) {
+    if(selectedTypeForChart == "balance") {
+      let date = new Date(balanceHistoryArray[i].date)
+      historyOfTheMoneyYouHave.push([date.toDateString(), balanceHistoryArray[i].balance])
     }
-    historyOfTheMoneyYouHave = historyOfTheMoneyYouHave.reverse()
-    xValues = historyOfTheMoneyYouHave.map(element => element[0])
-    yValues = historyOfTheMoneyYouHave.map(element => element[1])
+    else {
+      let date = new Date(balanceHistoryArray[i].date)
+      historyOfTheMoneyYouHave.push([date.toDateString(), 0])
+      let portfolio = Object.entries(JSON.parse(balanceHistoryArray[i].portfolio))
+      portfolio.forEach(element => {
+        if(element[0].split(":")[1] == "f") historyOfTheMoneyYouHave[historyOfTheMoneyYouHave.length-1][1] += element[1]
+      })
+    }
+  }
+  historyOfTheMoneyYouHave = historyOfTheMoneyYouHave.reverse()
+  xValues = historyOfTheMoneyYouHave.map(element => element[0])
+  yValues = historyOfTheMoneyYouHave.map(element => element[1])
 
-    let borderColor = "#fc847b"
+  let borderColor = "#fc847b"
 
-    if(historyOfTheMoneyYouHave[0][1] < historyOfTheMoneyYouHave[historyOfTheMoneyYouHave.length-1][1]) borderColor = "green"
-    
-    
-    balanceHistoryChart = new chart("lineChart", {
-        type: "line",
-        data: {
-          labels: xValues,
-          datasets: [{
-            borderColor: borderColor,
-            data: yValues
-          }]
+  if(historyOfTheMoneyYouHave[0][1] < historyOfTheMoneyYouHave[historyOfTheMoneyYouHave.length-1][1]) borderColor = "green"
+  
+  
+  balanceHistoryChart = new chart("lineChart", {
+    type: "line",
+    data: {
+      labels: xValues,
+      datasets: [{
+        borderColor: borderColor,
+        data: yValues
+      }]
+    },
+    options: {
+      elements: {
+        point: {
+          pointStyle: false
         },
-        options: {
-          backgroundColor: "#ff797986",
-        plugins: { 
-          legend: { display: false },// Specify the 'plugins' section
-          tooltip: { 
-            enabled: false
+        line: {
+          tension: 0.2
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxTicksLimit: 5,
+            showLabelBackdrop: false,
+          },
+          grid: {
+            display: false
+          }
+        },
+        y: {
+          ticks: {
+            maxTicksLimit: 5,
+            showLabelBackdrop: false
+          },
+          grid: {
+            display: false
           }
         }
+      },
+      plugins: { 
+        legend: { display: false },
+        tooltip: { 
+          enabled: true
+        },
+        filler: {
+          propagate: true
         }
-    });
+      }
+    }
+  });
 }

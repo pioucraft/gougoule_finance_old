@@ -29,9 +29,8 @@
 <script>
     export var balanceHistoryArray
 
-    import { updateChart, changeChartType, changeTimeStamp } from "./chart"
+    import { changeChartType, changeTimeStamp } from "./chart"
 
-    import { onMount } from "svelte";
 
     var selectedTimeStampForChart = "1W"
     var selectedTypeForChart = "balance"
