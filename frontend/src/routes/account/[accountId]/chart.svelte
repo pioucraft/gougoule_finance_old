@@ -9,7 +9,7 @@
     <div id="line-chart-middle">
         <canvas id="lineChart"></canvas> 
         <div class="flex flex-row justify-between w-11/12 align-middle">
-            <p>{$firstAndLastDate[0]}...</p>
+            <p class="ml-2">{$firstAndLastDate[0]}...</p>
             <p>...{$firstAndLastDate[1]}</p>
         </div>
     </div>

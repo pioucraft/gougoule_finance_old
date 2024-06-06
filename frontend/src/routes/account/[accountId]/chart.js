@@ -112,20 +112,22 @@ export function updateChart(selectedTimeStampForChart, selectedTypeForChart, bal
           ticks: {
             maxTicksLimit: 4,
             font: {
-              size: 14
+              size: 14,
             },
+            "color": "black",
             callback: function(value, index, ticks) {
-              return undefined
-              //return '$' + value;
-            } 
-
+              //return undefined
+              return '$' + value;
+            },
+            mirror: true
           },
           grid: {
             display: false
           },
           border: {
             display: false
-          }
+          },
+          
         }
       },
       plugins: { 
