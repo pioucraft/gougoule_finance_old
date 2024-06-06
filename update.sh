@@ -11,8 +11,9 @@ docker build --pull -t gougoule-finance-backend .
 cd ../frontend
 docker build --pull -t gougoule-finance-frontend .
 
-# go back
+# go back and pull
 cd ../
+git pull
 
 # start
 
