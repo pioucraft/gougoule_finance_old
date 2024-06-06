@@ -119,7 +119,8 @@ export function updateChart(selectedTimeStampForChart, selectedTypeForChart, bal
               //return undefined
               return '$' + value;
             },
-            mirror: true
+            mirror: true,
+            z: 1
           },
           grid: {
             display: false
