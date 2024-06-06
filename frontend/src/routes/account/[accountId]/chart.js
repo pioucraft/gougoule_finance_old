@@ -115,7 +115,8 @@ export function updateChart(selectedTimeStampForChart, selectedTypeForChart, bal
               size: 14
             },
             callback: function(value, index, ticks) {
-              return '$' + value;
+              return undefined
+              //return '$' + value;
             } 
 
           },
