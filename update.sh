@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# pull
+git pull
+
 # stop
 docker ps -q --filter ancestor=gougoule-finance-frontend | xargs docker stop
 docker ps -q --filter ancestor=gougoule-finance-backend | xargs docker stop
@@ -11,10 +14,8 @@ docker build --pull -t gougoule-finance-backend .
 cd ../frontend
 docker build --pull -t gougoule-finance-frontend .
 
-# go back and pull
+# go back 
 cd ../
-git pull
-bun i
 
 # start
 
