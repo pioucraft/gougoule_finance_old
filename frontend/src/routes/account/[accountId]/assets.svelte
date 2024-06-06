@@ -1,6 +1,6 @@
 <div class="assets">
-    <p>Assets :</p>
-    <div id="assets-graph">
+    <p class="text-2xl font-semibold">Assets :</p>
+    <div id="assets-graph" class="w-full">
       {#each assets as asset}
         <div style="width: {asset[1]}%;" class="assets-{assets.indexOf(asset)} asset"><p>{asset[0]}</p></div>
       {/each}

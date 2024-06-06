@@ -74,7 +74,7 @@
         border: none;
         background-color: white;
         border-radius: 1.5rem;
-        height: 5em;
+        height: 5rem;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -92,7 +92,6 @@
     }
 
     #accounts-addAccount {
-        align-items: center;
         justify-content: center;
         cursor: pointer;
         background-color: #f7f7f7;
@@ -126,8 +125,8 @@
     <div id="accounts-accounts">
         {#each accounts as account}
             <button class="accounts-accountCard" on:click={() => goto((`/account/${account.id}`))}>
-                <div id="accounts-accountCard-left">
-                    <h2 class="accounts-accountCard-left-title">{account.name}</h2>
+                <div id="accounts-accountCard-left" >
+                    <h2 class="accounts-accountCard-left-title text-xl font-semibold self-center">{account.name}</h2>
                     <div id="accounts-accountCard-left-buttons">
                         <button on:click={(event) => modifyAccount(account.id, event)} class="transparentButton">
                             <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -142,13 +141,13 @@
                     </div>
                 </div>
                 <div class="accounts-accountCard-balances">
-                    <h3 class="accounts-accountCard-balance">${account.balance.toFixed(2)}</h3>
+                    <h3 class="accounts-accountCard-balance text-xl">${account.balance.toFixed(2)}</h3>
                 </div>
             </button>
         {/each}
     </div>
     
-    <button on:click={() => goto("/addAccount")} class="accounts-accountCard" id="accounts-addAccount">
-        <h2>Add an account</h2>
+    <button on:click={() => goto("/addAccount")} class="accounts-accountCard h-20 mb-2 align-middle justify-center" id="accounts-addAccount">
+        <h2 class="p-8 self-center justify-self-center text-xl font-semibold">Add an account</h2>
     </button>
 </div>

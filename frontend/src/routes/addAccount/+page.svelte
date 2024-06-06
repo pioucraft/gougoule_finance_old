@@ -40,7 +40,7 @@
 
 <div id="addAccount">
     <div id="addAccount-name">
-        <h2 id="addAccount-name-text">Account name : </h2>
+        <h2 class="text-xl m-2 font-medium" id="addAccount-name-text">Account name : </h2>
         <input type="text" id="addAccount-name-input">
     </div>
 

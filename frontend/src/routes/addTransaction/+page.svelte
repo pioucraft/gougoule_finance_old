@@ -4,12 +4,12 @@
 
 <div id="addTransaction">
     <div id="addTransaction-name">
-        <h2 id="addTransaction-name-text">Name of the transaction : </h2>
+        <h2 class="text-xl m-2 font-medium" id="addTransaction-name-text">Name of the transaction : </h2>
         <input bind:value={name} type="text" id="addTransaction-name-input">
     </div>
 
     <div id="addTransaction-amount">
-        <h2 id="addTransaction-amount-text">Amount and symbol : </h2>
+        <h2 class="text-xl m-2 font-medium" id="addTransaction-amount-text">Amount and symbol : </h2>
         <div id="addTransaction-amount-inputs">
             <input placeholder="Amount" bind:value={amount} type="number" id="addTransaction-amount-amount">
             <select bind:value={type} type="text" id="addTransaction-amount-type">
@@ -22,7 +22,7 @@
     </div>
 
     <div id="addTransaction-account">
-        <h2 id="addTransaction-account-text">Account : </h2>
+        <h2 class="text-xl m-2 font-medium" id="addTransaction-account-text">Account : </h2>
         <select bind:value={accountId} name="" id="addTransaction-account-input">
             {#each accounts as account}
                 <option value="{account.id}">{account.name}</option>

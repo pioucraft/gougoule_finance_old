@@ -1,6 +1,6 @@
 <div class="line-chart">
     <div id="line-chart-top">
-        <h3>Graphs : </h3>
+        <p class="text-2xl font-semibold">Graphs : </p>
         <div id="line-chart-top-buttons">
         <button class="line-chart-top-button line-chart-top-button-selected" id="line-chart-top-buttons-balance" on:click={() => selectedTypeForChart = changeChartType("balance", selectedTimeStampForChart, balanceHistoryArray)}>Balance</button>
         <button class="line-chart-top-button line-chart-top-button-unselected" id="line-chart-top-buttons-fiat" on:click={() => selectedTypeForChart = changeChartType("fiat", selectedTimeStampForChart, balanceHistoryArray)}>Fiat</button>
@@ -8,11 +8,10 @@
     </div>
     <div id="line-chart-middle">
         <canvas id="lineChart"></canvas> 
-        <div>
-            <p>Fri May 31 2024</p>
-            <p>Fri May 31 2024</p>
+        <div class="flex flex-row justify-between w-11/12 align-middle">
+            <p>{$firstAndLastDate[0]}...</p>
+            <p>...{$firstAndLastDate[1]}</p>
         </div>
-        
     </div>
 
     <div id="line-chart-bottom">
@@ -35,7 +34,7 @@
     export var balanceHistoryArray
 
     import { changeChartType, changeTimeStamp } from "./chart"
-
+    import { firstAndLastDate } from "./chart";
 
     var selectedTimeStampForChart = "1W"
     var selectedTypeForChart = "balance"

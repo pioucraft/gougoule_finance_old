@@ -39,6 +39,7 @@
 </div>
 
 <script>
+    import "../app.css";
     import { getCookie, setCookie, deleteCookie } from 'svelte-cookie';
     import { onMount } from "svelte";
     import { goto } from '$app/navigation';
@@ -86,7 +87,7 @@
 
     #leftBar {
         height: calc(100% - 1.4em);
-        width: 10em;
+        width: 13rem;
         border-radius: 0.7em;
         border: none;
         display: flex;
@@ -117,7 +118,7 @@
     }
 
     .leftBarButton {
-        width: 8.5em;
+        width: 13rem;
         font-size: large;
         text-align: start;
     }

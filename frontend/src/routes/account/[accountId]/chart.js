@@ -1,6 +1,8 @@
 import chart from 'chart.js/auto';
+import { writable } from 'svelte/store';
 
 var balanceHistoryChart;
+export const firstAndLastDate = writable([])
 
 export function changeTimeStamp(timeStamp, selectedTypeForChart, balanceHistoryArray) {
     
@@ -66,6 +68,7 @@ export function updateChart(selectedTimeStampForChart, selectedTypeForChart, bal
   historyOfTheMoneyYouHave = historyOfTheMoneyYouHave.reverse()
   xValues = historyOfTheMoneyYouHave.map(element => element[0])
   yValues = historyOfTheMoneyYouHave.map(element => element[1])
+  firstAndLastDate.set([xValues[0], xValues[xValues.length-1]])
 
   let borderColor = "#fc847b"
 
@@ -94,22 +97,32 @@ export function updateChart(selectedTimeStampForChart, selectedTypeForChart, bal
         x: {
           ticks: {
             callback: 
-            function (value, index, values) {
-                  return "";
+            function () {
+              return undefined
             }
           },
           grid: {
+            display: false
+          },
+          border: {
             display: false
           }
         },
         y: {
           ticks: {
-            callback: 
-            function (value, index, values) {
-                  return "";
-            }
+            maxTicksLimit: 4,
+            font: {
+              size: 14
+            },
+            callback: function(value, index, ticks) {
+              return '$' + value;
+            } 
+
           },
           grid: {
+            display: false
+          },
+          border: {
             display: false
           }
         }

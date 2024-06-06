@@ -71,7 +71,7 @@
 
 #line-chart-bottom-buttons {
     width: 90%;
-    height: 2rem;
+    height: 3rem;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     padding: 0.5rem;
