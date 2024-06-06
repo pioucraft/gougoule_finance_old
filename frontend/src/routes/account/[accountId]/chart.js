@@ -93,8 +93,10 @@ export function updateChart(selectedTimeStampForChart, selectedTypeForChart, bal
       scales: {
         x: {
           ticks: {
-            maxTicksLimit: 5,
-            showLabelBackdrop: false,
+            callback: 
+            function (value, index, values) {
+                  return "";
+            }
           },
           grid: {
             display: false
@@ -102,8 +104,10 @@ export function updateChart(selectedTimeStampForChart, selectedTypeForChart, bal
         },
         y: {
           ticks: {
-            maxTicksLimit: 5,
-            showLabelBackdrop: false
+            callback: 
+            function (value, index, values) {
+                  return "";
+            }
           },
           grid: {
             display: false

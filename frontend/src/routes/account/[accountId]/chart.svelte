@@ -8,6 +8,11 @@
     </div>
     <div id="line-chart-middle">
         <canvas id="lineChart"></canvas> 
+        <div>
+            <p>Fri May 31 2024</p>
+            <p>Fri May 31 2024</p>
+        </div>
+        
     </div>
 
     <div id="line-chart-bottom">
