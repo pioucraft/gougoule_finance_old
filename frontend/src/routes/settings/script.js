@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { getCookie } from 'svelte-cookie';
+import { getCookie, deleteCookie } from 'svelte-cookie';
+import { goto } from '$app/navigation';
 
 const url = import.meta.env.VITE_BACKEND_URL
 
@@ -23,4 +24,11 @@ export async function fetchDefaultCurrency() {
     let fetchBody = JSON.stringify({"email": email, "password": password})
 
     return (await axios.post(`${url}/api/defaultCurrency`, fetchBody)).data["defaultcurrency"]
+}
+
+
+export function logout() {
+    deleteCookie("password")
+    deleteCookie("email")
+    goto("/login")
 }
