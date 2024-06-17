@@ -100,17 +100,6 @@
         margin-top: 1rem;
     }
 
-    #leftBar-userButton-svg {
-        height: 2em;
-    }
-
-    #leftBar-userButton {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        color: red;
-    }
-
     .leftBarButton {
         width: 13rem;
         font-size: large;
